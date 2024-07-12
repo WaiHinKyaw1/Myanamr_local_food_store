@@ -1,0 +1,15 @@
+nav{
+    background-color: cadetblue;
+}
+.logo{
+    height: 60px;
+    width: 60px;
+}
+.sidebar{
+    min-height: 88vh;
+    background-color: cadetblue;
+    padding: 0px;
+}
+.sidebar > a{
+    border: 1px solid #81f0b5;
+}
