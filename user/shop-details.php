@@ -1,3 +1,19 @@
+<?php
+require_once("../storage/auth_user.php");
+if (!$user) {
+    header("Location: ../auth/login.php");
+    die();
+} elseif ($user['is_admin']) {
+    header("Location: ./layout/error.php");
+}
+?>
+<?php 
+require_once("../storage/database.php");
+require_once("../storage/product_db.php");
+require_once("../storage/category_db.php");
+require_once("../storage/user_db.php");
+?>
+
 <?php require_once("./layout/header.php") ?>
 <?php require_once("./layout/navbar.php") ?>
     <!-- Breadcrumb Section Begin -->
@@ -9,7 +25,7 @@
                         <h2>Vegetable’s Package</h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home</a>
-                            <a href="./index.html">Vegetables</a>
+                            
                             <span>Vegetable’s Package</span>
                         </div>
                     </div>
@@ -24,10 +40,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6">
+                    <?php 
+                        if(isset($_GET['product_id'])){
+                            $product = get_product_by_id($mysqli,$_GET['product_id']);
+                        }
+                    ?>
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="./assets/img/product/details/product-details-1.jpg" alt="">
+                                src="data:png/image;base64,<?php echo $product['image'] ?>" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
                             <img data-imgbigurl="./assets/img/product/details/product-details-2.jpg"
@@ -43,32 +64,26 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3>Vetgetable’s Package</h3>
+                        <h3><?php echo $product['product_name'] ?></h3>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <span>(<?php echo count($user) .'view' ?>)</span>
                         </div>
-                        <div class="product__details__price">$50.00</div>
-                        <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
+                        <div class="product__details__price">$<?php echo $product['price'] ?></div>
+                        <!-- <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
                             vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p> -->
+                        
+                        <a href="./shoping-cart.php?product_id=<?php echo $product['product_id'] ?>" class="primary-btn">ADD TO CARD</a>
+                        
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
+                            <li><b>Availability</b> <span><?php echo $product['qty'] ?></span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                            <li><b>Weight</b> <span>0.5 kg</span></li>
+                            
                             <li><b>Share on</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -97,66 +112,27 @@
                 </div>
             </div>
             <div class="row">
+                <?php 
+                $category_id = $product['category_id'];
+                $related_products = get_product_by_category_id($mysqli,$category_id);
+                foreach($related_products as $related_product) :
+                ?>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="./assets/img/product/product-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="data:png/image;base64,<?php echo $related_product['image']  ?>">
                             <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            <li><a href="./shop-details.php?product_id=<?php echo $product['product_id'] ?>"><i class="fa-solid fa-eye"></i></a></li>
+                            <li><a href="./shoping-cart.php?product_id=<?php echo $product['product_id'] ?>"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
+                            <h6><a href="#"><?php echo $related_product['product_name'] ?></a></h6>
+                            <h5>$<?php echo $related_product['price']  ?></h5>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="./assets/img/product/product-2.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="./assets/img/product/product-3.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="./assets/img/product/product-7.jpg">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach ?>
+                
             </div>
         </div>
     </section>

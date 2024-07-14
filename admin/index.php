@@ -5,7 +5,7 @@ if (!$user) {
     die();
 } else {
     if (!$user['is_admin']) {
-        header("Location: ../layout/error.php");
+        header("Location: ../admin/layout/error.php");
         die();
     }
 }

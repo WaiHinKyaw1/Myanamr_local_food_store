@@ -64,12 +64,12 @@ if (isset($_GET['update_id'])) {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Price</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Order Date</th>
                                 <th scope="col">Qty</th>
-                                <th scope="col">Exp_date</th>
-                                <th scope="col">Discount</th>
-                                <th scope="col">Image</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -85,8 +85,8 @@ if (isset($_GET['update_id'])) {
                                 <td><?php echo $product['discount'] ?></td>
                                 <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $product['image'] ?>" alt=""></td>
                                 <td>
-                                    <a href="../admin/product.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="../admin/product_list.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="../admin/order.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="../admin/order.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endwhile ?>

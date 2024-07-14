@@ -11,7 +11,7 @@
                         Menu
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                        <a class="nav-link" href="./index.php" ><i class="fa-solid fa-house"></i>Dashboard <span class="badge badge-success">6</span></a>
 
                     </li>
                     <li class="nav-item">
@@ -22,7 +22,7 @@
                                     <a class="nav-link" href="./product.php">Add Product</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="./product_list.php">Product List</a>
+                                    <a class="nav-link" href="./product_list.php"><i class="fa-solid fa-list"></i>Product List</a>
                                 </li>
                             </ul>
                         </div>
@@ -32,6 +32,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./category.php">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart-shopping"></i>Order</a>
                     </li>
                 </ul>
             </div>

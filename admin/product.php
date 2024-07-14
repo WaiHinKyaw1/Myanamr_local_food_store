@@ -1,4 +1,16 @@
 <?php
+require_once("../storage/auth_user.php");
+if (!$user) {
+    header("Location: ./login.php");
+    die();
+} else {
+    if (!$user['is_admin']) {
+        header("Location: ../admin/layout/error.php");
+        die();
+    }
+}
+?>
+<?php
 require_once("../storage/brand_db.php");
 require_once("../storage/category_db.php");
 require_once("../storage/product_db.php");
@@ -69,7 +81,7 @@ if (isset($_POST['submit'])) {
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Qty</label>
-                            <input type="int" class="form-control" required="" name="qty" placeholder="Write a brand">
+                            <input type="number" class="form-control" required="" name="qty" placeholder="Write a brand">
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Exp Date</label>

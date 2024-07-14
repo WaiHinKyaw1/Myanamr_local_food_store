@@ -48,7 +48,7 @@ function create_tables($mysqli)
     $sql = "CREATE TABLE IF NOT EXISTS `category`(
         `category_id` INT AUTO_INCREMENT PRIMARY KEY,
         `category_name` VARCHAR(255) NOT NULL,
-        `category_img`  TEXT NOT NULL
+        `category_img`  TEXT NULL
         )";
     if ($mysqli->query($sql) === false) return false;
 
@@ -97,12 +97,12 @@ function create_tables($mysqli)
     if ($mysqli->query($sql) === false) return false;
 
    
-
     $sql = "CREATE TABLE IF NOT EXISTS `order_item`(
     `order_item_id` INT AUTO_INCREMENT PRIMARY KEY,
     `order_id` INT NOT NULL,
     `product_id` INT NOT NULL,
     `qty` INT NOT NULL,
+    `amount` INT NOT NULL,
     FOREIGN KEY(`order_id`) REFERENCES `order`(`order_id`),
     FOREIGN KEY(`product_id`) REFERENCES `product`(`product_id`)
 )";

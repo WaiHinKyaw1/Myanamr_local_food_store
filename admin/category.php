@@ -1,4 +1,16 @@
 <?php
+require_once("../storage/auth_user.php");
+if (!$user) {
+    header("Location: ./login.php");
+    die();
+} else {
+    if (!$user['is_admin']) {
+        header("Location: ../admin/layout/error.php");
+        die();
+    }
+}
+?>
+<?php
 require_once("../storage/category_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");

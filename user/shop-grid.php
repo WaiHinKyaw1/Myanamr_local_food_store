@@ -1,3 +1,12 @@
+<?php
+require_once("../storage/auth_user.php");
+if (!$user) {
+    header("Location: ../auth/login.php");
+    die();
+} elseif ($user['is_admin']) {
+    header("Location: ./layout/error.php");
+}
+?>
 <?php require_once("./layout/header.php") ?>
 <?php require_once("./layout/navbar.php") ?>
 <!-- Breadcrumb Section Begin -->

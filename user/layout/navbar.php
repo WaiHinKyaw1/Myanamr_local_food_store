@@ -1,4 +1,5 @@
 <?php require_once("../storage/auth_user.php") ?>
+<?php require_once("../storage/order_item_db.php") ?>
 <header class="header">
         <div class="header__top">
             <div class="container">
@@ -44,7 +45,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.php"><img src="../image/zen_mark.jpg" class="logo" alt=""></a>
+                        <a href="./index.php"><img src="./image/zen_mark.jpg" class="logo" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -54,7 +55,7 @@
                             <li><a href="./shop-grid.php">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.php">Shop Details</a></li>
+                                    <!-- <li><a href="./shop-details.php">Shop Details</a></li> -->
                                     <li><a href="./shoping-cart.php">Shoping Cart</a></li>
                                     <li><a href="./checkout.php">Check Out</a></li>
                                     <li><a href="./blog-details.php">Blog Details</a></li>
@@ -69,7 +70,7 @@
                     <div class="header__cart">
                         <ul>
                             
-                            <li><a href="./shoping-cart.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="./shoping-cart.php"><i class="fa fa-shopping-bag"></i> <span><?php echo count($product_list) ?></span></a></li>
                         </ul>
                     </div>
                 </div>

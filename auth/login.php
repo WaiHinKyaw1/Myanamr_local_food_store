@@ -9,7 +9,7 @@ if(isset($_POST['submit'])){
     $email=htmlspecialchars($_POST['email']);
     $password = htmlspecialchars($_POST['password']);
     
-    if ($email === "") {
+    if ($email === "" ) {
         $validate = false;
         $email_error = "Email must not be blank!";
     }
@@ -51,18 +51,14 @@ if(isset($_POST['submit'])){
             ?>
                 <form method="post">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="email" id="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" name="email" id="username" type="email" placeholder="Email" required="" autocomplete="off">
                         <small class="text-danger"><?php echo $email_error ?></small>
                     </div>
                     <div class="form-group">
                         <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="Password">
                         <small class="text-danger"><?php echo $password_error ?></small>
                     </div>
-                    <div class="form-group">
-                        <label class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Remember Me</span>
-                        </label>
-                    </div>
+                    
                     <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>

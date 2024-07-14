@@ -1,5 +1,15 @@
 <?php require_once("./layout/header.php") ?>
 <?php require_once("./layout/navbar.php") ?>
+<?php
+require_once("../storage/auth_user.php");
+if (!$user) {
+    header("Location: ../auth/login.php");
+    die();
+} elseif ($user['is_admin']) {
+    header("Location: ./layout/error.php");
+}
+?>
+
     <!-- Blog Details Hero Begin -->
     <section class="blog-details-hero set-bg" data-setbg="./assets/img/blog/details/details-hero.jpg">
         <div class="container">

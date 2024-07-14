@@ -14,8 +14,26 @@ function get_all_product($mysqli){
     return $result;
 }
 
+function get_product_is_new($mysqli){
+    $sql = "SELECT * FROM product where `is_new` = true";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function get_product_best_seller($mysqli){
+    $sql = "SELECT * FROM product where `best_seller` = true";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function get_product_discount($mysqli){
+    $sql = "SELECT * FROM product where `discount` != 'null'";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
 function get_product_by_id($mysqli,$product_id){
-    $sql = "SELECT * FROM `product` WHERE `product_id`=$$product_id";
+    $sql = "SELECT * FROM `product` WHERE `product_id`=$product_id";
     $result = $mysqli->query($sql);
     return $result->fetch_assoc();
 }
