@@ -12,6 +12,10 @@ if (!$user) {
     header("Location: ./layout/error.php");
 }
 
+if (isset($_GET['search'])) {
+    $name = $_GET['search'];
+}
+
 ?>
 
 <?php require_once("./layout/navbar.php") ?>
@@ -36,8 +40,8 @@ if (!$user) {
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="" method="get">
-                            <input type="text" placeholder="What do yo u need?">
+                        <form action="" method="GET">
+                            <input name="name" id="name-filter" type="text" placeholder="What do yo u need?">
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
                     </div>
@@ -51,11 +55,11 @@ if (!$user) {
                         </div>
                     </div>
                 </div>
-                <div class="hero__item set-bg" data-setbg="./image/People-Of-Myanmar.jpg">
+                <div class="hero__item set-bg" data-setbg="./image/bg-myanmar.jpg">
                     <div class="hero__text">
-                        <span>FRUIT FRESH</span>
-                        <h2>Vegetable <br />100% Organic</h2>
-                        <p>Free Pickup and Delivery Available</p>
+                        <span>Myanmar Local Food</span>
+                        <h2>Product <br />100% </h2>
+                        <p class="">Free Pickup and Delivery Available</p>
                         <a href="#" class="primary-btn">SHOP NOW</a>
                     </div>
                 </div>
@@ -108,8 +112,11 @@ if (!$user) {
         <div class="row featured__filter">
 
             <?php $products = get_all_product($mysqli);
-            if (isset($_GET['category_id'])) {
-                $products = get_product_by_category_id($mysqli, $_GET['category_id']);
+            if (isset($_GET['category_id']) || isset($_GET['name'])) {
+                $name = isset($_GET['name']) ? $_GET['name'] : null;
+                $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
+
+                $products = get_product_by_filter($mysqli, $name, $category_id);
             }
             while ($product = $products->fetch_assoc()) : ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix  fresh-meat">
@@ -127,11 +134,11 @@ if (!$user) {
                                 $discount_price = $product['price'] - $product['discount'];
                             ?>
                                 <div class="d-flex justify-content-center">
-                                <h5 class=" text-danger me-3">$<?php echo $discount_price ?> </h5>
-                                <h6 class="text-decoration-line-through text-muted">$<?php echo $product['price'] ?> </h6>
+                                    <h6 class=" text-danger me-3">$<?php echo $discount_price ?> </h6>
+                                    <h6 class="text-decoration-line-through text-muted">$<?php echo $product['price'] ?> </h6>
                                 </div>
                             <?php } else { ?>
-                                <h5> $<?php echo $product['price'] ?></h5>
+                                <h6 class="text-muted"> $<?php echo $product['price'] ?></h6>
                             <?php } ?>
                         </div>
                     </div>

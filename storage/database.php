@@ -90,6 +90,7 @@ function create_tables($mysqli)
         `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
         `order_id` INT NOT NULL,
         `payment_date` DATETIME NOT NULL,
+        `payment_img` VARCHAR(255),
         `payment_method` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`)
     )";

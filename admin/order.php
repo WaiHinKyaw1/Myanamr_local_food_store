@@ -12,11 +12,11 @@ if (!$user) {
 ?>
 <?php
 require_once("../storage/product_db.php");
+require_once("../storage/order_db.php");
+require_once("../storage/user_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
 $success = $invalid = "";
-
-
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
@@ -24,7 +24,6 @@ if (isset($_GET['delete_id'])) {
     if ($delete) {
         $success = "Delete Success";
         header("Location:../admin/brand.php?success=$success");
-        
     } else {
         $invalid = "Delete Unsuccess";
         header("Location: ../admin/brand.php?invalid=$invalid");
@@ -33,9 +32,9 @@ if (isset($_GET['delete_id'])) {
 
 if (isset($_GET['update_id'])) {
     $product_id = $_GET['update_id'];
-    $update = get_brand_by_id($mysqli, $product_id);  
+    $update = get_brand_by_id($mysqli, $product_id);
     $product_name = $update['product_name'];
-    if (isset($_POST['update'])){
+    if (isset($_POST['update'])) {
         $product_name = $_POST['product_name'];
         if ($brand_name == "") $brand_name_error = "brand Name is Blank";
         if ($brand_name_error == "") {
@@ -66,33 +65,38 @@ if (isset($_GET['update_id'])) {
                                 <th scope="col">#</th>
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Order Date</th>
-                                <th scope="col">Qty</th>
+                                <!-- <th scope="col">Qty</th> -->
                                 <th scope="col">Amount</th>
                                 <th scope="col">Payment</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                    <tbody>
-                        <?php $products = get_all_product($mysqli); ?>
-                        <?php while ($product = $products->fetch_assoc()) : ?>
-                            <tr>
-                                <th scope="row"><?php echo $product['product_id'] ?></th>
-                                <td><?php echo $product['product_name'] ?></td>
-                                <td><?php echo $product['price'] ?></td>
-                                <td><?php echo $product['qty'] ?></td>
-                                <td><?php echo $product['ex_date'] ?></td>
-                                <td><?php echo $product['discount'] ?></td>
-                                <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $product['image'] ?>" alt=""></td>
-                                <td>
-                                    <a href="../admin/order.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="../admin/order.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        <?php endwhile ?>
+                        <tbody>
+                            <?php $orders = get_all_order($mysqli);
+                            foreach ($orders as $order) :
+                                $user_id = $order['user_id'];
+                                $user = get_user_by_id($mysqli,$user_id);
+                                
+
+                            ?>
+
+                                <tr>
+                                    <th scope="row"><?php echo $order['order_id'] ?></th>
+                                    <td><?php echo $user['name'] ?></td>
+                                    <td><?php echo $order['order_date'] ?></td>
+                                    <td><?php echo $order['total_amount'] ?></td>
+                                    <td>Payment_metod</td>
+                                    <td>Paid</td> 
+                                    <td>
+                                        <a href="../admin/order.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="../admin/order.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
-                        </table>
-                </div>            
+                    </table>
+                </div>
             </div>
         </div>
     </div>

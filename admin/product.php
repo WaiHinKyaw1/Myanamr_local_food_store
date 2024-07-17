@@ -117,9 +117,11 @@ if (isset($_POST['submit'])) {
                             <label for="brand" class="form-label mt-3">Image</label>
                             <input type="file" class="form-control" required="" name="image">
                         </div>
-
+                        <?php if(isset($_GET['update_id'])) : ?>
+                            <button type="submit" class="btn btn-primary mb-3" name="update">Update</button>
+                            <?php else : ?>
                             <button type="submit" class="btn btn-primary mb-3" name="submit">Create</button>
-
+                        <?php endif ?>
                     </form>
                 </div>
 

@@ -12,6 +12,7 @@ if (!$user) {
 ?>
 <?php
 require_once("../storage/product_db.php");
+require_once("../storage/brand_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
 $success = $invalid = "";

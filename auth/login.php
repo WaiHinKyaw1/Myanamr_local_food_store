@@ -42,7 +42,7 @@ if(isset($_POST['submit'])){
     <!-- login page  -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-header text-center"><img class="logo-img rounded" src="../image/zen_mark.jpg" style="width:90%;height:50px;"  alt="logo"><span class="splash-description">Please enter your user information.</span></div>
             <div class="card-body">
             <?php
             if ($success) echo '<div class="alert alert-primary">Login Successful!</div>';

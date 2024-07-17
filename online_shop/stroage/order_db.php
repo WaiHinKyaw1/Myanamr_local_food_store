@@ -9,7 +9,7 @@ function save_order($mysqli,$o_name,$amount,$qty,$i_id,$c_id){
 }
 
 function get_all_order($mysqli){
-    $sql = "SELECT `item`.`i_name`,`customer`.`c_name` , `order`.`o_name`, `order`.`qty`,`order`.`amount` FROM `order` LEFT JOIN `item` ON `order`.`i_id`= `item`.`i_id` LEFT JOIN `customer` ON `order`.`c_id`=`customer`.`c_id`";
+    $sql = "select * from `order`;
     $result = $mysqli->query($sql);
     return $result;
 }

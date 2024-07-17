@@ -107,7 +107,7 @@ require_once("../storage/user_db.php");
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title related__product__title">
-                        <h2>Related Product</h2>
+                        <h2>You Might Also Like These</h2>
                     </div>
                 </div>
             </div>
