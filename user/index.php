@@ -12,9 +12,16 @@ if (!$user) {
     header("Location: ./layout/error.php");
 }
 
-if (isset($_GET['search'])) {
-    $name = $_GET['search'];
+
+$result_per_page = 8;
+if (isset($_GET["page"])) {
+    $page  = $_GET["page"];
+} else {
+    $page = 1;
 }
+
+$start_from = ($page - 1) * $result_per_page;
+$all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_page);
 
 ?>
 
@@ -60,7 +67,7 @@ if (isset($_GET['search'])) {
                         <span>Myanmar Local Food</span>
                         <h2>Product <br />100% </h2>
                         <p class="">Free Pickup and Delivery Available</p>
-                        <a href="#" class="primary-btn">SHOP NOW</a>
+                        <a href="./shop-grid.php" class="primary-btn">SHOP NOW</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +85,7 @@ if (isset($_GET['search'])) {
                 while ($category = $categories->fetch_assoc()) : ?>
                     <div class="col-lg-3">
                         <div class="categories__item set-bg" data-setbg="./assets/img/categories/cat-2.jpg">
-                            <h5><a href="./index.php?category_id=<?php echo $category['category_id'] ?>"><?php echo $category['category_name'] ?></a></h5>
+                            <h5><a href="./index.php?category_id=<?php echo $category['category_id'] ?><?php if(isset($_GET['name'])) :?> &name=<?php echo $_GET['name'] ?> <?php endif ?>"><?php echo $category['category_name'] ?></a></h5>
                         </div>
                     </div>
                 <?php endwhile ?>
@@ -111,17 +118,17 @@ if (isset($_GET['search'])) {
         </div>
         <div class="row featured__filter">
 
-            <?php $products = get_all_product($mysqli);
+            <?php $products = $all_products;
             if (isset($_GET['category_id']) || isset($_GET['name'])) {
-                $name = isset($_GET['name']) ? $_GET['name'] : null;
-                $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
-
+                $name = isset($_GET['name']) ? $_GET['name'] : null;        
+                $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null; 
                 $products = get_product_by_filter($mysqli, $name, $category_id);
+
             }
             while ($product = $products->fetch_assoc()) : ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix  fresh-meat">
                     <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="data:png/image;base64,<?php echo $product['image'] ?> ">
+                        <div class="featured__item__pic set-bg" data-setbg="data:png/image;base64,<?php echo $product['image'] ?>">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="./shop-details.php?product_id=<?php echo $product['product_id'] ?>"><i class="fa-solid fa-eye"></i></a></li>
                                 <li><a href="./shoping-cart.php?product_id=<?php echo $product['product_id'] ?>"><i class="fa fa-shopping-cart"></i></a></li>
@@ -138,12 +145,43 @@ if (isset($_GET['search'])) {
                                     <h6 class="text-decoration-line-through text-muted">$<?php echo $product['price'] ?> </h6>
                                 </div>
                             <?php } else { ?>
-                                <h6 class="text-muted"> $<?php echo $product['price'] ?></h6>
+                                <h6 class=" text-dark"> $<?php echo $product['price'] ?></h6>
                             <?php } ?>
                         </div>
                     </div>
                 </div>
             <?php endwhile ?>
+
+            <div class="pagination">
+                <?php
+                $total_records = get_all_product($mysqli)->num_rows;
+
+                echo "</br>";
+                // Number of pages required.   
+                $total_pages = ceil($total_records / $result_per_page);
+                $pagLink = "";
+
+                if ($page >= 2) {
+                    echo "<a href='index.php?page=" . ($page - 1) . "'>  Prev </a>";
+                }
+
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($i == $page) {
+                        $pagLink .= "<a class = 'active' href='index.php?page="
+                            . $i . "'>" . $i . " </a>";
+                    } else {
+                        $pagLink .= "<a href='index.php?page=" . $i . "'>   
+                                                " . $i . " </a>";
+                    }
+                };
+                echo $pagLink;
+
+                if ($page < $total_pages) {
+                    echo "<a href='index.php?page=" . ($page + 1) . "'>  Next </a>";
+                }
+
+                ?>
+            </div>
         </div>
     </div>
 </section>
@@ -175,7 +213,7 @@ if (isset($_GET['search'])) {
             <div class="col-lg-4 col-md-6">
                 <div class="latest-product__text">
                     <h4>Latest Products</h4>
-                    <div class="latest-product__slider owl-carousel">
+                    <div class="latest-product__slider owl-carousel ">
                         <?php
                         $best_sellers = get_product_best_seller($mysqli);
                         foreach ($best_sellers as $best_seller) :
@@ -198,7 +236,6 @@ if (isset($_GET['search'])) {
                             </div>
                         <?php endforeach ?>
                     </div>
-
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">

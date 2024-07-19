@@ -65,7 +65,7 @@ function create_tables($mysqli)
     `price` varchar(255) not null,
     `qty` int not null,
     `ex_date` date not null,
-    `discount` int,
+    `discount` int null,
     `image` text not null,
     `best_seller` boolean default(false),
     `is_new` boolean default(true),  

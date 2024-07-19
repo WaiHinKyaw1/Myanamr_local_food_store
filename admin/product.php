@@ -55,6 +55,7 @@ if (isset($_POST['submit'])) {
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
         <div class="container-fluid dashboard-content ">
+            
             <div class="row justify-content-center">
                 <div class="col-8">
                     <?php if ($success) : ?>
@@ -129,4 +130,5 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </div>
+
 <?php require_once("../admin/layout/footer.php") ?>

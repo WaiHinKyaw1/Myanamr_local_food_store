@@ -73,7 +73,13 @@ require_once("../storage/user_db.php");
                             <i class="fa fa-star-half-o"></i>
                             <span>(<?php echo count($user) .'view' ?>)</span>
                         </div>
-                        <div class="product__details__price">$<?php echo $product['price'] ?></div>
+                        <div class="product__details__price">
+                            <?php if(isset($product['discount'])){ ?>
+                            $<?php  echo  $price = $product['price'] - $product['discount']; ?>
+                            <?php } else { ?>
+                            $<?php echo $product['price'] ?>
+                            <?php } ?>   
+                        </div>
                         <!-- <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
                             vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
                             quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p> -->

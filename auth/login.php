@@ -3,7 +3,7 @@
 
 <?php  
 $email = $password = $email_error = $password_error = "";
-$success = $invalid = false;
+$success = $invalid = "";
 $validate = true;
 if(isset($_POST['submit'])){
     $email=htmlspecialchars($_POST['email']);
@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
         $password_check = password_verify($password,$user['password']);
         
         if($password_check){
-            $success = true;
+            $success = "Login Success";
             setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');
             if($user['is_admin']){
                 header("Location: ../admin/index.php");
@@ -30,7 +30,7 @@ if(isset($_POST['submit'])){
                 header("Location: ../user/index.php");
             }
         } else {
-            $invalid = true;
+            $invalid = "Invalid Password!. Please Check Your Password";
         }
     }
 
@@ -38,24 +38,31 @@ if(isset($_POST['submit'])){
 ?>
 <?php require_once("./layout/header.php") ?>
 
-<body>
+
     <!-- login page  -->
     <div class="splash-container">
         <div class="card ">
             <div class="card-header text-center"><img class="logo-img rounded" src="../image/zen_mark.jpg" style="width:90%;height:50px;"  alt="logo"><span class="splash-description">Please enter your user information.</span></div>
             <div class="card-body">
-            <?php
-            if ($success) echo '<div class="alert alert-primary">Login Successful!</div>';
-            if ($invalid) echo '<div class="alert alert-danger">Invalid Password
-            </div>';
-            ?>
+            <?php if ($success) : ?>
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong><?php echo $success ?>!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif ?>
+                    <?php if ($invalid) : ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong><?php echo $invalid ?>!</strong> 
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif ?>
                 <form method="post">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" name="email" id="username" type="email" placeholder="Email" required="" autocomplete="off">
+                        <input class="form-control form-control-lg" name="email" id="username" type="email" placeholder="Email" required=""  autocomplete="off">
                         <small class="text-danger"><?php echo $email_error ?></small>
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" name="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" id="password" name="password" type="password" required="" placeholder="Password">
                         <small class="text-danger"><?php echo $password_error ?></small>
                     </div>
                     

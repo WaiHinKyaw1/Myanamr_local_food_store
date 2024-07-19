@@ -43,20 +43,77 @@ if (!$user) {
                     <div class="col-lg-6 col-md-6">
                         <div class="row">
                             <h6 class="text-muted text-center  m-0 p-2">Express Checkout</h6>
-                            <div class="col-lg-4 my-3 ">
-                                <div class="">
-                                    <a href=""><img src="./image/kpyay.png" style="width:100%;height:60px;" class="rounded" alt=""> </a>
+                            <div class="col-lg-4 my-3">
+                                
+                            <img src="./image/kpay.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#modal-notification" alt="">
+                                
+                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                                        <div class="modal-content bg-gradient-secondary">
+                                            <div class="modal-header">
+                                                <p class="modal-title" id="modal-title-notification">KBZ Pay</p>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="py-3 text-center">
+                                                    <img src="./image/kpay_qr.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                                                  
                             </div>
                             <div class="col-lg-4 my-3">
-                                <div class="">
-                                    <a href=""><img src="./image/wave.png" style="width:100%;height:60px;" class="rounded" alt=""> </a>
+                                
+                            <img src="./image/wave.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#wave" alt="">
+                                
+                                <div class="modal fade" id="wave" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                                        <div class="modal-content bg-gradient-secondary">
+                                            <div class="modal-header">
+                                                <p class="modal-title" id="modal-title-notification">Wave Pay</p>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="py-3 text-center">
+                                                    <img src="./image/wave_qr.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                                                  
                             </div>
                             <div class="col-lg-4 my-3">
-                                <div class="">
-                                    <a href=""><img src="./image/mytel.jpg" style="width:100%;height:60px;" class="rounded" alt=""> </a>
+                            <img src="./image/mytel.jpg" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#mytel" alt="">
+                                
+                                <!-- Modal Content -->
+                                <div class="modal fade" id="mytel" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                                        <div class="modal-content bg-gradient-secondary">
+                                            <div class="modal-header">
+                                                <p class="modal-title" id="modal-title-notification">Mytel Pay</p>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="py-3 text-center">
+                                                    <img src="./image/mytel_qr.jpg" style="width: 80%;height:70%;" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                                                  
                             </div>
                         </div>
                         <div class="row">
@@ -114,12 +171,18 @@ if (!$user) {
                                 $product_id = $product['product_id'];
                                 $product = get_product_by_order_item_id($mysqli, $product_id);
 
-
                             ?>
-                                <ul>
-                                    <li><?php echo $product['product_name'] ?> <span>$<?php echo $product['price'] ?></span></li>
+                            <ul>
+                            <li>
+                            <?php echo $product['product_name'] ?>
+                            <span><?php if(isset($product['discount'])){ ?>
+                             $<?php  echo  $price = $product['price'] - $product['discount']; ?>
+                            <?php } else { ?>
+                             $<?php echo $product['price'] ?>
+                            <?php } ?></span>
+                            </li>
 
-                                </ul>
+                            </ul>
                             <?php endforeach ?>
                             <div class="checkout__order__subtotal">Subtotal <span>$<?php echo $last_order['total_amount'] ?></span></div>
                             <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div>

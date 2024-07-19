@@ -80,14 +80,19 @@ if (isset($_GET['product_id'])) {
         }
     }
     if ($is_new) {
+        if($product['discount']!=null){
+            $price = $product['price']-$product['discount'];
+        }else{
+            $price = $product['price'];
+        }
         array_push($product_list, [
             'product_id' => $product['product_id'],
             'user_id' => $user['user_id'],
-            'price' => $product['price'],
+            'price' => $price,
             'product_name' => $product['product_name'],
             'qty' => 1,
             'image' => $product['image'],
-            'amount' => $product['price'],
+            'amount' => $price,
         ]);
     }
     $_SESSION['product_list'] = $product_list;

@@ -16,6 +16,12 @@ function get_all_product($mysqli)
     return $result;
 }
 
+function get_all_product_with_limit($mysqli, $start_from, $count_per_page) {
+    $sql = "SELECT * FROM product LIMIT $start_from, $count_per_page";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
 function get_product_is_new($mysqli)
 {
     $sql = "SELECT * FROM product where `is_new` = true";

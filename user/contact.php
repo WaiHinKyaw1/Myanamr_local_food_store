@@ -10,14 +10,14 @@ if (!$user) {
 }
 ?>
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="./assets/img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
                         <h2>Contact Us</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
+                            <a href="./index.php">Home</a>
                             <span>Contact Us</span>
                         </div>
                     </div>
@@ -35,14 +35,14 @@ if (!$user) {
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
                         <h4>Phone</h4>
-                        <p>+01-3-8888-6868</p>
+                        <p>09-679679692</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
                         <h4>Address</h4>
-                        <p>60-49 Road 11378 New York</p>
+                        <p>Kamayut,Yangon</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
@@ -56,7 +56,7 @@ if (!$user) {
                     <div class="contact__widget">
                         <span class="icon_mail_alt"></span>
                         <h4>Email</h4>
-                        <p>hello@colorlib.com</p>
+                        <p>myanamr_local_food@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -67,15 +67,15 @@ if (!$user) {
     <!-- Map Begin -->
     <div class="map">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d49116.39176087041!2d-86.41867791216099!3d39.69977417971648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886ca48c841038a1%3A0x70cfba96bf847f0!2sPlainfield%2C%20IN%2C%20USA!5e0!3m2!1sen!2sbd!4v1586106673811!5m2!1sen!2sbd"
+            src="https://www.google.com/maps/@16.8378956,96.0858978,12.53z/data=!4m5!7m4!1m2!1s116942093711692289552!2sChYwUUZqejUyMVdBM0pDTm1mNDl2WmhBEggHBh1z2V3ckg%3D%3D!2e2?hl=en&entry=ttu"
             height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         <div class="map-inside">
             <i class="icon_pin"></i>
             <div class="inside-widget">
-                <h4>New York</h4>
+                <h4>Yangon</h4>
                 <ul>
-                    <li>Phone: +12-345-6789</li>
-                    <li>Add: 16 Creek Ave. Farmingdale, NY</li>
+                    <li>Phone: +95 9946386596</li>
+                    <li>Add: Near Kuan Chan 7 St,Yangon Myanmar(Burma ) </li>
                 </ul>
             </div>
         </div>

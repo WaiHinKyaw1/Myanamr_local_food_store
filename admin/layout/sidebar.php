@@ -15,11 +15,11 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">Product</a>
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2"><i class="fa-brands fa-product-hunt"></i>Product</a>
                         <div id="submenu-1-2" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="./product.php">Add Product</a>
+                                    <a class="nav-link" href="./product.php"><i class="fa-solid fa-plus"></i>Add Product</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="./product_list.php"><i class="fa-solid fa-list"></i>Product List</a>
@@ -28,13 +28,16 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./brand.php">Brand</a>
+                        <a class="nav-link" href="./brand.php"><i class="fa-sharp-duotone fa-solid fa-b"></i>Brand</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./category.php">Category</a>
+                        <a class="nav-link" href="./category.php"><i class="fa-solid fa-layer-group"></i>Category</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart-shopping"></i>Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./setting.php"><i class="fa-solid fa-gear"></i>Setting</a>
                     </li>
                 </ul>
             </div>
