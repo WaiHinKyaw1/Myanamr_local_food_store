@@ -22,3 +22,20 @@ function get_last_order($mysqli)
         return $result->fetch_assoc();
     }
 }
+
+function delete_order($mysqli,$order_id)
+{
+    $sql = "delete from `order` where `order_id` = $order_id";
+   if($mysqli->query($sql)){
+    return true;
+   }
+   return false;
+}
+
+function update_order($mysqli,$category_id,$category_name){
+    $sql = "UPDATE `category` SET `category_name`='$category_name' WHERE `category_id`=$category_id";
+    if($mysqli->query($sql)){
+        return true;
+    }
+    return false;
+}

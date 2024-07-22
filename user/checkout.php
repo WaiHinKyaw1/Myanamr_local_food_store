@@ -13,7 +13,22 @@ if (!$user) {
 } elseif ($user['is_admin']) {
     header("Location: ./layout/error.php");
 }
+if(isset($_POST)){
+    $last_order = get_last_order($mysqli);
+    $last_order_id = $last_order['order_id'];
+    $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
+    foreach ($order_item as $order){
+        $product_id =$order['product_id'];
+        $product = get_product_by_id($mysqli,$product_id);      
+        $product['qty'] = $product['qty'] - $order['qty'];
+            $qty = $product['qty'];
+            $product_qty = update_product_qty($mysqli,$qty,$product_id);
+        
+    }
+}
+
 ?>
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="./assets/img/breadcrumb.jpg">
     <div class="container">
@@ -159,50 +174,51 @@ if (!$user) {
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="checkout__order">
-                            <h4>Your Order</h4>
-                            <div class="checkout__order__products">Products <span>Total</span></div>
-                            <?php
-                            $last_order = get_last_order($mysqli);
-                            $last_order_id = $last_order['order_id'];
+                            <form action="./checkout.php" method="post">
 
-                            $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
-
-                            foreach ($order_item as $product) :
-                                $product_id = $product['product_id'];
-                                $product = get_product_by_order_item_id($mysqli, $product_id);
-
-                            ?>
-                            <ul>
-                            <li>
-                            <?php echo $product['product_name'] ?>
-                            <span><?php if(isset($product['discount'])){ ?>
-                             $<?php  echo  $price = $product['price'] - $product['discount']; ?>
-                            <?php } else { ?>
-                             $<?php echo $product['price'] ?>
-                            <?php } ?></span>
-                            </li>
-
-                            </ul>
-                            <?php endforeach ?>
-                            <div class="checkout__order__subtotal">Subtotal <span>$<?php echo $last_order['total_amount'] ?></span></div>
-                            <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div>
-
-
-                            <div class="checkout__input__checkbox">
-                                <label for="payment">
-                                    Check Payment
-                                    <input type="checkbox" id="payment">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="paypal">
-                                    Paypal
-                                    <input type="checkbox" id="paypal">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <button type="submit" class="site-btn">PAYMENT</button>
+                                <h4>Your Order</h4>
+                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                <?php
+                                $last_order = get_last_order($mysqli);
+                                $last_order_id = $last_order['order_id'];
+                                $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
+                                foreach ($order_item as $product) :
+                                    $product_id = $product['product_id'];
+                                    $product = get_product_by_order_item_id($mysqli, $product_id);
+    
+                                ?>
+                                <ul>
+                                <li>
+                                <?php echo $product['product_name'] ?>
+                                <span><?php if(isset($product['discount'])){ ?>
+                                 $<?php  echo  $price = $product['price'] - $product['discount']; ?>
+                                <?php } else { ?>
+                                 $<?php echo $product['price'] ?>
+                                <?php } ?></span>
+                                </li>
+    
+                                </ul>
+                                <?php endforeach ?>
+                                <div class="checkout__order__subtotal">Subtotal <span>$<?php echo $last_order['total_amount'] ?></span></div>
+                                <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div>
+    
+    
+                                <div class="checkout__input__checkbox">
+                                    <label for="payment">
+                                        Check Payment
+                                        <input type="checkbox" id="payment">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="checkout__input__checkbox">
+                                    <label for="paypal">
+                                        Paypal
+                                        <input type="checkbox" id="paypal">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <button type="submit" class="site-btn">PAYMENT</button>
+                            </form>
                         </div>
                     </div>
                 </div>

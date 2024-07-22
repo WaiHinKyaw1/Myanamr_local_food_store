@@ -2,6 +2,7 @@
 require_once("../storage/database.php");
 require_once("../storage/product_db.php");
 require_once("../storage/category_db.php");
+require_once("../storage/brand_db.php");
 require_once("./layout/header.php");
 require_once("../storage/auth_user.php");
 
@@ -33,13 +34,13 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                 <div class="hero__categories">
                     <div class="hero__categories__all">
                         <i class="fa fa-bars"></i>
-                        <span>All Categories</span>
+                        <span>All Brands</span>
                     </div>
                     <ul>
                         <li><a href="#product">All</a></li>
-                        <?php $categories = get_all_category($mysqli);
-                        while ($category = $categories->fetch_assoc()) : ?>
-                            <li><a href="./index.php?category_id=<?php echo $category['category_id'] ?>"><?php echo $category['category_name'] ?></a></li>
+                        <?php $brands = get_all_brand($mysqli);
+                        while ($brand = $brands->fetch_assoc()) : ?>
+                            <li><a href="./index.php?brand_id=<?php echo $brand['brand_id'] ?><?php if(isset($_GET['name'])) :?>&name=<?php echo $_GET['name'] ?> <?php endif ?>"><?php echo $brand['brand_name'] ?></a></li>
                         <?php endwhile ?>
                     </ul>
                 </div>
@@ -84,8 +85,8 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                 <?php $categories = get_all_category($mysqli);
                 while ($category = $categories->fetch_assoc()) : ?>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="./assets/img/categories/cat-2.jpg">
-                            <h5><a href="./index.php?category_id=<?php echo $category['category_id'] ?><?php if(isset($_GET['name'])) :?> &name=<?php echo $_GET['name'] ?> <?php endif ?>"><?php echo $category['category_name'] ?></a></h5>
+                        <div class="categories__item set-bg" data-setbg="data:png/image;base64,<?php echo $category['category_img'] ?>">
+                            <h5><a href="./index.php?category_id=<?php echo $category['category_id'] ?><?php if(isset($_GET['name'])) :?>&name=<?php echo $_GET['name'] ?> <?php endif ?>"><?php echo $category['category_name'] ?></a></h5>
                         </div>
                     </div>
                 <?php endwhile ?>
@@ -116,15 +117,30 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                 </div>
             </div>
         </div>
+        <?php if(isset($_GET['brand_id'])) :?>
+         <?php   $brand = get_brand_by_id($mysqli,$_GET['brand_id']); ?>
+            <div class="row my-5" style="background-color:#c9d1d1;">
+                <div class="col d-flex justify-content-center align-items-center p-2">
+                    <div class=" w-50 text-center "><?php echo $brand['brand_name'] ?></div>
+                    <div class="w-50">
+                            <img src="data:png/image;base64,<?php echo $brand['brand_logo'] ?>" style="width:200px;height:120px;" alt="">
+                        </div>
+                </div>
+                
+            </div>
+        <?php endif ?>
         <div class="row featured__filter">
 
             <?php $products = $all_products;
-            if (isset($_GET['category_id']) || isset($_GET['name'])) {
+            if (isset($_GET['category_id']) || isset($_GET['name']) || isset($_GET['brand_id'])) {
                 $name = isset($_GET['name']) ? $_GET['name'] : null;        
                 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null; 
-                $products = get_product_by_filter($mysqli, $name, $category_id);
+                $brand_id = isset($_GET['brand_id']) ? $_GET['brand_id'] : null; 
+                $products = get_product_by_filter($mysqli, $name, $category_id,$brand_id);
 
             }
+              
+              
             while ($product = $products->fetch_assoc()) : ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix  fresh-meat">
                     <div class="featured__item">
@@ -370,9 +386,9 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <a href="./index.html"><img src="./assets/logo.png" alt=""></a>
                     </div>
                     <ul>
-                        <li>Address: 60-49 Road 11378 New York</li>
-                        <li>Phone: +65 11.188.888</li>
-                        <li>Email: hello@colorlib.com</li>
+                        <li>Address: Kamayut ,Yangon</li>
+                        <li>Phone: +95 9946386596</li>
+                        <li>Email: myanmar_local_food.com</li>
                     </ul>
                 </div>
             </div>
@@ -380,21 +396,14 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                 <div class="footer__widget">
                     <h6>Useful Links</h6>
                     <ul>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">All Product</a></li>
+                        <li><a href="#">Instock Our Product</a></li>
                         <li><a href="#">About Our Shop</a></li>
-                        <li><a href="#">Secure Shopping</a></li>
                         <li><a href="#">Delivery infomation</a></li>
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Our Sitemap</a></li>
+                        
                     </ul>
-                    <ul>
-                        <li><a href="#">Who We Are</a></li>
-                        <li><a href="#">Our Services</a></li>
-                        <li><a href="#">Projects</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Innovation</a></li>
-                        <li><a href="#">Testimonials</a></li>
-                    </ul>
+                    
                 </div>
             </div>
             <div class="col-lg-4 col-md-12">
@@ -421,7 +430,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;<script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </script> All rights reserved  <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                     <div class="footer__copyright__payment"><img src="./assets/payment-item.png" alt=""></div>

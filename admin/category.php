@@ -15,13 +15,19 @@ require_once("../storage/category_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
 $success = $invalid = "";
-$category_name = $category_name_error = "";
+$category_name = $category_name_error = $category_img_error = "";
 
 if (isset($_POST['create'])) {
    
     $category_name = htmlspecialchars($_POST['category']);
-    
-    $category = save_category($mysqli, $category_name);
+    $image = $_FILES['image']['tmp_name'];
+    $img_name = $_FILES['image']['name'];
+    if(!str_contains($_FILES['image']['type'],'image/')){
+        $category_img_error = "Please upload only photo";
+    }
+    $img = file_get_contents($image);
+    $category_image = base64_encode($img);
+    $category = save_category($mysqli, $category_name,$category_image);
     if ($category) {
         $success = "Category Create Success";
         header("Locaction: ../admin/category.php");
@@ -84,10 +90,14 @@ if (isset($_GET['update_id'])) {
                         </div>
                     <?php endif ?>
 
-                    <form method="post" class="form-control">
+                    <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="category" class="form-label mt-3">Categroy</label>
                             <input type="text" class="form-control" required="" value="<?php echo $category_name ?>" name="category" placeholder="Write a Category">
+                        </div>
+                        <div class="mb-4">
+                            <label for="category" class="form-label mt-3">Image</label>
+                            <input type="file" name="image" class="form-control"  id="">
                         </div>
                         <?php if (isset($_GET['update_id'])) : ?>
                             <button type="submit" class="btn btn-primary mb-3" name="update">update</button>
@@ -103,6 +113,7 @@ if (isset($_GET['update_id'])) {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -112,6 +123,7 @@ if (isset($_GET['update_id'])) {
                                 <tr>
                                     <th scope="row"><?php echo $category['category_id'] ?></th>
                                     <td><?php echo $category['category_name'] ?></td>
+                                    <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $category['category_img'] ?>" alt=""></td>
                                     <td>
                                         <a href="../admin/category.php?update_id=<?php echo $category['category_id'] ?>" class="btn btn-secondary">Edit</a>
                                         <a href="../admin/category.php?delete_id=<?php echo $category['category_id'] ?>" class="btn btn-danger">Delete</a>

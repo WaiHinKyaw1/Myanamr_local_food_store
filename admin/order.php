@@ -20,13 +20,13 @@ $success = $invalid = "";
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    $delete = delete_brand($mysqli, $delete_id);
+    $delete = delete_order($mysqli, $delete_id);
     if ($delete) {
         $success = "Delete Success";
-        header("Location:../admin/brand.php?success=$success");
+        header("Location:../admin/order.php?success=$success");
     } else {
         $invalid = "Delete Unsuccess";
-        header("Location: ../admin/brand.php?invalid=$invalid");
+        header("Location: ../admin/order.php?invalid=$invalid");
     }
 }
 
@@ -86,11 +86,11 @@ if (isset($_GET['update_id'])) {
                                     <td><?php echo $user['name'] ?></td>
                                     <td><?php echo $order['order_date'] ?></td>
                                     <td><?php echo $order['total_amount'] ?></td>
-                                    <td>Payment_metod</td>
-                                    <td>Paid</td> 
+                                    <td>Unpaid</td>
+                                    <td>Delivery</td> 
                                     <td>
-                                        <a href="../admin/order.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="../admin/order.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                        
+                                        <a href="../admin/order.php?delete_id=<?php echo $order['order_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

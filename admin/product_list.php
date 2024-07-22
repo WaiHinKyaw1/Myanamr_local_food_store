@@ -52,6 +52,12 @@ if (isset($_GET['update_id'])) {
     }
 }
 
+if(isset($_POST['product_id'])){
+    $product_id = $_POST['product_id'];
+    $product = get_product_by_id($mysqli,$product_id);
+    var_dump($product);
+    exit();
+}
 ?>
 <?php require_once("../admin/layout/navbar.php");  ?>
 <?php require_once("../admin/layout/sidebar.php"); ?>
@@ -71,12 +77,15 @@ if (isset($_GET['update_id'])) {
                                 <th scope="col">Exp_date</th>
                                 <th scope="col">Discount</th>
                                 <th scope="col">Image</th>
+                                <th scope="col">Best Seller</th>
+                                <th scope="col">IsNew</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                     <tbody>
                         <?php $products = get_all_product($mysqli); ?>
                         <?php while ($product = $products->fetch_assoc()) : ?>
+                            
                             <tr>
                                 <th scope="row"><?php echo $product['product_id'] ?></th>
                                 <td><?php echo $product['product_name'] ?></td>
@@ -85,6 +94,22 @@ if (isset($_GET['update_id'])) {
                                 <td><?php echo $product['ex_date'] ?></td>
                                 <td><?php echo $product['discount'] ?></td>
                                 <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $product['image'] ?>" alt=""></td>
+                                <td>
+                                    
+                                    <?php if($product['best_seller'] == 1) :?>
+                                    <a href="./best_seller.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary">Yes</a>
+                                    <?php else : ?>
+                                    <a href="./best_seller.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning">No</a>
+                                    <?php endif ?>
+                                    
+                                </td>
+                                <td>
+                                    <?php if($product['is_new'] == 1) :?>
+                                        <a href="./is_new.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary">Yes</a>
+                                    <?php else : ?>
+                                        <a href="./is_new.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning">No</a>
+                                    <?php endif ?>
+                                </td>
                                 <td>
                                     <a href="../admin/product.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="../admin/product_list.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>

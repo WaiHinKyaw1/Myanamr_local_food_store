@@ -62,14 +62,25 @@ function get_product_by_category_id($mysqli, $category_id)
     $result = $mysqli->query($sql);
     return $result;
 }
-function get_product_by_filter($mysqli, $product_name = null, $category_id = null)
+
+function get_product_by_brand_id($mysqli, $brand_id)
 {
-    if ($product_name && $category_id) {
-        $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%' AND `category_id`=$category_id";
+    $sql = "SELECT * FROM `product` WHERE `brand_id`=$brand_id";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function get_product_by_filter($mysqli, $product_name = null, $category_id = null ,$brand_id = null)
+{
+    if ($product_name && $category_id && $brand_id) {
+        $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%' AND `category_id`=$category_id AND `brand_id`=$brand_id ";
     } elseif ($product_name) {
         $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%'";
     } elseif ($category_id) {
         $sql = "SELECT * FROM `product` WHERE `category_id` = $category_id";
+    }
+    elseif ($brand_id) {
+        $sql = "SELECT * FROM `product` WHERE `brand_id` = $brand_id";
     }
 
     $result = $mysqli->query($sql);
@@ -87,6 +98,30 @@ function get_product_by_name($mysqli, $product_name)
 function update_product($mysqli, $i_id, $i_name, $price, $qty, $b_id, $description)
 {
     $sql = "UPDATE `product` SET `i_name`='$i_name', `price`=$price,`qty`=$qty,`b_id`=$b_id,`description`='$description' WHERE `i_id`=$i_id";
+    if ($mysqli->query($sql)) {
+        return true;
+    }
+    return false;
+}
+
+function update_product_best_seller($mysqli,$best_seller,$product_id){
+    $sql = "update `product` set `best_seller`=$best_seller where `product_id` = $product_id";
+    if ($mysqli->query($sql)) {
+        return true;
+    }
+    return false;
+}
+
+function update_product_qty($mysqli,$sql,$product_id){
+    $sql = "update `product` set `qty`=$sql where `product_id`= $product_id ";
+    if ($mysqli->query($sql)) {
+        return true;
+    }
+    return false;
+}
+
+function update_product_is_new($mysqli,$is_new,$product_id){
+    $sql = "update `product` set `is_new`=$is_new where `product_id` = $product_id";
     if ($mysqli->query($sql)) {
         return true;
     }

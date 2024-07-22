@@ -1,7 +1,7 @@
 <?php
 
-function save_category($mysqli,$category_name){
-    $sql = "INSERT INTO `category`(`category_name`) VALUES ('$category_name')";
+function save_category($mysqli,$category_name,$image){
+    $sql = "INSERT INTO `category`(`category_name`,`category_img`) VALUES ('$category_name','$image')";
     if($mysqli->query($sql)){
         return true;
     }

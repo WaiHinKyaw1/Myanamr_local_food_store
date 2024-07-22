@@ -16,6 +16,7 @@ function get_user_by_email($mysqli,$email){
         return $result->fetch_assoc();
     }
 }
+
 function get_user_by_id($mysqli,$user_id){
     $sql = "select * from user where `user_id` = '$user_id'";
     $result = $mysqli->query($sql);
@@ -23,5 +24,14 @@ function get_user_by_id($mysqli,$user_id){
         return $result->fetch_assoc();
     }
 }
+
+function update_user($mysqli,$user_id,$name,$email,$phone,$address){
+    $sql = "UPDATE `user` SET `name`='$name' , `email`='$email' , `phone`=$phone ,`address`='$address' WHERE `user_id`=$user_id";
+    if($mysqli->query($sql)){
+        return true;
+    }
+    return false;
+}
+
 
 ?>

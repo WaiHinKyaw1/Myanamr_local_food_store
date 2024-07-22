@@ -1,120 +1,159 @@
-<?php require_once("./layout/header.php")?>
-<?php require_once("./layout/navbar.php")?>
-<?php require_once("./layout/sidebar.php")?>
+<?php require_once("./layout/header.php") ?>
+<?php require_once("../storage/user_db.php") ?>
+<?php require_once("../storage/database.php") ?>
+<?php require_once("./layout/navbar.php") ?>
+<?php require_once("./layout/sidebar.php") ?>
+<?php 
+$name_error = $email_error = $phone_error = $address_error = $name = $email = $address = $phone= "";
+$success = $invalid = "";
+$user_id = $user['user_id'];
+
+if(isset($_POST['update'])){
+
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+	$phone = $_POST['phone'];
+	$address = $_POST['address'];
+
+if($name === "") $name_error = "Name is blank";
+if($email === "") $email_error = "email is blank";
+if($phone === "") $phone_error = "phone is blank";
+if($address === "") $address_error = "address is blank";
+
+$user_update = update_user($mysqli,$user_id,$name,$email,$phone,$address);
+if($user_update){
+	$success = "Update is Success";
+}
+	$invalid = "Update is invalid";
+}
+
+
+
+?>
+
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
         <div class="container-fluid dashboard-content ">
-            <div class="row ">
-            <form action="/customers/profile/" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="csrfmiddlewaretoken" value="MH6IW1drn208AyPQTfBrkHDBjyCVtwyuWQoCXQrym2x6JX17ZNUPWYPrIJxUPY4f">
-                <div class="col col-xl-8 mx-auto">
-                    <div class="card card-body bg-white border-light shadow-sm mb-4">
-                        <h2 class="h5 mb-4">Profile information</h2>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div>
-                                    <label for="first_name">First Name</label>
-                                    <input name="first_name" class="form-control" id="first_name" type="text"
-                                           placeholder="Enter your first name" value="John"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div>
-                                    <label for="last_name">Last Name</label>
-                                    <input name="last_name" class="form-control" id="last_name" type="text"
-                                           placeholder="Also your last name" value="Doe"
-                                           required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-center">
-                            <div class="col-md-6 mb-3">
-                                <label for="birthday">Birthday</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
-                                    <input name="birthday" data-datepicker="" class="form-control" id="birthday"
-                                           type="text" placeholder="dd/mm/yyyy" value="11/28/1984" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="gender">Gender</label>
-                                <select name="gender" class="form-select mb-0" id="gender"
-                                        aria-label="Gender select example">
-                                    <option selected>Gender</option>
-                                    
-                                        <option value="1"
-                                                selected>Male</option>
-                                    
-                                        <option value="2"
-                                                >Female</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input name="email" class="form-control" id="email" type="email"
-                                           placeholder="name@company.com" value="test@appseed.yyyy" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input name="phone" class="form-control" id="phone" type="number"
-                                           placeholder="+12-345 678 910" value="9132456521" required>
-                                </div>
-                            </div>
-                        </div>
-                        <h2 class="h5 my-4">Address</h2>
-                        <div class="row">
-                            <div class="col-sm-9 mb-3">
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input name="address" class="form-control" id="address" type="text"
-                                           placeholder="Enter your home address" value="Ward no.24,Sikit Nagar" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 mb-3">
-                                <div class="form-group">
-                                    <label for="number">Number</label>
-                                    <input name="number" class="form-control" id="number" type="number"
-                                           placeholder="No." value="1235" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 mb-3">
-                                <div class="form-group">
-                                    <label for="city">City</label>
-                                    <input name="city" class="form-control" id="city" type="text" placeholder="City"
-                                           value="Bhilai" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="zip">ZIP</label>
-                                    <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
-                                           value="490025" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Save All</button>
-                        </div>
+        <div class="row">
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+						<?php if ($success) : ?>
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong><?php echo $success ?>!</strong> .
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                </div>
-                
-            
-        </form>
-
-        
-        
-
-            </div>
+                    <?php endif ?>
+                    <?php if ($invalid) : ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><?php echo $invalid ?>!</strong> .
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php endif ?>
+							<div class="d-flex flex-column align-items-center text-center">
+								<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+							
+							</div>
+							
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Name</h6>
+									<span class="text-secondary"><?php echo $user['name'] ?></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Email</h6>
+									<span class="text-secondary"><?php echo $user['email'] ?></span>
+								</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Phone</h6>
+									<span class="text-secondary"><?php echo $user['phone'] ?></span>
+								</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+									<h6 class="mb-0">Address</h6>
+									<span class="text-secondary"><?php echo $user['address'] ?></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<form action="" method="post">
+					<div class="card">
+						<div class="card-body">
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">Full Name</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="text" name="name" class="form-control" value="<?php echo $user['name'] ?>">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">Email</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="text" class="form-control" name="email" value="<?php echo $user['email'] ?>" >
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">Phone</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="text" class="form-control" name="phone" value="<?php echo $user['phone'] ?>">
+								</div>
+							</div>
+							
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">Address</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="text" class="form-control" name="address" value="<?php echo $user['address'] ?>">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3"></div>
+								<div class="col-sm-9 text-secondary">
+									<button type="submit" class="btn btn-primary" name="update">Save Change</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					</form>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="d-flex align-items-center mb-3">Project Status</h5>
+									<p>Web Design</p>
+									<div class="progress mb-3" style="height: 5px">
+										<div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<p>Website Markup</p>
+									<div class="progress mb-3" style="height: 5px">
+										<div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<p>One Page</p>
+									<div class="progress mb-3" style="height: 5px">
+										<div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<p>Mobile Template</p>
+									<div class="progress mb-3" style="height: 5px">
+										<div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<p>Backend API</p>
+									<div class="progress" style="height: 5px">
+										<div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     </div>
-</div>           
+</div>
 <?php require_once("./layout/footer.php") ?>
