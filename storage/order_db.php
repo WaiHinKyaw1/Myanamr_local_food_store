@@ -1,7 +1,7 @@
 <?php
-function save_order($mysqli, $user_id, $order_date, $total_amount, $status)
+function save_order($mysqli, $user_id, $order_date, $total_amount)
 {
-    $sql = "insert into `order`(user_id,order_date,total_amount,status) values($user_id,'$order_date',$total_amount,'$status')";
+    $sql = "insert into `order`(user_id,order_date,total_amount) values($user_id,'$order_date',$total_amount)";
     if ($mysqli->query($sql)) {
         return true;
     }
@@ -13,6 +13,11 @@ function get_all_order($mysqli){
     $result = $mysqli->query($sql);
     return $result;
 }
+function get_order_by_id($mysqli,$order_id){
+    $sql = "select * from `order` where `order_id` = $order_id";
+    $result = $mysqli->query($sql);
+    return $result->fetch_assoc();
+}
 
 function get_last_order($mysqli)
 {
@@ -20,6 +25,14 @@ function get_last_order($mysqli)
     $result = $mysqli->query($sql);
     if ($result) {
         return $result->fetch_assoc();
+    }
+}
+
+function get_order_by_filter($mysqli,$search = null){
+    $sql = "select * from `order` where `user_name` LIKE '%$search%' ";
+    $result = $mysqli->query($sql);
+    if ($result) {
+        return $result;
     }
 }
 
@@ -32,8 +45,8 @@ function delete_order($mysqli,$order_id)
    return false;
 }
 
-function update_order($mysqli,$category_id,$category_name){
-    $sql = "UPDATE `category` SET `category_name`='$category_name' WHERE `category_id`=$category_id";
+function update_order($mysqli,$payment_status,$order_status,$order_id){
+    $sql = "UPDATE `order` SET `payment_status`='$payment_status' , `order_status` = '$order_status' WHERE `order_id`=$order_id";
     if($mysqli->query($sql)){
         return true;
     }

@@ -1,8 +1,9 @@
 <?php require_once("../storage/auth_user.php") ?>
+<?php require_once("../storage/user_db.php") ?>
 <?php require_once("../storage/order_db.php") ?>
 <?php require_once("../storage/product_db.php") ?>
 <?php require_once("../storage/database.php") ?>
-<?php require_once("../storage/order_item_db.php") ?>
+<?php require_once("../storage/order_item_db.php")?>
 <?php require_once("./layout/header.php") ?>
 <?php require_once("./layout/navbar.php") ?>
 <?php
@@ -13,20 +14,8 @@ if (!$user) {
 } elseif ($user['is_admin']) {
     header("Location: ./layout/error.php");
 }
-if(isset($_POST)){
-    $last_order = get_last_order($mysqli);
-    $last_order_id = $last_order['order_id'];
-    $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
-    foreach ($order_item as $order){
-        $product_id =$order['product_id'];
-        $product = get_product_by_id($mysqli,$product_id);      
-        $product['qty'] = $product['qty'] - $order['qty'];
-            $qty = $product['qty'];
-            $product_qty = update_product_qty($mysqli,$qty,$product_id);
-        
-    }
-}
 
+$payment_method_error = "";
 ?>
 
 <!-- Breadcrumb Section Begin -->
@@ -53,15 +42,15 @@ if(isset($_POST)){
 
         <div class="checkout__form">
             <h4>Billing Details</h4>
-            <form action="#">
+            
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="row">
                             <h6 class="text-muted text-center  m-0 p-2">Express Checkout</h6>
                             <div class="col-lg-4 my-3">
-                                
-                            <img src="./image/kpay.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#modal-notification" alt="">
-                                
+
+                                <img src="./image/kpay.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#modal-notification" alt="">
+
                                 <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                                     <div class="modal-dialog modal-info modal-dialog-centered" role="document">
                                         <div class="modal-content bg-gradient-secondary">
@@ -80,12 +69,12 @@ if(isset($_POST)){
                                         </div>
                                     </div>
                                 </div>
-                                                                  
+
                             </div>
                             <div class="col-lg-4 my-3">
-                                
-                            <img src="./image/wave.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#wave" alt="">
-                                
+
+                                <img src="./image/wave.png" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#wave" alt="">
+
                                 <div class="modal fade" id="wave" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                                     <div class="modal-dialog modal-info modal-dialog-centered" role="document">
                                         <div class="modal-content bg-gradient-secondary">
@@ -99,16 +88,16 @@ if(isset($_POST)){
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                            <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
+                                                <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                                                  
+
                             </div>
                             <div class="col-lg-4 my-3">
-                            <img src="./image/mytel.jpg" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#mytel" alt="">
-                                
+                                <img src="./image/mytel.jpg" style="width:100%;height:50px;" class="rounded" data-toggle="modal" data-target="#mytel" alt="">
+
                                 <!-- Modal Content -->
                                 <div class="modal fade" id="mytel" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                                     <div class="modal-dialog modal-info modal-dialog-centered" role="document">
@@ -123,45 +112,45 @@ if(isset($_POST)){
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                            <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
+                                                <a href="./checkout.php"><button type="button" class="btn btn-sm btn-white">Go to Checkout</button></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                                                  
+
                             </div>
                         </div>
                         <div class="row">
+                            <?php 
+                            $last_order = get_last_order($mysqli);
+                            $last_order_id = $last_order['order_id'];
+                            $order =get_order_by_id($mysqli,$last_order_id);
+                            $user_id = $order['user_id'];
+                            $user = get_user_by_id($mysqli,$user_id);
+                            
+                            ?>
                             <h6 class="text-muted text-center  m-0 p-2 mb-3">Delivery</h6>
                             <div class="checkout__input">
                                 <p>Name<span>*</span></p>
-                                <input type="text">
+                                <input type="text" value="<?php echo $user['name'] ?>">
 
                             </div>
-                            <div class="checkout__input">
-                                <p>Country<span>*</span></p>
-                                <input type="text">
-                            </div>
+                            
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add">
+                                <input type="text" placeholder="Street Address" class="checkout__input__add" value="<?php echo $user['address'] ?>">
                             </div>
-                            <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
-                                <input type="text">
-                            </div>
-
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone<span>*</span></p>
-                                        <input type="text">
+                                        <input type="text" value="<?php echo $user['phone'] ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input type="text">
+                                        <input type="text" class="required" value="<?php echo $user['email'] ?>">
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +163,7 @@ if(isset($_POST)){
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="checkout__order">
-                            <form action="./checkout.php" method="post">
+                            <form action="./payment.php" method="post" enctype="multipart/form-data">
 
                                 <h4>Your Order</h4>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
@@ -185,44 +174,62 @@ if(isset($_POST)){
                                 foreach ($order_item as $product) :
                                     $product_id = $product['product_id'];
                                     $product = get_product_by_order_item_id($mysqli, $product_id);
-    
+
                                 ?>
-                                <ul>
-                                <li>
-                                <?php echo $product['product_name'] ?>
-                                <span><?php if(isset($product['discount'])){ ?>
-                                 $<?php  echo  $price = $product['price'] - $product['discount']; ?>
-                                <?php } else { ?>
-                                 $<?php echo $product['price'] ?>
-                                <?php } ?></span>
-                                </li>
-    
-                                </ul>
+                                    <ul>
+                                        <li>
+                                            <?php echo $product['product_name'] ?>
+                                            <span><?php if (isset($product['discount'])) { ?>
+                                                    $<?php echo  $price = $product['price'] - $product['discount']; ?>
+                                                <?php } else { ?>
+                                                    $<?php echo $product['price'] ?>
+                                                <?php } ?></span>
+                                        </li>
+
+                                    </ul>
                                 <?php endforeach ?>
                                 <div class="checkout__order__subtotal">Subtotal <span>$<?php echo $last_order['total_amount'] ?></span></div>
                                 <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div>
-    
-    
-                                <div class="checkout__input__checkbox">
-                                    <label for="payment">
-                                        Check Payment
-                                        <input type="checkbox" id="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
+
+                                <div class="d-flex">
+                                    
+                                        <div class="form-check ">
+                                            <input class="form-check-input" type="radio" name="payment_method" value="Kbz Pay" id="flexRadioDefault1">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Kpz Pay
+                                            </label>
+                                            <small class="text-danger"><?php echo $payment_method_error ?></small>
+                                        </div>
+
+                                        <div class="form-check ms-3">
+                                            <input class="form-check-input" type="radio" name="payment_method" value="Wave Pay" id="flexRadioDefault1">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Wave Pay
+                                            </label>
+                                            <small class="text-danger"><?php echo $payment_method_error ?></small>
+                                        </div>
+                                        
+                                        <div class="form-check ms-3">
+                                            <input class="form-check-input" type="radio" name="payment_method" value="Mytel Pay" id="flexRadioDefault1">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Mytel Pay
+                                            </label>
+                                            <small class="text-danger"><?php echo $payment_method_error ?></small>
+                                        </div>
+                                    
                                 </div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="paypal">
-                                        Paypal
-                                        <input type="checkbox" id="paypal">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <button type="submit" class="site-btn">PAYMENT</button>
+
+                                    <div class="checkout__input__radio mt-3">
+                                        <label for=""><i class="fa-solid fa-image"></i>Upload Your Secreanshoot</label>
+                                        <input type="file" name="screenshot" id="" required="">
+                                    </div>
+                                    <input type="hidden" name="order" value="<?php echo $last_order_id; ?>">
+                                    <button type="submit" class="site-btn">PAYMENT</button>
                             </form>
                         </div>
                     </div>
                 </div>
-            </form>
+            
         </div>
     </div>
 </section>

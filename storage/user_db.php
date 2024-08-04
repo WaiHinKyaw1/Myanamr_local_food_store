@@ -25,6 +25,14 @@ function get_user_by_id($mysqli,$user_id){
     }
 }
 
+function get_all_user($mysqli){
+    $sql = "select * from user";
+    $result = $mysqli->query($sql);
+    if($result){
+        return $result;
+    }
+}
+
 function update_user($mysqli,$user_id,$name,$email,$phone,$address){
     $sql = "UPDATE `user` SET `name`='$name' , `email`='$email' , `phone`=$phone ,`address`='$address' WHERE `user_id`=$user_id";
     if($mysqli->query($sql)){

@@ -118,7 +118,12 @@ if (isset($_GET['update_id'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $categories = get_all_category($mysqli); ?>
+                            <?php $categories = get_all_category($mysqli);
+                            if(isset($_GET['search'])){
+                                $name = isset($_GET['search']) ? $_GET['search'] : null;
+                                $categories = get_category_by_filter($mysqli,$name);
+                            }
+                            ?>
                             <?php while ($category = $categories->fetch_assoc()) : ?>
                                 <tr>
                                     <th scope="row"><?php echo $category['category_id'] ?></th>

@@ -22,11 +22,11 @@ require_once("../storage/user_db.php");
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Vegetable’s Package</h2>
+                        <h2>Myanmar Local Food Store</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
+                            <a href="./index.php">Home</a>
                             
-                            <span>Vegetable’s Package</span>
+                            <span>Product Details</span>
                         </div>
                     </div>
                 </div>
@@ -50,16 +50,6 @@ require_once("../storage/user_db.php");
                             <img class="product__details__pic__item--large"
                                 src="data:png/image;base64,<?php echo $product['image'] ?>" alt="">
                         </div>
-                        <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="./assets/img/product/details/product-details-2.jpg"
-                                src="./assets/img/product/details/thumb-1.jpg" alt="">
-                            <img data-imgbigurl="./assets/img/product/details/product-details-3.jpg"
-                                src="./assets/img/product/details/thumb-2.jpg" alt="">
-                            <img data-imgbigurl="./assets/img/product/details/product-details-5.jpg"
-                                src="./assets/img/product/details/thumb-3.jpg" alt="">
-                            <img data-imgbigurl="./assets/img/product/details/product-details-4.jpg"
-                                src="./assets/img/product/details/thumb-4.jpg" alt="">
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -80,19 +70,16 @@ require_once("../storage/user_db.php");
                             $<?php echo $product['price'] ?>
                             <?php } ?>   
                         </div>
-                        <!-- <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
-                            vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-                            quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p> -->
-                        
                         <a href="./shoping-cart.php?product_id=<?php echo $product['product_id'] ?>" class="primary-btn">ADD TO CARD</a>
                         
                         <ul>
                             <li><b>Availability</b> <span><?php echo $product['qty'] ?></span></li>
+                            <li><b>Exp Date</b> <span><?php echo $product['ex_date'] ?></span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                             
                             <li><b>Share on</b>
                                 <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href=""><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-instagram"></i></a>
                                     <a href="#"><i class="fa fa-pinterest"></i></a>

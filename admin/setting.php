@@ -122,7 +122,7 @@ if($user_update){
 						</div>
 					</div>
 					</form>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-sm-12">
 							<div class="card">
 								<div class="card-body">
@@ -150,7 +150,7 @@ if($user_update){
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
         </div>

@@ -19,13 +19,14 @@ $brand_name = $brand_name_error = $brand_image_error = "";
 
 if (isset($_POST['create'])) {
     $brand_name = htmlspecialchars($_POST['brand']);
+    if($brand_name == "") $brand_name_error = "Brand Name is Blank";
     $image = $_FILES['image']['tmp_name'];
     $image_name = $_FILES['image']['name'];
     if (!str_contains($_FILES['image']['type'],'image/')) {
         $product_image_error = "please upload only image!";
     }
-    $image = file_get_contents($image);
-    $brand_logo = base64_encode($image);
+    $photo = file_get_contents($image);
+    $brand_logo = base64_encode($photo);
     $brand = save_brand($mysqli, $brand_name,$brand_logo);
     if ($brand) {
         $success = "Brand Create Success";
@@ -94,6 +95,7 @@ if (isset($_GET['update_id'])) {
                         <div class="mb-4">
                             <label for="brand" class="form-label mt-3">Brand Name</label>
                             <input type="text" class="form-control" required="" value="<?php echo $brand_name ?>" name="brand" placeholder="Write a brand">
+                            <small class="text-danger"><?php echo $brand_name_error ?></small>
                         </div>
                         <div class="mb-4">
                             <label for="brand" class="form-label mt-3">Brand Image</label>
@@ -118,7 +120,11 @@ if (isset($_GET['update_id'])) {
                             </tr>
                         </thead>
                     <tbody>
-                        <?php $brands = get_all_brand($mysqli); ?>
+                        <?php $brands = get_all_brand($mysqli);
+                        if(isset($_GET['search'])){
+                            $name = isset($_GET['search']) ? $_GET['search'] : null;
+                            $brands = get_brand_by_filter($mysqli,$name);
+                        } ?>
                         <?php while ($brand = $brands->fetch_assoc()) : ?>
                             <tr>
                                 <th scope="row"><?php echo $brand['brand_id'] ?></th>

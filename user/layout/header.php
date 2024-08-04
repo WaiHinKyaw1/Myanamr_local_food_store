@@ -15,7 +15,7 @@
     <!-- Css Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/style/style.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/elegant-icons.css" type="text/css">
@@ -24,40 +24,6 @@
     <link rel="stylesheet" href="./assets/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="./assets/css/style.css" type="text/css">
-
-    <style>   
-    table {  
-        border-collapse: collapse;  
-    }  
-        .inline{   
-            display: inline-block;   
-               
-            margin: 20px 0px;   
-        }   
-         
-        input, button1{   
-            height: 34px;   
-        }   
-  
-    .pagination {   
-        display: inline-block;   
-    }   
-    .pagination a {   
-        font-weight:bold;   
-        font-size:18px;   
-        color: black;   
-        float: left;   
-        padding: 8px 16px;   
-        text-decoration: none;   
-        border:1px solid black;   
-    }   
-    .pagination a.active {   
-            background-color: #2f5;   
-    }   
-    .pagination a:hover:not(.active) {   
-        background-color: skyblue;   
-    }   
-        </style>
        
 </head>
 <body>

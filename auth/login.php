@@ -3,7 +3,7 @@
 
 <?php  
 $email = $password = $email_error = $password_error = "";
-$success = $invalid = "";
+$success = $invalid = false;
 $validate = true;
 if(isset($_POST['submit'])){
     $email=htmlspecialchars($_POST['email']);
@@ -38,13 +38,12 @@ if(isset($_POST['submit'])){
 ?>
 <?php require_once("./layout/header.php") ?>
 
-
     <!-- login page  -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><img class="logo-img rounded" src="../image/zen_mark.jpg" style="width:90%;height:50px;"  alt="logo"><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-header text-center"><img class="logo-img rounded" src="../image/zen_mark.jpg" style="width:85%;height:50px;"  alt="logo"><span class="splash-description mt-3">Please enter your user information.</span></div>
             <div class="card-body">
-            <?php if ($success) : ?>
+                    <?php if ($success) : ?>
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong><?php echo $success ?>!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

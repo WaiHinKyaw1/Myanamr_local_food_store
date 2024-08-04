@@ -28,13 +28,13 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./brand.php"><i class="fa-sharp-duotone fa-solid fa-b"></i>Brand</a>
+                        <a class="nav-link" href="./brand.php"><i class="fa-brands fa-font-awesome"></i>Brand</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./category.php"><i class="fa-solid fa-layer-group"></i>Category</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart-shopping"></i>Order</a>
+                        <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart"><i class="fa-solid fa-cart-shopping"></i></i>Order</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./setting.php"><i class="fa-solid fa-gear"></i>Setting</a>

@@ -16,7 +16,7 @@ require_once("../storage/category_db.php");
 require_once("../storage/product_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid = "";
+$success = $invalid =false;
 $brand_name = $brand_name_error = $product_image_error = "";
 
 if (isset($_POST['submit'])) {
@@ -46,6 +46,45 @@ if (isset($_POST['submit'])) {
     }
 }
 
+if (isset($_GET['update_id'])) {
+    $product_id = $_GET['update_id'];
+    $update = get_product_by_id($mysqli, $product_id);  
+    $product_name = $update['product_name'];
+    $price = $update['price'];
+    $qty = $update['qty'];
+    $exp_date =$update['ex_date'];
+    $discount = $update['discount'];
+      if (isset($_POST['update'])){
+       
+        $product_name = $_POST['name'];
+        $price = $_POST['price'];
+        $qty = $_POST['qty'];
+        $exp_date = $_POST['exp_date'];
+        $discount = $_POST['discount'];
+        $image = $_FILES['image']['tmp_name'];
+        $image_name = $_FILES['image']['name'];
+        if (!str_contains($_FILES['image']['type'],'image/')) {
+            $product_image_error = "please upload only image!";
+        }
+        $image = file_get_contents($image);
+        $product_logo = base64_encode($image);
+        if ($product_name == "") $product_name_error = "Product Name is Blank";
+        if ($price == "") $price_error = "Price is Blank";
+        if ($exp_date == "") $exp_date_error = "Exp Date is Blank";
+        if ($discount == "") $discount_error = "Discount is Blank";
+        
+            $product = update_product($mysqli,$product_name,$price,$qty,$exp_date,$discount,$product_logo,$product_id);
+            if ($product) {
+                $success = "Update is Success";
+                header("Location: ../admin/product_list.php?success=$success");
+            } else {
+                $invalid = "Update is Failed";
+                header("Location: ../admin/product_list.php?invalid=$invalid");
+            }
+        }
+    
+
+}
 
 
 ?>
@@ -74,24 +113,25 @@ if (isset($_POST['submit'])) {
                     <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Product Name</label>
-                            <input type="text" class="form-control" required="" name="name" placeholder="Write a Product">
+                            <input type="text" class="form-control" required="" name="name" value="<?php if(isset($_GET['update_id'])) echo $product_name ?>" placeholder="Write a Product">
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label mt-3">Price</label>
-                            <input type="int" class="form-control" required="" name="price" placeholder="Write a Price">
+                            <input type="int" class="form-control" required="" name="price" value="<?php if(isset($_GET['update_id'])) echo $price ?>" placeholder="Write a Price">
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Qty</label>
-                            <input type="number" class="form-control" required="" name="qty" placeholder="Write a brand">
+                            <input type="number" class="form-control" required="" name="qty" value="<?php if(isset($_GET['update_id'])) echo $qty ?>" placeholder="Write a Qty">
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Exp Date</label>
-                            <input type="date" class="form-control" required="" name="exp_date">
+                            <input type="date" class="form-control" required="" name="exp_date" value="<?php if(isset($_GET['update_id'])) echo $exp_date ?>">
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Discount</label>
-                            <input type="int" class="form-control" required="" name="discount">
+                            <input type="int" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>">
                         </div>
+                       <?php if(isset($_GET['update_id']) == null) : ?>
                         <div class="mb-3">
                             <select class="form-select form-control" aria-label="Default select example" name="select_category">
                                 <option value="00">Select Your Category</option>
@@ -114,6 +154,7 @@ if (isset($_POST['submit'])) {
                                <?php endwhile ?>
                             </select>
                         </div>
+                        <?php endif ?>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Image</label>
                             <input type="file" class="form-control" required="" name="image">

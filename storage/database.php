@@ -71,8 +71,8 @@ function create_tables($mysqli)
     `is_new` boolean default(true),  
     `category_id` int,
     `brand_id` int,
-    foreign key(`category_id`) references `category`(`category_id`),
-    foreign key(`brand_id`) references `brand`(`brand_id`)
+    foreign key(`category_id`) references `category`(`category_id`) on delete cascade,
+    foreign key(`brand_id`) references `brand`(`brand_id`) on delete cascade
     )";
     if ($mysqli->query($sql) === false) return false;
 
@@ -81,18 +81,19 @@ function create_tables($mysqli)
         `user_id` INT NOT NULL,
         `order_date` DATE NOT NULL,
         `total_amount` INT NOT NULL,
-        `status` VARCHAR(255) NOT NULL,
-        FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
+        `order_status` BOOLEAN DEFAULT(FALSE),
+        `payment_status` BOOLEAN DEFAULT(FALSE),
+        FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE
     ) ";
         if ($mysqli->query($sql) === false) return false;
 
     $sql = "CREATE TABLE IF NOT EXISTS `payment` (
         `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
         `order_id` INT NOT NULL,
-        `payment_date` DATETIME NOT NULL,
+        `payment_date` DATE NOT NULL,
         `payment_img` VARCHAR(255),
         `payment_method` VARCHAR(255) NOT NULL,
-        FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`)
+        FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`) ON DELETE CASCADE
     )";
     
     if ($mysqli->query($sql) === false) return false;
@@ -104,8 +105,8 @@ function create_tables($mysqli)
     `product_id` INT NOT NULL,
     `qty` INT NOT NULL,
     `amount` INT NOT NULL,
-    FOREIGN KEY(`order_id`) REFERENCES `order`(`order_id`),
-    FOREIGN KEY(`product_id`) REFERENCES `product`(`product_id`)
+    FOREIGN KEY(`order_id`) REFERENCES `order`(`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY(`product_id`) REFERENCES `product`(`product_id`) ON DELETE CASCADE
 )";
     if ($mysqli->query($sql) === false) return false;
 }

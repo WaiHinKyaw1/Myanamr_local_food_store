@@ -1,18 +1,24 @@
 <?php
+
 require_once("../storage/database.php");
 require_once("../storage/product_db.php");
 require_once("../storage/category_db.php");
 require_once("../storage/brand_db.php");
+require_once("../storage/order_item_db.php");
 require_once("./layout/header.php");
+require_once("../storage/order_db.php");
 require_once("../storage/auth_user.php");
 
 if (!$user) {
     header("Location: ../auth/login.php");
     die();
-} elseif ($user['is_admin']) {
-    header("Location: ./layout/error.php");
 }
 
+
+$successMessage = isset($_SESSION['payment_success']) ? $_SESSION['payment_success'] : null;
+$errorMessage = isset($_SESSION['payment_error']) ? $_SESSION['payment_error'] : null;
+unset($_SESSION['payment_success']);
+unset($_SESSION['payment_error']);
 
 $result_per_page = 8;
 if (isset($_GET["page"])) {
@@ -20,13 +26,22 @@ if (isset($_GET["page"])) {
 } else {
     $page = 1;
 }
-
 $start_from = ($page - 1) * $result_per_page;
 $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_page);
 
 ?>
 
-<?php require_once("./layout/navbar.php") ?>
+<?php require_once("./layout/navbar.php")?>
+<?php if ($successMessage): ?>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars($successMessage); ?>
+        </div>
+    <?php endif; ?>
+    <?php if ($errorMessage): ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($errorMessage); ?>
+        </div>
+    <?php endif; ?>
 <section class="hero">
     <div class="container">
         <div class="row">
@@ -57,9 +72,9 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <div class="hero__search__phone__icon">
                             <i class="fa fa-phone"></i>
                         </div>
-                        <div class="hero__search__phone__text">
-                            <h5>+95 9946386596</h5>
-                            <span>support 24/7 time</span>
+                        <div class="hero__search__phone__text ">
+                            <h5 class="mt-3">+95 9946386596</h5>
+                            
                         </div>
                     </div>
                 </div>
@@ -67,7 +82,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                     <div class="hero__text">
                         <span>Myanmar Local Food</span>
                         <h2>Product <br />100% </h2>
-                        <p class="">Free Pickup and Delivery Available</p>
+                        <p class="text-warning">Free Pickup and Delivery Available</p>
                         <a href="./shop-grid.php" class="primary-btn">SHOP NOW</a>
                     </div>
                 </div>
@@ -105,15 +120,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
             <div class="col-lg-12">
                 <div class="section-title">
                     <h2>Featured Product</h2>
-                </div>
-                <div class="featured__controls">
-                    <ul>
-                        <li class="active" data-filter="*">All</li>
-                        <li data-filter=".oranges">Oranges</li>
-                        <li data-filter=".Fresh Meat">Fresh Meat</li>
-                        <li data-filter=".vegetables">Vegetables</li>
-                        <li data-filter=".fastfood">Fastfood</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -203,24 +209,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
 </section>
 <!-- Featured Section End -->
 
-<!-- Banner Begin -->
-<div class="banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="banner__pic">
-                    <img src="./assets/img/banner/banner-1.jpg" alt="">
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="banner__pic">
-                    <img src="./assets/img/banner/banner-2.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Banner End -->
 
 <!-- Latest Product Section Begin -->
 <section class="latest-product spad">
@@ -228,7 +216,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="latest-product__text">
-                    <h4>Latest Products</h4>
+                    <h4>Best Seller Products</h4>
                     <div class="latest-product__slider owl-carousel ">
                         <?php
                         $best_sellers = get_product_best_seller($mysqli);
@@ -256,7 +244,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="latest-product__text">
-                    <h4>Top Rated Products</h4>
+                    <h4>Lasted Products</h4>
                     <div class="latest-product__slider owl-carousel">
                         <?php
                         $is_news = get_product_is_new($mysqli);
@@ -292,8 +280,11 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         ?>
                             <div class="latest-prdouct__slider__item">
                                 <?php
+                                $i=0;
                                 $discounts = get_product_discount($mysqli);
                                 foreach ($discounts as $discount) :
+                                if($i<5){
+
                                 ?>
                                     <a href="#" class="latest-product__item">
                                         <div class="latest-product__item__pic">
@@ -304,7 +295,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                                             <span>$<?php echo $discount['price'] ?></span>
                                         </div>
                                     </a>
-                                <?php endforeach ?>
+                                <?php $i++; }  endforeach ?>
                             </div>
                         <?php endforeach ?>
                     </div>

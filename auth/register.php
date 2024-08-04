@@ -19,9 +19,9 @@ if (isset($_POST['register'])) {
                $password = password_hash($password,PASSWORD_DEFAULT);
                $save_user = save_user($mysqli, $name, $email, $phone, $address, $password);
                 if($save_user){
-                   $success = true;
+                   $success = "Registeration Success!";
                 } else {
-                    $invalid = true;
+                    $invalid = ;
                 }
             } else {
                  $pass_error = "Password not correct";
@@ -38,8 +38,8 @@ if (isset($_POST['register'])) {
     <div class="row justify-content-center">
         <div class="col-6">
         <?php
-            if ($success) echo '<div class="alert alert-primary"> Registeration Success!</div>';
-            if ($invalid) echo '<div class="alert alert-danger">Invalid Registeration!</div>';
+            if ($success) echo '<div class="alert alert-primary"> </div>';
+            if ($invalid) echo '<div class="alert alert-danger"></div>';
             ?>
             <form method="post">
                 <div class="card">

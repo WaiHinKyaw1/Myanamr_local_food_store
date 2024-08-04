@@ -16,10 +16,18 @@ if (!$user) {
 
 <?php
 
+if (isset($_GET['del_id'])) {
+    $index = $_GET['del_id'];
+    unset($product_list[$index]);
+    $product_list = array_values($product_list);
+    $_SESSION['product_list'] = $product_list;
+    header("Location:../user/shoping-cart.php");
+}
+
 if (isset($_GET['dec'])) {
     $index = $_GET['dec'];
     $current = --$product_list[$index]['qty'];
-    if ($current > 0) {
+    if ($current > 1) {
         $product_list[$index]['amount'] =
             $product_list[$index]['qty'] * $product_list[$index]['price'];
     } else {
@@ -36,7 +44,7 @@ if (isset($_GET['inc'])) {
     if ($item['qty'] > $product_list[$index]['qty']) {
         $product_list[$index]['qty']++;
         $product_list[$index]['amount'] =
-        $product_list[$index]['qty'] * $product_list[$index]['price'];
+            $product_list[$index]['qty'] * $product_list[$index]['price'];
         $_SESSION['product_list'] = $product_list;
         header("Location:../user/shoping-cart.php");
     }
@@ -45,8 +53,7 @@ if (isset($_POST['order'])) {
     $user_id = $user['user_id'];
     $order_date = date('Y-m-d');
     $total_amount = $_POST['amount'];
-    $status = 'paid';
-    $order = save_order($mysqli, $user_id, $order_date, $total_amount, $status);
+    $order = save_order($mysqli, $user_id, $order_date, $total_amount);
     if ($order) {
         $lest_order = get_last_order($mysqli);
         $order_id = $lest_order['order_id'];
@@ -55,7 +62,7 @@ if (isset($_POST['order'])) {
             $product_id = $product_item['product_id'];
             $qty = $product_item['qty'];
             $amount = $product_item['amount'];
-            $order_item = save_order_item($mysqli,$order_id,$product_id,$qty,$amount);
+            $order_item = save_order_item($mysqli, $order_id, $product_id, $qty, $amount);
         }
         session_destroy();
         header("Location: ./checkout.php");
@@ -80,9 +87,9 @@ if (isset($_GET['product_id'])) {
         }
     }
     if ($is_new) {
-        if($product['discount']!=null){
-            $price = $product['price']-$product['discount'];
-        }else{
+        if ($product['discount'] != null) {
+            $price = $product['price'] - $product['discount'];
+        } else {
             $price = $product['price'];
         }
         array_push($product_list, [
@@ -160,7 +167,7 @@ if (isset($_GET['product_id'])) {
                                         $<?php echo $product_list[$i]['amount'] ?>
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                        <a href="?product_list_id=<?php echo $product_list[$i]['product_id'] ?>"><button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button></a>
+                                        <a href="?del_id=<?php echo $i ?>"><button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button></a>
                                     </td>
                                 </tr>
                             <?php endfor ?>

@@ -29,27 +29,6 @@ if (isset($_GET['delete_id'])) {
         header("Location: ../admin/order.php?invalid=$invalid");
     }
 }
-
-if (isset($_GET['update_id'])) {
-    $product_id = $_GET['update_id'];
-    $update = get_brand_by_id($mysqli, $product_id);
-    $product_name = $update['product_name'];
-    if (isset($_POST['update'])) {
-        $product_name = $_POST['product_name'];
-        if ($brand_name == "") $brand_name_error = "brand Name is Blank";
-        if ($brand_name_error == "") {
-            $product = update_brand($mysqli, $brand_id, $brand_name);
-            if ($brand) {
-                $success = "Update is Success";
-                header("Location: ../admin/brand.php?success=$success");
-            } else {
-                $invalid = "Update is Failed";
-                header("Location: ../admin/brand.php?invalid=$invalid");
-            }
-        }
-    }
-}
-
 ?>
 <?php require_once("../admin/layout/navbar.php");  ?>
 <?php require_once("../admin/layout/sidebar.php"); ?>
@@ -65,10 +44,9 @@ if (isset($_GET['update_id'])) {
                                 <th scope="col">#</th>
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Order Date</th>
-                                <!-- <th scope="col">Qty</th> -->
                                 <th scope="col">Amount</th>
-                                <th scope="col">Payment</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Payment status</th>
+                                <th scope="col">Order Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -86,11 +64,21 @@ if (isset($_GET['update_id'])) {
                                     <td><?php echo $user['name'] ?></td>
                                     <td><?php echo $order['order_date'] ?></td>
                                     <td><?php echo $order['total_amount'] ?></td>
-                                    <td>Unpaid</td>
-                                    <td>Delivery</td> 
+                                    <td><?php if($order['payment_status'] == 0) : ?>
+                                    <button class="btn btn-primary btn-sm rounded">Cash on Delivery</button>
+                                    <?php else : ?>
+                                    <button class="btn btn-success btn-sm rounded">Completed</button>
+                                    <?php endif ?>
+                                    </td>
+                                    <td><?php if($order['order_status'] == 0) : ?>
+                                    <button class="btn btn-warning btn-sm rounded">Pending</button>
+                                    <?php else : ?>
+                                    <button class="btn btn-success btn-sm rounded">Delivered</button>
+                                    <?php endif ?>
+                                    </td>  
                                     <td>
-                                        
-                                        <a href="../admin/order.php?delete_id=<?php echo $order['order_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="../admin/order_detail.php?order_id=<?php echo $order['order_id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="../admin/order.php?delete_id=<?php echo $order['order_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

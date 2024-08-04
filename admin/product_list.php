@@ -21,42 +21,24 @@ $success = $invalid = "";
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    $delete = delete_brand($mysqli, $delete_id);
+    $delete = delete_product($mysqli, $delete_id);
     if ($delete) {
         $success = "Delete Success";
-        header("Location:../admin/brand.php?success=$success");
+        header("Location:../admin/product_list.php?success=$success");
         
     } else {
         $invalid = "Delete Unsuccess";
-        header("Location: ../admin/brand.php?invalid=$invalid");
+        header("Location: ../admin/product_list.php?invalid=$invalid");
     }
 }
 
-if (isset($_GET['update_id'])) {
-    $product_id = $_GET['update_id'];
-    $update = get_brand_by_id($mysqli, $product_id);  
-    $product_name = $update['product_name'];
-    if (isset($_POST['update'])){
-        $product_name = $_POST['product_name'];
-        if ($brand_name == "") $brand_name_error = "brand Name is Blank";
-        if ($brand_name_error == "") {
-            $product = update_brand($mysqli, $brand_id, $brand_name);
-            if ($brand) {
-                $success = "Update is Success";
-                header("Location: ../admin/brand.php?success=$success");
-            } else {
-                $invalid = "Update is Failed";
-                header("Location: ../admin/brand.php?invalid=$invalid");
-            }
-        }
-    }
-}
+
+  
 
 if(isset($_POST['product_id'])){
     $product_id = $_POST['product_id'];
     $product = get_product_by_id($mysqli,$product_id);
-    var_dump($product);
-    exit();
+    
 }
 ?>
 <?php require_once("../admin/layout/navbar.php");  ?>
@@ -67,6 +49,18 @@ if(isset($_POST['product_id'])){
         <div class="container-fluid dashboard-content ">
             <div class="row">
                 <div class="col">
+                    <?php if ($success) : ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong><?php echo $success ?>!</strong> 
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif ?>
+                    <?php if ($invalid) : ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong><?php echo $invalid ?>!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif ?>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -83,7 +77,13 @@ if(isset($_POST['product_id'])){
                             </tr>
                         </thead>
                     <tbody>
-                        <?php $products = get_all_product($mysqli); ?>
+                        <?php
+                        $products = get_all_product($mysqli);
+                        if(isset($_GET['search'])){
+                            $name = isset($_GET['search']) ? $_GET['search'] : null;
+                            $products = get_product_by_filter($mysqli,$name);
+                        }
+                         ?>
                         <?php while ($product = $products->fetch_assoc()) : ?>
                             
                             <tr>
@@ -97,22 +97,22 @@ if(isset($_POST['product_id'])){
                                 <td>
                                     
                                     <?php if($product['best_seller'] == 1) :?>
-                                    <a href="./best_seller.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary">Yes</a>
+                                    <a href="./best_seller.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary btn-sm">Yes</a>
                                     <?php else : ?>
-                                    <a href="./best_seller.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning">No</a>
+                                    <a href="./best_seller.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning btn-sm">No</a>
                                     <?php endif ?>
                                     
                                 </td>
                                 <td>
                                     <?php if($product['is_new'] == 1) :?>
-                                        <a href="./is_new.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary">Yes</a>
+                                        <a href="./is_new.php?action=yes&product_id=<?php echo $product['product_id'] ?>" class="btn btn-primary btn-sm">Yes</a>
                                     <?php else : ?>
-                                        <a href="./is_new.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning">No</a>
+                                        <a href="./is_new.php?action=no&product_id=<?php echo $product['product_id'] ?>" class="btn btn-warning btn-sm">No</a>
                                     <?php endif ?>
                                 </td>
-                                <td>
-                                    <a href="../admin/product.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="../admin/product_list.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <td class="d-flex align-items-center">
+                                    <a href="../admin/product.php?update_id=<?php echo $product['product_id'] ?>" class="btn btn-secondary btn-sm me-1 mt-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="../admin/product_list.php?delete_id=<?php echo $product['product_id'] ?>" class="btn btn-danger btn-sm mt-2"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endwhile ?>
