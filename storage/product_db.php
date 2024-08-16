@@ -74,7 +74,11 @@ function get_product_by_filter($mysqli, $product_name = null, $category_id = nul
 {
     if ($product_name && $category_id && $brand_id) {
         $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%' AND `category_id`=$category_id AND `brand_id`=$brand_id ";
-    } elseif ($product_name) {
+    }elseif ($product_name && $category_id) {
+        $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%' AND `category_id`=$category_id";
+    }elseif ($product_name && $brand_id) {
+        $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%' AND `brand_id`=$brand_id ";
+    }elseif ($product_name) {
         $sql = "SELECT * FROM `product` WHERE `product_name` LIKE '%$product_name%'";
     } elseif ($category_id) {
         $sql = "SELECT * FROM `product` WHERE `category_id` = $category_id";
@@ -111,8 +115,8 @@ function update_product_best_seller($mysqli,$best_seller,$product_id){
     return false;
 }
 
-function update_product_qty($mysqli,$sql,$product_id){
-    $sql = "update `product` set `qty`=$sql where `product_id`= $product_id ";
+function update_product_qty($mysqli,$add_qty,$product_id){
+    $sql = "update `product` set `qty`=$add_qty where `product_id`= $product_id ";
     if ($mysqli->query($sql)) {
         return true;
     }
@@ -126,6 +130,15 @@ function update_product_is_new($mysqli,$is_new,$product_id){
     }
     return false;
 }
+
+function update_product_image($mysqli,$image,$product_id){
+    $sql = "update `product` set `image`='$image' where `product_id` = $product_id";
+    if ($mysqli->query($sql)) {
+        return true;
+    }
+    return false;
+}
+
 
 function delete_product($mysqli, $i_id)
 {

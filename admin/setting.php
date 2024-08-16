@@ -1,60 +1,92 @@
-<?php require_once("./layout/header.php") ?>
-<?php require_once("../storage/user_db.php") ?>
-<?php require_once("../storage/database.php") ?>
-<?php require_once("./layout/navbar.php") ?>
-<?php require_once("./layout/sidebar.php") ?>
-<?php 
-$name_error = $email_error = $phone_error = $address_error = $name = $email = $address = $phone= "";
+<?php
+require_once("../storage/user_db.php");
+require_once("../storage/auth_user.php");
+require_once("../storage/database.php");
+
+$name_error = $email_error = $phone_error = $address_error = $name = $email = $address = $phone = $current_pass_error = $new_pass_error = "";
 $success = $invalid = "";
+$validation = true;
 $user_id = $user['user_id'];
 
-if(isset($_POST['update'])){
+if (isset($_POST['profile_update'])) {
 
 	$name = $_POST['name'];
 	$email = $_POST['email'];
 	$phone = $_POST['phone'];
 	$address = $_POST['address'];
 
-if($name === "") $name_error = "Name is blank";
-if($email === "") $email_error = "email is blank";
-if($phone === "") $phone_error = "phone is blank";
-if($address === "") $address_error = "address is blank";
+	if ($name === "") $name_error = "Name is blank";
+	if ($email === "") $email_error = "email is blank";
+	if ($phone === "") $phone_error = "phone is blank";
+	if ($address === "") $address_error = "address is blank";
+	if ($validation) {
 
-$user_update = update_user($mysqli,$user_id,$name,$email,$phone,$address);
-if($user_update){
-	$success = "Update is Success";
+		$user_update = update_user($mysqli, $user_id, $name, $email, $phone, $address);
+		if ($user_update) {
+			$success = "Update is Success";
+			header("Location: ./setting.php?success=$success");
+		} else {
+			$invalid = "Update is invalid";
+		}
+	}
 }
-	$invalid = "Update is invalid";
+
+if (isset($_POST['change_pass'])) {
+	$current_pass = $_POST['current_password'];
+	$new_password = $_POST['new_password'];
+	$old_pass = $user['password'];
+	if ($current_pass === "") {
+		$validation = false;
+		$current_pass_error = "Password is Null";
+	}
+
+	if ($new_password === "") {
+		$validation = false;
+		$new_pass_error = "Password is Null";
+	}
+	if ($validation) {
+
+		if (password_verify($current_pass, $old_pass)) {
+			$newhash = password_hash($new_password, PASSWORD_DEFAULT);
+			$update_pass = update_password_user($mysqli, $user_id, $newhash);
+			if ($update_pass) {
+				$success = "Password Update Success";
+			}
+		} else {
+			$invalid = "Password not same";
+		}
+	}
 }
-
-
-
+require_once("./layout/header.php");
+require_once("./layout/navbar.php");
+require_once("./layout/sidebar.php");
 ?>
 
+
 <div class="dashboard-wrapper">
-    <div class="dashboard-ecommerce">
-        <div class="container-fluid dashboard-content ">
-        <div class="row">
-				<div class="col-lg-4">
-					<div class="card">
-						<div class="card-body">
-						<?php if ($success) : ?>
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong><?php echo $success ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php endif ?>
-                    <?php if ($invalid) : ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><?php echo $invalid ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php endif ?>
+	<div class="dashboard-ecommerce">
+		<div class="container-fluid dashboard-content ">
+			<div class="row">
+				<div class="col-lg-4 col-sm-4">
+					<?php if ($success) : ?>
+						<div class="alert alert-info alert-dismissible fade show" role="alert">
+							<strong><?php echo $success ?>!</strong> .
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php endif ?>
+					<?php if ($invalid) : ?>
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong><?php echo $invalid ?>!</strong> .
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					<?php endif ?>
+						<div class="card">
+							<div class="card-body">
+							
 							<div class="d-flex flex-column align-items-center text-center">
 								<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
-							
+
 							</div>
-							
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 									<h6 class="mb-0">Name</h6>
@@ -64,96 +96,103 @@ if($user_update){
 									<h6 class="mb-0">Email</h6>
 									<span class="text-secondary"><?php echo $user['email'] ?></span>
 								</li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 									<h6 class="mb-0">Phone</h6>
 									<span class="text-secondary"><?php echo $user['phone'] ?></span>
 								</li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 									<h6 class="mb-0">Address</h6>
 									<span class="text-secondary"><?php echo $user['address'] ?></span>
 								</li>
+								<li>
+									<button class="btn btn-primary w-100" data-toggle="modal" data-target="#profile" alt="">Edit</button>
+									<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+										<div class="modal-dialog modal-info modal-dialog-centered" role="document">
+											<div class="modal-content bg-gradient-secondary">
+												<div class="modal-header">
+													<p class="modal-title" id="modal-title-notification">Profile</p>
+													<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<div class="py-3 text-center">
+														<form action="" method="post">
+															<div class="card">
+																<div class="card-body">
+																	<div class="row mb-3">
+																		<div class="col-sm-3">
+																			<h6 class="mb-0">Full Name</h6>
+																		</div>
+																		<div class="col-sm-9 text-secondary">
+																			<input type="text" name="name" class="form-control" value="<?php echo $user['name'] ?>">
+																		</div>
+																	</div>
+																	<div class="row mb-3">
+																		<div class="col-sm-3">
+																			<h6 class="mb-0">Email</h6>
+																		</div>
+																		<div class="col-sm-9 text-secondary">
+																			<input type="text" class="form-control" name="email" value="<?php echo $user['email'] ?>">
+																		</div>
+																	</div>
+																	<div class="row mb-3">
+																		<div class="col-sm-3">
+																			<h6 class="mb-0">Phone</h6>
+																		</div>
+																		<div class="col-sm-9 text-secondary">
+																			<input type="text" class="form-control" name="phone" value="<?php echo $user['phone'] ?>">
+																		</div>
+																	</div>
+
+																	<div class="row mb-3">
+																		<div class="col-sm-3">
+																			<h6 class="mb-0">Address</h6>
+																		</div>
+																		<div class="col-sm-9 text-secondary">
+																			<input type="text" class="form-control" name="address" value="<?php echo $user['address'] ?>">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="submit" class="btn btn-primary" name="profile_update">Save Change</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</li>
 							</ul>
+
+							</div>
 						</div>
-					</div>
 				</div>
-				<div class="col-lg-8">
-					<form action="" method="post">
-					<div class="card">
-						<div class="card-body">
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Full Name</h6>
+				<div class="col-lg-8 col-sm-8">
+					<form action="./setting.php" method="post">
+						<div class="card ms-3">
+							<div class="card-header">Change Password</div>
+							<div class="card-body d-flex justify-content-between">
+								<div>
+									<label for="">Current Password</label>
+									<input type="password" name="current_password" id="" required="">
+									<small class="text-danger"><?php echo $current_pass_error ?></small>
 								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" name="name" class="form-control" value="<?php echo $user['name'] ?>">
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Email</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="email" value="<?php echo $user['email'] ?>" >
+								<div><label for="">New Password</label>
+									<input type="password" name="new_password" id="" required="">
+									<small class="text-danger"><?php echo $new_pass_error ?></small>
 								</div>
 							</div>
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Phone</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="phone" value="<?php echo $user['phone'] ?>">
-								</div>
-							</div>
-							
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Address</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="address" value="<?php echo $user['address'] ?>">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-3"></div>
-								<div class="col-sm-9 text-secondary">
-									<button type="submit" class="btn btn-primary" name="update">Save Change</button>
-								</div>
+							<div class="footer">
+								<button type="submit" class="btn btn-primary" name="change_pass">Change Password</button>
 							</div>
 						</div>
-					</div>
 					</form>
-					<!-- <div class="row">
-						<div class="col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="d-flex align-items-center mb-3">Project Status</h5>
-									<p>Web Design</p>
-									<div class="progress mb-3" style="height: 5px">
-										<div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p>Website Markup</p>
-									<div class="progress mb-3" style="height: 5px">
-										<div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p>One Page</p>
-									<div class="progress mb-3" style="height: 5px">
-										<div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p>Mobile Template</p>
-									<div class="progress mb-3" style="height: 5px">
-										<div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p>Backend API</p>
-									<div class="progress" style="height: 5px">
-										<div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
+
 				</div>
 			</div>
-        </div>
-    </div>
+			
+		</div>
+	</div>
 </div>
 <?php require_once("./layout/footer.php") ?>

@@ -1,14 +1,10 @@
 <?php
 require_once("../storage/auth_user.php");
-if (!$user) {
-    header("Location: ./login.php");
-    die();
-} else {
     if (!$user['is_admin']) {
         header("Location: ../admin/layout/error.php");
         die();
     }
-}
+
 ?>
 <?php
 require_once("../storage/brand_db.php");
@@ -96,7 +92,8 @@ if (isset($_GET['update_id'])) {
         <div class="container-fluid dashboard-content ">
             
             <div class="row justify-content-center">
-                <div class="col-8">
+                <div class="col-6">
+                    <h3 class="text-center">Add Product</h3>
                     <?php if ($success) : ?>
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong><?php echo $success ?>!</strong> .
@@ -129,7 +126,7 @@ if (isset($_GET['update_id'])) {
                         </div>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Discount</label>
-                            <input type="int" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>">
+                            <input type="int" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>" placeholder="Write a Discount">
                         </div>
                        <?php if(isset($_GET['update_id']) == null) : ?>
                         <div class="mb-3">
@@ -154,11 +151,12 @@ if (isset($_GET['update_id'])) {
                                <?php endwhile ?>
                             </select>
                         </div>
-                        <?php endif ?>
                         <div class="mb-3">
                             <label for="brand" class="form-label mt-3">Image</label>
                             <input type="file" class="form-control" required="" name="image">
                         </div>
+                        <?php endif ?>
+            
                         <?php if(isset($_GET['update_id'])) : ?>
                             <button type="submit" class="btn btn-primary mb-3" name="update">Update</button>
                             <?php else : ?>

@@ -139,6 +139,7 @@ ol {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
+	
 }
 
 .spad {
@@ -405,7 +406,7 @@ ol {
 }
 
 .header__top__right__auth a i {
-	margin-right: 6px;
+	margin-right: 2px;
 }
 
 .header__logo {
@@ -859,17 +860,20 @@ ol {
 }
 
 .featured__item__pic {
-	height: 270px;
+	height: 150px;
+	width: 150px;
+	margin: auto;
 	position: relative;
 	overflow: hidden;
 	background-position: center center;
 }
 
+
 .featured__item__pic__hover {
 	position: absolute;
 	left: 0;
 	bottom: -50px;
-	width: 100%;
+	width: 80%;
 	text-align: center;
 	-webkit-transition: all, 0.5s;
 	-moz-transition: all, 0.5s;
@@ -1355,6 +1359,7 @@ ol {
 .product__item__pic__hover li a i {
 	position: relative;
 	transform: rotate(0);
+	margin-top: 10px;
 	-webkit-transition: all, 0.3s;
 	-moz-transition: all, 0.3s;
 	-ms-transition: all, 0.3s;

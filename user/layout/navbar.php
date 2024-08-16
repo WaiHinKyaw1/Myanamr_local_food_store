@@ -1,5 +1,14 @@
-<?php require_once("../storage/auth_user.php") ?>
-<?php require_once("../storage/order_item_db.php") ?>
+<?php 
+require_once("./storage/auth_user.php");
+require_once("./storage/order_item_db.php");
+
+if (isset($_POST['logout'])) {
+    setcookie("user", "", -1, "/");
+    header("Location:./index.php");
+}
+
+?>
+
 <header class="header">
         <div class="header__top">
             <div class="container">
@@ -8,32 +17,29 @@
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> myanmar_local_food@gmail.com</li>
-                                <li>Free Shipping for all Order of $99</li>
+                                <li>Free Shipping for all Order </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <div class="header__top__right">
+                        <div class="header__top__right d-flex justify-content-end align-items-center">
                             <div class="header__top__right__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                                
                             </div>
-                            <div class="header__top__right__language">
-                                <img src="./assets/img/language.png" alt="">
-                                <div>English</div>
-                                <span class="arrow_carrot-down"></span>
-                                <ul>
-                                    <li><a href="#">Myanmar</a></li>
-                                    <li><a href="#">English</a></li>
-                                </ul>
+                            <div class="header__top__right__auth me-2">
+                            <a href="./my_account.php"><i class="fa fa-user"></i> My Account</a>
                             </div>
-                            <div class="header__top__right__auth">
+                            <div class="header__top__right__auth d-flex justify-content-center align-items-center">
+                            
                                 <?php if($user) :?>
-                                    <a href="../auth/login.php"><i class="fa fa-user"></i> Logout</a>
+                                    <form method="post">
+                                        <button name="logout" class="btn btn-none "><i class="fa-solid fa-power-off"></i> Logout</button>
+                                    </form>
                                 <?php else :?>
-                                    <a href="../auth/login.php"><i class="fa fa-user"></i> Login</a>
+                                    <a href="./auth/login.php"><i class="fa-solid fa-power-off"></i> Login</a>
+                                    <a href="./auth/register.php"> /Register</a>
                                     <?php endif ?>    
                             </div>
                         </div>
@@ -58,10 +64,10 @@
                                     <!-- <li><a href="./shop-details.php">Shop Details</a></li> -->
                                     <li><a href="./shoping-cart.php">Shoping Cart</a></li>
                                     <li><a href="./checkout.php">Check Out</a></li>
-                                    <li><a href="./blog-details.php">Blog Details</a></li>
+                                    <!-- <li><a href="./blog-details.php">Blog Details</a></li> -->
                                 </ul>
                             </li>
-                            <li><a href="./blog.php">Blog</a></li>
+                            <!-- <li><a href="./blog.php">Blog</a></li> -->
                             <li><a href="./contact.php">Contact</a></li>
                         </ul>
                     </nav>

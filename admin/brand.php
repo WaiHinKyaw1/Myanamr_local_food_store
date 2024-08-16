@@ -42,7 +42,7 @@ if (isset($_GET['delete_id'])) {
     if ($delete) {
         $success = "Delete Success";
         header("Location: ../admin/brand.php?success=$success");
-        
+        $success = "Delete Success";
     } else {
         $invalid = "Delete Unsuccess";
         header("Location: ../admin/brand.php?invalid=$invalid");

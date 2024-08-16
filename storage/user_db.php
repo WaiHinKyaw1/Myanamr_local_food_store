@@ -42,4 +42,14 @@ function update_user($mysqli,$user_id,$name,$email,$phone,$address){
 }
 
 
+function update_password_user($mysqli,$user_id,$pass_hash){
+    $sql = "UPDATE `user` SET `password` = '$pass_hash' WHERE `user_id`=$user_id";
+    if($mysqli->query($sql)){
+        return true;
+    }
+    return false;
+}
+
+
+
 ?>

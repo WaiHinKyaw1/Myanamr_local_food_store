@@ -13,6 +13,13 @@ function get_all_order($mysqli){
     $result = $mysqli->query($sql);
     return $result;
 }
+
+function get_order_with_limit($mysqli){
+    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 2";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
 function get_order_by_id($mysqli,$order_id){
     $sql = "select * from `order` where `order_id` = $order_id";
     $result = $mysqli->query($sql);

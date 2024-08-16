@@ -20,18 +20,22 @@ if(isset($_POST['submit'])){
     if($validate){
         $user = get_user_by_email($mysqli,$email);
         $password_check = password_verify($password,$user['password']);
-        
-        if($password_check){
-            $success = "Login Success";
-            setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');
-            if($user['is_admin']){
-                header("Location: ../admin/index.php");
+        if($user['email'] == $_POST['email']){
+            if($password_check){
+                $success = "Login Success";
+                setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');
+                if($user['is_admin']){
+                    header("Location: ../admin/index.php");
+                } else {
+                    header("Location: ../index.php");
+                }
             } else {
-                header("Location: ../user/index.php");
+                $invalid = "Invalid Password!. Please Check Your Password";
             }
-        } else {
-            $invalid = "Invalid Password!. Please Check Your Password";
+        }else{
+            $invalid = "Your Email Don't Found";
         }
+        
     }
 
 }

@@ -35,11 +35,14 @@ if (isset($_POST['logout'])) {
                             <h5 class="mb-0 text-white nav-user-name"><?php echo $user['name'] ?> </h5>
                         </div>
 
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-default"><i class="fas fa-user mr-2"></i>Account</a>
+                        <a class="dropdown-item" href="../admin/setting.php" ><i class="fas fa-user mr-2"></i>Account</a>
 
 
-                        <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                        <a class="dropdown-item" href="../auth/login.php"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                        <a class="dropdown-item" href="../admin/setting.php"><i class="fas fa-cog mr-2"></i>Setting</a>
+                        
+                        <form method="post">
+                        <button name="logout" class="btn btn-outline-primary dropdown-item"><i class="fas fa-power-off mr-2"></i>Logout</button>
+                        </form>
                     </div>
                 </li>
             </ul>

@@ -54,9 +54,16 @@ if (isset($_GET['update_id'])) {
     $category_name = $update['category_name'];
     if (isset($_POST['update'])) {
         $category_name = $_POST['category'];
+        $image = $_FILES['image']['tmp_name'];
+        $image_name = $_FILES['image']['name'];
+        if (!str_contains($_FILES['image']['type'],'image/')) {
+            $product_image_error = "please upload only image!";
+        }
+        $image = file_get_contents($image);
+        $category_logo = base64_encode($image);
         if ($category_name == "") $category_name_error = "Category Name is Blank";
         if ($category_name_error == "") {
-            $category = update_category($mysqli, $category_id, $category_name);
+            $category = update_category($mysqli, $category_id, $category_name,$category_logo);
             if ($category) {
                 $success = "Update is Success";
                 header("Location: ../admin/category.php?success=$success");
@@ -79,13 +86,13 @@ if (isset($_GET['update_id'])) {
                 <div class="col-6">
                     <?php if ($success) : ?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong> You should check in on some of those fields below.
+                            <strong><?php echo $success ?>!</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif ?>
                     <?php if ($invalid) : ?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $invalid ?>!</strong> You should check in on some of those fields below.
+                            <strong><?php echo $invalid ?>!</strong> 
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif ?>

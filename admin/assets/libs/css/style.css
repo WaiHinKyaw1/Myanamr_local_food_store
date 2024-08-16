@@ -1231,6 +1231,43 @@ Top Header
 }
 
 
+input, button1{   
+    height: 30px;   
+}   
+
+.pagination {   
+display: inline-block;  
+
+}   
+.pagination a {   
+
+display: inline-block;
+width: 40px;
+height: 30px;
+border: 1px solid #b2b2b2;
+font-size: 14px;
+color: #b2b2b2;
+font-weight: 700;
+line-height: 28px;
+text-align: center;
+margin-right: 16px;
+-webkit-transition: all, 0.3s;
+-moz-transition: all, 0.3s;
+-ms-transition: all, 0.3s;
+-o-transition: all, 0.3s;
+transition: all, 0.3s;
+}   
+.pagination a.active {   
+    background-color: gray;   
+}   
+.pagination a:hover:not(.active) {   
+/* background-color: skyblue;    */
+background: #7fad39;
+border-color: #7fad39;
+color: #ffffff;
+}   
+
+
 
 .navbar-brand {
     display: inline-block;
@@ -4137,36 +4174,6 @@ Pills vertical
 /*-----------------------
 2.14 Pagination
 -------------------------*/
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .5rem .75rem;
-    margin-left: 0px;
-    margin-right: 5px;
-    line-height: 1.25;
-    color: #71748d;
-    background-color: #fff;
-    border: 1px solid #e6e6f2;
-    border-radius: 3px;
-    line-height: 1;
-}
-
-.page-link:hover {
-    z-index: 2;
-    color: #fff;
-    text-decoration: none;
-    background-color: #5969ff;
-    border-color: #5969ff;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
-}
-
 
 /*-----------------------
 2.15 Spinner

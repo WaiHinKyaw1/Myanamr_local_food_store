@@ -27,8 +27,8 @@ function get_category_by_filter($mysqli,$search = null){
     }
 }
 
-function update_category($mysqli,$category_id,$category_name){
-    $sql = "UPDATE `category` SET `category_name`='$category_name' WHERE `category_id`=$category_id";
+function update_category($mysqli,$category_id,$category_name,$category_logo){
+    $sql = "UPDATE `category` SET `category_name`='$category_name' , `category_img`= '$category_logo' WHERE `category_id`=$category_id";
     if($mysqli->query($sql)){
         return true;
     }

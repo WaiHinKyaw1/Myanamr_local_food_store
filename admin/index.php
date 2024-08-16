@@ -8,15 +8,11 @@ require_once("../storage/brand_db.php");
 
 ?>
 <?php
-if (!$user) {
-    header("Location: ./login.php");
-    die();
-} else {
     if (!$user['is_admin']) {
         header("Location: ../admin/layout/error.php");
         die();
     }
-}
+
 ?>
 <?php require_once("./layout/header.php"); ?>
 <?php require_once("./layout/navbar.php");  ?>
@@ -163,8 +159,6 @@ if (!$user) {
 
                         <!-- end new customer  -->
 
-                        <!-- visitor  -->
-
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                             <div class="card border-3 border-top border-top-primary">
                                 <div class="card-body">
@@ -230,7 +224,7 @@ if (!$user) {
                                             <tbody class="">
                                                 
                                             <?php
-                                                $orders = get_all_order($mysqli);
+                                                $orders = get_order_with_limit($mysqli);
                                                 
                                                 foreach ($orders as $order) :
                                                     
@@ -264,7 +258,7 @@ if (!$user) {
                                             
                                                 
                                                 
-                                                    <td colspan="9"><a href="#" class="btn btn-outline-light float-right">View Details</a></td>
+                                                    <td colspan="9"><a href="./order.php" class="btn btn-outline-light float-right">View Details</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -288,7 +282,7 @@ if (!$user) {
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        Copyright © 2024 Myanmar Local Food. Dashboard by <a href="http://localhost/myanmar_local_food_store/admin/index.php">Myanmar Local Food</a>.
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="text-md-right footer-links d-none d-sm-block">
