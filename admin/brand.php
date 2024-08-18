@@ -14,7 +14,7 @@ if (!$user) {
 require_once("../storage/brand_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid = "";
+$status = $status_code = "";
 $brand_name = $brand_name_error = $brand_image_error = "";
 
 if (isset($_POST['create'])) {
@@ -29,23 +29,31 @@ if (isset($_POST['create'])) {
     $brand_logo = base64_encode($photo);
     $brand = save_brand($mysqli, $brand_name,$brand_logo);
     if ($brand) {
-        $success = "Brand Create Success";
-        
+        $_SESSION['status'] = "Brand Create Success";
+        $_SESSION['status_code'] = "success";
+        header("Location: ../admin/brand.php");
+        exit();
     } else {
-        $invalid = "Brand Create Fail";
-        
+        $_SESSION['status'] = "Brand Create Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/brand.php");
+        exit();
 }
 }
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete = delete_brand($mysqli, $delete_id);
     if ($delete) {
-        $success = "Delete Success";
-        header("Location: ../admin/brand.php?success=$success");
-        $success = "Delete Success";
+        $_SESSION['status'] = "Delete Success";
+        $_SESSION['status_code'] = "success";
+        header("Location: ../admin/brand.php");
+        exit();
+        
     } else {
-        $invalid = "Delete Unsuccess";
-        header("Location: ../admin/brand.php?invalid=$invalid");
+        $_SESSION['status'] = "Delete Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/brand.php?invalid=$status");
+        exit();
     }
 }
 
@@ -59,11 +67,15 @@ if (isset($_GET['update_id'])) {
         if ($brand_name_error == "") {
             $brand = update_brand($mysqli, $brand_id, $brand_name);
             if ($brand) {
-                $success = "Update is Success";
-                header("Location: ../admin/brand.php?success=$success");
+                $_SESSION['status'] = "Update is Success";
+                $_SESSION['status_code'] = "success";
+                header("Location: ../admin/brand.php?success=$status");
+                exit();
             } else {
-                $invalid = "Update is Failed";
-                header("Location: ../admin/brand.php?invalid=$invalid");
+                $_SESSION['status'] = "Update is Failed";
+                $_SESSION['status_code'] = "error";
+                header("Location: ../admin/brand.php?invalid=$status");
+                exit();
             }
         }
     }
@@ -78,19 +90,7 @@ if (isset($_GET['update_id'])) {
         <div class="container-fluid dashboard-content ">
             <div class="row">
                 <div class="col-6">
-                    <?php if ($success) : ?>
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong><?php echo $success ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php endif ?>
-                    <?php if ($invalid) : ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><?php echo $invalid ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php endif ?>
-
+                    
                     <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="brand" class="form-label mt-3">Brand Name</label>

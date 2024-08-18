@@ -12,26 +12,23 @@ require_once("../storage/product_db.php");
 require_once("../storage/brand_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid = "";
-
-
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete = delete_product($mysqli, $delete_id);
     if ($delete) {
-        $success = "Delete Success";
-        header("Location:../admin/product_list.php?success=$success");
+        $_SESSION['status'] = "Delete Success";
+        $_SESSION['status_code'] = "success";
+        header("Location:../admin/product_list.php?status=$status");
+        exit();
     } else {
-        $invalid = "Delete Unsuccess";
-        header("Location: ../admin/product_list.php?invalid=$invalid");
+        $_SESSION['status'] = "Delete Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/product_list.php?status=$status");
+        exit();
     }
 }
 
-if (isset($_POST['product_id'])) {
-    $product_id = $_POST['product_id'];
-    $product = get_product_by_id($mysqli, $product_id);
-}
 ?>
 <?php require_once("../admin/layout/navbar.php");  ?>
 <?php require_once("../admin/layout/sidebar.php"); ?>
@@ -41,18 +38,6 @@ if (isset($_POST['product_id'])) {
         <div class="container-fluid dashboard-content ">
             <div class="row">
                 <div class="col">
-                    <?php if ($success) : ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
-                    <?php if ($invalid) : ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $invalid ?>!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
                     <table class="table table-striped">
                         <thead>
                             <tr>

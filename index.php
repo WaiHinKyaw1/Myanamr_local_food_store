@@ -8,8 +8,6 @@ require_once("./user/layout/header.php");
 require_once("./storage/order_db.php");
 require_once("./storage/auth_user.php");
 
-
-
 $successMessage = isset($_SESSION['payment_success']) ? $_SESSION['payment_success'] : null;
 $errorMessage = isset($_SESSION['payment_error']) ? $_SESSION['payment_error'] : null;
 unset($_SESSION['payment_success']);

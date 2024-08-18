@@ -6,27 +6,7 @@
         window.location.href = './index.php?page='+page;   
     }   
   </script>  
-  <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 40.7128, lng: -74.0060 },
-                zoom: 5
-            });
 
-            // Fetch data from PHP script
-            fetch('data.php')
-                .then(response => response.json())
-                .then(locations => {
-                    locations.forEach(location => {
-                        new google.maps.Marker({
-                            position: { lat: location.lat, lng: location.lng },
-                            map: map,
-                            title: location.title
-                        });
-                    });
-                });
-        }
-    </script>
     <script async defer
         src="https://maps.app.goo.gl/kvqWXD9D7ANAjwdQ6">
     </script>

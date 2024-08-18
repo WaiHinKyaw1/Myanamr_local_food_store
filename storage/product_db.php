@@ -98,9 +98,9 @@ function get_product_by_name($mysqli, $product_name)
     return $result;
 }
 
-function update_product($mysqli,$product_name, $price, $qty, $exp_date, $discount, $product_logo, $product_id)
+function update_product($mysqli,$product_name, $price, $qty, $exp_date, $discount, $product_id)
 {
-    $sql = "UPDATE `product` SET `product_name`='$product_name', `price`=$price,`qty`=$qty,`ex_date`='$exp_date',`discount`='$discount',`image` = '$product_logo' WHERE `product_id`=$product_id";
+    $sql = "UPDATE `product` SET `product_name`='$product_name', `price`=$price,`qty`=$qty,`ex_date`='$exp_date',`discount`='$discount' WHERE `product_id`=$product_id";
     if ($mysqli->query($sql)) {
         return true;
     }

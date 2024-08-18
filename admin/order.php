@@ -22,11 +22,15 @@ if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete = delete_order($mysqli, $delete_id);
     if ($delete) {
-        $success = "Delete Success";
-        header("Location:../admin/order.php?success=$success");
+        $_SESSION['status'] = "Delete Success";
+        $_SESSION['status_code'] = "success";
+        header("Location:../admin/order.php");
+        exit();
     } else {
-        $invalid = "Delete Unsuccess";
-        header("Location: ../admin/order.php?invalid=$invalid");
+        $_SESSION['status'] = "Delete Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/order.php");
+        exit();
     }
 }
 ?>
@@ -52,15 +56,14 @@ if (isset($_GET['delete_id'])) {
                         </thead>
                         <tbody>
                             <?php $orders = get_all_order($mysqli);
+                                $i=1;
                             foreach ($orders as $order) :
                                 $user_id = $order['user_id'];
-                                $user = get_user_by_id($mysqli,$user_id);
-                                
-
+                                $user = get_user_by_id($mysqli,$user_id);                               
                             ?>
 
                                 <tr>
-                                    <th scope="row"><?php echo $order['order_id'] ?></th>
+                                    <th scope="row"><?= $i ?></th>
                                     <td><?php echo $user['name'] ?></td>
                                     <td><?php echo $order['order_date'] ?></td>
                                     <td><?php echo $order['total_amount'] ?></td>
@@ -81,7 +84,9 @@ if (isset($_GET['delete_id'])) {
                                     <a href="../admin/order.php?delete_id=<?php echo $order['order_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
-                            <?php endforeach ?>
+                            <?php
+                            $i++;
+                             endforeach ?>
                         </tbody>
                     </table>
                 </div>

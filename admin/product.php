@@ -12,7 +12,7 @@ require_once("../storage/category_db.php");
 require_once("../storage/product_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid =false;
+$status = $status =false;
 $brand_name = $brand_name_error = $product_image_error = "";
 
 if (isset($_POST['submit'])) {
@@ -34,11 +34,15 @@ if (isset($_POST['submit'])) {
    
     $product = save_product($mysqli,$product_name,$price,$qty,$exp_date,$discount,$product_logo,$category_id,$brand_id);
     if ($product) {
-        $success = "Product Create Success";
-        header("Location: ../admin/product.php");
+        $_SESSION['status'] = "Product Create Success";
+        $_SESSION['status_code'] = "success";
+        header("Location: ../admin/product_list.php");
+        exit();
     } else {
-        $invalid = "Product Create Fail";
+        $_SESSION['status'] = "Category Create Fail!";
+        $_SESSION['status_code'] = "error";
         header("Location: ../admin/product.php");
+        exit();
     }
 }
 
@@ -57,25 +61,21 @@ if (isset($_GET['update_id'])) {
         $qty = $_POST['qty'];
         $exp_date = $_POST['exp_date'];
         $discount = $_POST['discount'];
-        $image = $_FILES['image']['tmp_name'];
-        $image_name = $_FILES['image']['name'];
-        if (!str_contains($_FILES['image']['type'],'image/')) {
-            $product_image_error = "please upload only image!";
-        }
-        $image = file_get_contents($image);
-        $product_logo = base64_encode($image);
         if ($product_name == "") $product_name_error = "Product Name is Blank";
         if ($price == "") $price_error = "Price is Blank";
         if ($exp_date == "") $exp_date_error = "Exp Date is Blank";
         if ($discount == "") $discount_error = "Discount is Blank";
         
-            $product = update_product($mysqli,$product_name,$price,$qty,$exp_date,$discount,$product_logo,$product_id);
+            $product = update_product($mysqli,$product_name,$price,$qty,$exp_date,$discount,$product_id);
             if ($product) {
-                $success = "Update is Success";
-                header("Location: ../admin/product_list.php?success=$success");
+                $_SESSION['status'] = "Update Success";
+                $_SESSION['status_code'] = "success";
+                header("Location: ../admin/product_list.php?status=$status");
+                exit();
             } else {
-                $invalid = "Update is Failed";
-                header("Location: ../admin/product_list.php?invalid=$invalid");
+                $_SESSION['status'] = "Update Fail";
+                $_SESSION['status_code'] = "error";
+                header("Location: ../admin/product_list.php?status=$status");
             }
         }
     
@@ -94,15 +94,15 @@ if (isset($_GET['update_id'])) {
             <div class="row justify-content-center">
                 <div class="col-6">
                     <h3 class="text-center">Add Product</h3>
-                    <?php if ($success) : ?>
+                    <?php if ($status) : ?>
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong> .
+                            <strong><?php echo $status ?>!</strong> .
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif ?>
-                    <?php if ($invalid) : ?>
+                    <?php if ($status) : ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong><?php echo $invalid ?>!</strong> .
+                            <strong><?php echo $status ?>!</strong> .
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif ?>

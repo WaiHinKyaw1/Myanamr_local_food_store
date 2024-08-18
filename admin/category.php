@@ -14,11 +14,9 @@ if (!$user) {
 require_once("../storage/category_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid = "";
 $category_name = $category_name_error = $category_img_error = "";
-
 if (isset($_POST['create'])) {
-   
+
     $category_name = htmlspecialchars($_POST['category']);
     $image = $_FILES['image']['tmp_name'];
     $img_name = $_FILES['image']['name'];
@@ -29,22 +27,30 @@ if (isset($_POST['create'])) {
     $category_image = base64_encode($img);
     $category = save_category($mysqli, $category_name,$category_image);
     if ($category) {
-        $success = "Category Create Success";
-        header("Locaction: ../admin/category.php");
+        $_SESSION['status'] = "Category Create Success";
+        $_SESSION['status_code'] = "success";
+        header("Location: ../admin/category.php");
+        exit();
     } else {
-        $invalid = "Categroy Create Fail";
-        header("Locaction: ../admin/category.php");
+        $_SESSION['status'] = "Category Create Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/category.php");
+        exit();
     }
 }
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete = delete_category($mysqli, $delete_id);
     if ($delete) {
-        $success = "Delete Success";
-        header("Location: ../admin/category.php?success=$success");
+        $_SESSION['status'] = "Delete Success";
+        $_SESSION['status_code'] = "success";
+        header("Location: ../admin/category.php");
+        exit();
     } else {
-        $invalid = "Delete Unsuccess";
-        header("Location: ../admin/category.php?invalid=$invalid");
+        $_SESSION['status'] = "Delete Fail";
+        $_SESSION['status_code'] = "error";
+        header("Location: ../admin/category.php");
+        exit();
     }
 }
 
@@ -65,11 +71,15 @@ if (isset($_GET['update_id'])) {
         if ($category_name_error == "") {
             $category = update_category($mysqli, $category_id, $category_name,$category_logo);
             if ($category) {
-                $success = "Update is Success";
-                header("Location: ../admin/category.php?success=$success");
+                $_SESSION['status'] = "Update Success";
+                $_SESSION['status_code'] = "success";
+                header("Location: ../admin/category.php");
+                exit();
             } else {
-                $invalid = "Update is Failed";
-                header("Location: ../admin/category.php?invalid=$invalid");
+                $_SESSION['status'] = "Update Fail!";
+                $_SESSION['status_code'] = "error";
+                header("Location: ../admin/category.php");
+                exit();
             }
         }
     }
@@ -84,19 +94,6 @@ if (isset($_GET['update_id'])) {
         <div class="container-fluid dashboard-content ">
             <div class="row">
                 <div class="col-6">
-                    <?php if ($success) : ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
-                    <?php if ($invalid) : ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong><?php echo $invalid ?>!</strong> 
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
-
                     <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="category" class="form-label mt-3">Categroy</label>

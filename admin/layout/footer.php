@@ -22,6 +22,19 @@
     <script src="./assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="./assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="./assets/libs/js/dashboard-ecommerce.js"></script>
+    <script src="./assets/libs/js/sweetalert.min.js"></script>
+    <script>
+        <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
+                    
+            swal({
+            title: "<?= $_SESSION['status'] ?>",
+            icon: "<?= $_SESSION['status_code'] ?>",
+            button: "Done!",
+            });
+        <?php 
+    unset($_SESSION['status']);
+    } ?>
+    </script>
 </body>
  
 </html>

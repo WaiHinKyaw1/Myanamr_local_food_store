@@ -17,7 +17,6 @@ require_once("../storage/payment_db.php");
 require_once("../storage/user_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$success = $invalid = "";
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
@@ -33,7 +32,17 @@ if (isset($_POST['update'])) {
     $payment_status = $_POST['payment_status'];
     $order_status = $_POST['order_status'];
     $order_update = update_order($mysqli, $payment_status, $order_status, $order_id);
-    header("location:./order_detail.php?order_id=$order_id");
+    if($order_update){
+        $_SESSION['status'] = "Update Success";
+        $_SESSION['status_code'] = "success";
+        header("location:./order_detail.php?order_id=$order_id");
+        exit();
+    }else{
+        $_SESSION['status'] = "Update Fail";
+        $_SESSION['status_code'] = "error";
+        header("location:./order_detail.php?order_id=$order_id");
+        exit();
+    }
 }
 if (isset($_POST['confirm'])) {
     $order_id = $_GET['order_id'];
@@ -41,6 +50,7 @@ if (isset($_POST['confirm'])) {
     $order_status = 0;
     $order_update = update_order($mysqli, $payment_status, $order_status, $order_id);
     header("location:./order_detail.php?order_id=$order_id");
+    exit();
 }
 if (isset($_POST['devivered'])) {
     $order_id = $_GET['order_id'];
@@ -48,6 +58,7 @@ if (isset($_POST['devivered'])) {
     $order_status = 1;
     $order_update = update_order($mysqli, $payment_status, $order_status, $order_id);
     header("location:./order_detail.php?order_id=$order_id");
+    exit();
 }
 ?>
 <?php require_once("../admin/layout/navbar.php");  ?>
