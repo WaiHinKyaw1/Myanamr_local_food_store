@@ -14,7 +14,6 @@ if (!$user) {
 require_once("../storage/brand_db.php");
 require_once("../storage/database.php");
 require_once("../admin/layout/header.php");
-$status = $status_code = "";
 $brand_name = $brand_name_error = $brand_image_error = "";
 
 if (isset($_POST['create'])) {
@@ -52,7 +51,7 @@ if (isset($_GET['delete_id'])) {
     } else {
         $_SESSION['status'] = "Delete Fail";
         $_SESSION['status_code'] = "error";
-        header("Location: ../admin/brand.php?invalid=$status");
+        header("Location: ../admin/brand.php");
         exit();
     }
 }
@@ -69,12 +68,12 @@ if (isset($_GET['update_id'])) {
             if ($brand) {
                 $_SESSION['status'] = "Update is Success";
                 $_SESSION['status_code'] = "success";
-                header("Location: ../admin/brand.php?success=$status");
+                header("Location: ../admin/brand.php");
                 exit();
             } else {
                 $_SESSION['status'] = "Update is Failed";
                 $_SESSION['status_code'] = "error";
-                header("Location: ../admin/brand.php?invalid=$status");
+                header("Location: ../admin/brand.php");
                 exit();
             }
         }
@@ -94,8 +93,8 @@ if (isset($_GET['update_id'])) {
                     <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="brand" class="form-label mt-3">Brand Name</label>
-                            <input type="text" class="form-control" required="" value="<?php echo $brand_name ?>" name="brand" placeholder="Write a brand">
-                            <small class="text-danger"><?php echo $brand_name_error ?></small>
+                            <input type="text" class="form-control" required="" value="<?= $brand_name ?>" name="brand" placeholder="Write a brand">
+                            <small class="text-danger"><?= $brand_name_error ?></small>
                         </div>
                         <div class="mb-4">
                             <label for="brand" class="form-label mt-3">Brand Image</label>
@@ -125,17 +124,21 @@ if (isset($_GET['update_id'])) {
                             $name = isset($_GET['search']) ? $_GET['search'] : null;
                             $brands = get_brand_by_filter($mysqli,$name);
                         } ?>
-                        <?php while ($brand = $brands->fetch_assoc()) : ?>
+                        <?php
+                        $i=1;
+                        while ($brand = $brands->fetch_assoc()) : ?>
                             <tr>
-                                <th scope="row"><?php echo $brand['brand_id'] ?></th>
-                                <td><?php echo $brand['brand_name'] ?></td>
-                                <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $brand['brand_logo'] ?>" alt=""></td>
+                                <th scope="row"><?= $i ?></th>
+                                <td><?= $brand['brand_name'] ?></td>
+                                <td><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?= $brand['brand_logo'] ?>" alt=""></td>
                                 <td>
-                                    <a href="../admin/brand.php?update_id=<?php echo $brand['brand_id'] ?>" class="btn btn-secondary">Edit</a>
-                                    <a href="../admin/brand.php?delete_id=<?php echo $brand['brand_id'] ?>" class="btn btn-danger">Delete</a>
+                                    <a href="../admin/brand.php?update_id=<?= $brand['brand_id'] ?>" class="btn btn-secondary">Edit</a>
+                                    <a href="../admin/brand.php?delete_id=<?= $brand['brand_id'] ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
-                        <?php endwhile ?>
+                        <?php
+                        $i++;
+                        endwhile ?>
                         </tbody>
                         </table>
                 </div>            

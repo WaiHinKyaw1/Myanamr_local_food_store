@@ -2,9 +2,10 @@
 require_once("../storage/user_db.php");
 require_once("../storage/auth_user.php");
 require_once("../storage/database.php");
+require_once("./layout/header.php");
+
 
 $name_error = $email_error = $phone_error = $address_error = $name = $email = $address = $phone = $current_pass_error = $new_pass_error = "";
-$success = $invalid = "";
 $validation = true;
 $user_id = $user['user_id'];
 
@@ -23,10 +24,16 @@ if (isset($_POST['profile_update'])) {
 
 		$user_update = update_user($mysqli, $user_id, $name, $email, $phone, $address);
 		if ($user_update) {
-			$success = "Update is Success";
-			header("Location: ./setting.php?success=$success");
+			$_SESSION['status'] = "Update Success";
+			$_SESSION['status_code'] = "success";
+			header("Location: ./setting.php");
+			exit();
 		} else {
-			$invalid = "Update is invalid";
+			$_SESSION['status'] = "Update Fail";
+			$_SESSION['status_code'] = "error";
+			header("Location: ./setting.php");
+			exit();
+
 		}
 	}
 }
@@ -50,14 +57,24 @@ if (isset($_POST['change_pass'])) {
 			$newhash = password_hash($new_password, PASSWORD_DEFAULT);
 			$update_pass = update_password_user($mysqli, $user_id, $newhash);
 			if ($update_pass) {
-				$success = "Password Update Success";
+				$_SESSION['status'] = " Password Update Success";
+                $_SESSION['status_code'] = "success";
+				header("Location: ./setting.php");
+				exit();
+			}else{
+				$_SESSION['status'] = "Password Update Fail";
+                $_SESSION['status_code'] = "error";
+				header("Location: ./setting.php");
+				exit();
 			}
 		} else {
-			$invalid = "Password not same";
+			$_SESSION['status'] = "Password not same";
+			$_SESSION['status_code'] = "warning";
+			header("Location: ./setting.php");
+			exit();
 		}
 	}
 }
-require_once("./layout/header.php");
 require_once("./layout/navbar.php");
 require_once("./layout/sidebar.php");
 ?>
@@ -68,18 +85,6 @@ require_once("./layout/sidebar.php");
 		<div class="container-fluid dashboard-content ">
 			<div class="row">
 				<div class="col-lg-4 col-sm-4">
-					<?php if ($success) : ?>
-						<div class="alert alert-info alert-dismissible fade show" role="alert">
-							<strong><?php echo $success ?>!</strong> .
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
-					<?php endif ?>
-					<?php if ($invalid) : ?>
-						<div class="alert alert-danger alert-dismissible fade show" role="alert">
-							<strong><?php echo $invalid ?>!</strong> .
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
-					<?php endif ?>
 						<div class="card">
 							<div class="card-body">
 							

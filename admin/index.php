@@ -255,9 +255,7 @@ require_once("../storage/brand_db.php");
                                                     </tr>
                                                     <?php endforeach ?>
                                                 <?php endforeach ?>
-                                            
-                                                
-                                                
+                                                                         
                                                     <td colspan="9"><a href="./order.php" class="btn btn-outline-light float-right">View Details</a></td>
                                                 </tr>
                                             </tbody>
