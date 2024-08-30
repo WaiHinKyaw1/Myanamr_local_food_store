@@ -6,8 +6,7 @@ if(isset($_SESSION['product_list'])){
 }
 
 function save_order_item($mysqli,$order_id,$product_id,$qty,$amount){
-    $sql = "insert into `order_item`(order_id,product_id,qty,amount) values ($order_id,$product_id,$qty,'$amount')";
-    
+    $sql = "insert into `order_item`(order_id,product_id,qty,amount) values ($order_id,$product_id,$qty,$amount)";
    if($mysqli->query($sql)){
     return true;
    }

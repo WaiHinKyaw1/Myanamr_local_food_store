@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="./user/assets/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="./user/assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="./user/assets/css/style.css" type="text/css">
-       
+    <link rel="stylesheet" href="./user/assets/style/style.css" type="text/css">
 </head>
 <body>
+    

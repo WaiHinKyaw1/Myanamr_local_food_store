@@ -78,7 +78,7 @@ if (isset($_GET['delete_id'])) {
                                     <th scope="row"><?php echo $i ?></th>
                                     <td><?= $product['product_name'] ?></td>
                                     <td><?= $product['price'] ?></td>
-                                    <td class="d-flex justify-content-between"><?= $product['qty'] ?>  <a href="./add_qty.php?product_id=<?= $product['product_id'] ?>" > <h3><i class="fa-solid fa-square-plus"></i></h3></a></td>
+                                    <td class="d-flex justify-content-between m-0"><?= $product['qty'] ?>  <a href="./add_qty.php?product_id=<?= $product['product_id'] ?>" > <h3><i class="fa-solid fa-square-plus"></i></h3></a></td>
                                     <td><?= $product['ex_date'] ?></td>
                                     <td><?= $product['discount'] ?></td>
                                     <td><a href="./add_qty.php?product_id=<?= $product['product_id'] ?>"><img style="width: 50px;height: 50px;" class="rounded" src="data:image/png;base64,<?php echo $product['image'] ?>" alt=""></a></td>
@@ -135,7 +135,7 @@ if (isset($_GET['delete_id'])) {
                     echo $pagLink;
 
                     if ($page < $total_pages) {
-                        echo "<a href='index.php?page=" . ($page + 1) . "'>  Next </a>";
+                        echo "<a href='product_list.php?page=" . ($page + 1) . "'>  Next </a>";
                     }
 
                     ?>

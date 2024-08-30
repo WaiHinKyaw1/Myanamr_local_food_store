@@ -1,7 +1,8 @@
 <?php require_once("../storage/database.php") ?>
 <?php require_once("../storage/user_db.php")  ?>
+<?php require_once("./layout/header.php") ?>
 
-<?php  
+<?php 
 $email = $password = $email_error = $password_error = "";
 $success = $invalid = false;
 $validate = true;
@@ -18,6 +19,7 @@ if(isset($_POST['submit'])){
         $password_error = "Password must not be blank!";
     }
     if($validate){
+
         $user = get_user_by_email($mysqli,$email);
         $password_check = password_verify($password,$user['password']);
         if($user['email'] == $_POST['email']){
@@ -26,8 +28,10 @@ if(isset($_POST['submit'])){
                 setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');
                 if($user['is_admin']){
                     header("Location: ../admin/index.php");
+                    exit();
                 } else {
                     header("Location: ../index.php");
+                    exit();
                 }
             } else {
                 $invalid = "Invalid Password!. Please Check Your Password";
@@ -40,7 +44,6 @@ if(isset($_POST['submit'])){
 
 }
 ?>
-<?php require_once("./layout/header.php") ?>
 
     <!-- login page  -->
     <div class="splash-container">
@@ -72,12 +75,11 @@ if(isset($_POST['submit'])){
                     <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
-            <div class="card-footer bg-white p-0  ">
+            <div class="card-footer bg-white p-0 text-center ">
                 <div class="card-footer-item card-footer-item-bordered">
-                    <a href="./register.php" class="footer-link">Create An Account</a></div>
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Forgot Password</a>
+                    <a href="./register.php" class="footer-link">Create An Account</a>
                 </div>
+                
             </div>
         </div>
     </div>

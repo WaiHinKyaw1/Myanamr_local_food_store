@@ -31,6 +31,71 @@
 /*----------------------------------------*/
 
 
+
+.pagination {   
+    display: inline-block;  
+    
+    }   
+    .pagination a {   
+    
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    border: 1px solid #b2b2b2;
+    font-size: 14px;
+    color: #b2b2b2;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
+    margin-right: 5px;
+    -webkit-transition: all, 0.3s;
+    -moz-transition: all, 0.3s;
+    -ms-transition: all, 0.3s;
+    -o-transition: all, 0.3s;
+    transition: all, 0.3s;
+    }   
+    .pagination a.active {   
+        background-color: gray;   
+    }   
+    .pagination a:hover:not(.active) {   
+    /* background-color: skyblue;    */
+    background: #7fad39;
+    border-color: black;
+    color: #ffffff;
+    }   
+    
+    .page-link {
+        position: relative;
+        display: block;
+        padding: .5rem .75rem;
+        margin-left: 0px;
+        margin-right: 5px;
+        line-height: 1.25;
+        color: #71748d;
+        background-color: #fff;
+        border: 1px solid #e6e6f2;
+        border-radius: 3px;
+        line-height: 1;
+    }
+    
+    .page-link:hover {
+        z-index: 2;
+        color: #fff;
+        text-decoration: none;
+        background-color: #5969ff;
+        border-color: #5969ff;
+    }
+    
+    .page-item.active .page-link {
+        z-index: 1;
+        color: #fff;
+        background-color: #5969ff;
+        border-color: #5969ff;
+    }
+    
+    
+
+
 html,
 body {
 	height: 100%;
@@ -139,7 +204,6 @@ ol {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
-	
 }
 
 .spad {
@@ -406,7 +470,7 @@ ol {
 }
 
 .header__top__right__auth a i {
-	margin-right: 2px;
+	margin-right: 6px;
 }
 
 .header__logo {
@@ -860,20 +924,18 @@ ol {
 }
 
 .featured__item__pic {
-	height: 150px;
-	width: 150px;
-	margin: auto;
+	height: 270px;
+	width: 250;
 	position: relative;
 	overflow: hidden;
 	background-position: center center;
 }
 
-
 .featured__item__pic__hover {
 	position: absolute;
 	left: 0;
 	bottom: -50px;
-	width: 80%;
+	width: 100%;
 	text-align: center;
 	-webkit-transition: all, 0.5s;
 	-moz-transition: all, 0.5s;
@@ -1287,6 +1349,7 @@ ol {
 
 .product__discount__item__pic {
 	height: 270px;
+	width: 250px;
 	position: relative;
 	overflow: hidden;
 }
@@ -1359,7 +1422,6 @@ ol {
 .product__item__pic__hover li a i {
 	position: relative;
 	transform: rotate(0);
-	margin-top: 10px;
 	-webkit-transition: all, 0.3s;
 	-moz-transition: all, 0.3s;
 	-ms-transition: all, 0.3s;
@@ -1542,6 +1604,7 @@ ol {
 
 .product__item__pic {
 	height: 270px;
+	width: 250px;
 	position: relative;
 	overflow: hidden;
 }

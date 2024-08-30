@@ -14,6 +14,7 @@ if (isset($_GET['del_id'])) {
     $product_list = array_values($product_list);
     $_SESSION['product_list'] = $product_list;
     header("Location:./shoping-cart.php");
+    exit();
 }
 
 if (isset($_GET['dec'])) {
@@ -41,14 +42,16 @@ if (isset($_GET['inc'])) {
         header("Location: ./shoping-cart.php");
     }
 }
+   
 if (isset($_POST['order'])) {
+   if(isset($user)){
     $user_id = $user['user_id'];
     $order_date = date('Y-m-d');
     $total_amount = $_POST['amount'];
-    $order = save_order($mysqli, $user_id, $order_date, $total_amount);
+    $order = save_order($mysqli,$user_id, $order_date, $total_amount);
     if ($order) {
-        $lest_order = get_last_order($mysqli);
-        $order_id = $lest_order['order_id'];
+        $last_order = get_last_order($mysqli);
+        $order_id = $last_order['order_id'];
         foreach ($product_list as $product_item) {
             $order_id = $order_id;
             $product_id = $product_item['product_id'];
@@ -56,10 +59,16 @@ if (isset($_POST['order'])) {
             $amount = $product_item['amount'];
             $order_item = save_order_item($mysqli, $order_id, $product_id, $qty, $amount);
         }
-        session_destroy();
+        // session_destroy();
         header("Location: ./checkout.php");
+        exit();
     }
+   }else{
+    header("Location: ./auth/login.php");
+    exit();
+   }
 }
+
 ?>
 
 <?php require_once("./user/layout/header.php") ?>
@@ -86,7 +95,7 @@ if (isset($_GET['product_id'])) {
         }
         array_push($product_list, [
             'product_id' => $product['product_id'],
-            'user_id' => $user['user_id'],
+            
             'price' => $price,
             'product_name' => $product['product_name'],
             'qty' => 1,
@@ -122,7 +131,7 @@ if (isset($_GET['product_id'])) {
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <?php if($_SESSION['product_list']) :?>
+                <?php if(isset($_SESSION['product_list'])) :?>
                     <div class="shoping__cart__table">
                     <table>
                         <thead>

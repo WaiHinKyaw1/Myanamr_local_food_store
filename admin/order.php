@@ -51,6 +51,7 @@ if (isset($_GET['delete_id'])) {
                                 <th scope="col">Amount</th>
                                 <th scope="col">Payment status</th>
                                 <th scope="col">Order Status</th>
+                                <th scope="col">Deliver Info</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -78,7 +79,9 @@ if (isset($_GET['delete_id'])) {
                                     <?php else : ?>
                                     <button class="btn btn-success btn-sm rounded">Delivered</button>
                                     <?php endif ?>
-                                    </td>  
+                                    </td> 
+                                    <td><a href="../admin/deliver.php?user_id=<?= $user['user_id'] ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-truck"></i></a>                                        
+                                    </td> 
                                     <td>
                                     <a href="../admin/order_detail.php?order_id=<?php echo $order['order_id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
                                     <a href="../admin/order.php?delete_id=<?php echo $order['order_id'] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>

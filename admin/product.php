@@ -112,24 +112,34 @@ if (isset($_GET['update_id'])) {
                             <label for="brand" class="form-label mt-3">Product Name</label>
                             <input type="text" class="form-control" required="" name="name" value="<?php if(isset($_GET['update_id'])) echo $product_name ?>" placeholder="Write a Product">
                         </div>
-                        <div class="mb-3">
+                        <div class="row">
+                        <div class="col-6 mb-3">
                             <label for="price" class="form-label mt-3">Price</label>
                             <input type="int" class="form-control" required="" name="price" value="<?php if(isset($_GET['update_id'])) echo $price ?>" placeholder="Write a Price">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-6 mb-3">
                             <label for="brand" class="form-label mt-3">Qty</label>
                             <input type="number" class="form-control" required="" name="qty" value="<?php if(isset($_GET['update_id'])) echo $qty ?>" placeholder="Write a Qty">
                         </div>
-                        <div class="mb-3">
+                        </div>
+                        <div class="row">
+                        <div class="col-6 mb-3">
                             <label for="brand" class="form-label mt-3">Exp Date</label>
                             <input type="date" class="form-control" required="" name="exp_date" value="<?php if(isset($_GET['update_id'])) echo $exp_date ?>">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-6 mb-3">
                             <label for="brand" class="form-label mt-3">Discount</label>
                             <input type="int" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>" placeholder="Write a Discount">
                         </div>
+                        </div>
                        <?php if(isset($_GET['update_id']) == null) : ?>
                         <div class="mb-3">
+                            <label for="brand" class="form-label mt-3">Image</label>
+                            <input type="file" class="form-control" required="" name="image">
+                        </div>
+                        <?php endif ?>
+                        <div class="row">
+                        <div class="col-6 mb-3">
                             <select class="form-select form-control" aria-label="Default select example" name="select_category">
                                 <option value="00">Select Your Category</option>
                                <?php $categories = get_all_category($mysqli);
@@ -140,7 +150,7 @@ if (isset($_GET['update_id'])) {
                                <?php endwhile ?>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="col-6 mb-3">
                             <select class="form-select form-control" aria-label="Default select example" name="select_brand">
                                 <option value="00">Select Your Brand</option>
                                <?php $brands = get_all_brand($mysqli);
@@ -151,11 +161,7 @@ if (isset($_GET['update_id'])) {
                                <?php endwhile ?>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="brand" class="form-label mt-3">Image</label>
-                            <input type="file" class="form-control" required="" name="image">
                         </div>
-                        <?php endif ?>
             
                         <?php if(isset($_GET['update_id'])) : ?>
                             <button type="submit" class="btn btn-primary mb-3" name="update">Update</button>

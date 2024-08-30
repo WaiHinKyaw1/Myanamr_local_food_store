@@ -38,8 +38,8 @@ require_once("./storage/user_db.php");
                         }
                     ?>
                     <div class="product__details__pic">
-                        <div class="">
-                            <img class="" style="width: 500px; height:500px;"
+                        <div class="ms-5">
+                            <img class="" style="width: 350px; height:350px;"
                                 src="data:png/image;base64,<?php echo $product['image'] ?>" alt="">
                         </div>
                     </div>
@@ -74,7 +74,7 @@ require_once("./storage/user_db.php");
                                     <a href=""><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                                    
                                 </div>
                             </li>
                         </ul>
@@ -112,7 +112,7 @@ require_once("./storage/user_db.php");
                         </div>
                         <div class="product__item__text">
                             <h6><a href="#"><?php echo $related_product['product_name'] ?></a></h6>
-                            <h5>$<?php echo $related_product['price']  ?></h5>
+                            <h5><?php echo $related_product['price']  ?> Kyats</h5>
                         </div>
                     </div>
                 </div>

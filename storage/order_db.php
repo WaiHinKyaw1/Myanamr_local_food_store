@@ -1,9 +1,9 @@
 <?php
-function save_order($mysqli, $user_id, $order_date, $total_amount)
+function save_order($mysqli,$user_id, $order_date, $total_amount)
 {
     $sql = "insert into `order`(user_id,order_date,total_amount) values($user_id,'$order_date',$total_amount)";
     if ($mysqli->query($sql)) {
-        return true;
+    return true;
     }
     return false;
 }
@@ -15,7 +15,7 @@ function get_all_order($mysqli){
 }
 
 function get_order_with_limit($mysqli){
-    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 2";
+    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 3";
     $result = $mysqli->query($sql);
     return $result;
 }

@@ -265,10 +265,7 @@ require_once("../storage/brand_db.php");
                             </div>
                         </div>
                    
-                    </div>
-                    
-                    
-
+                    </div>                    
                     
                 </div>
             </div>

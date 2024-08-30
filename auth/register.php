@@ -6,6 +6,7 @@ $name = $email = $phone = $address =$password = $confirm_password ="";
 $success = $invalid = false;
 $pass_error = "";
 if (isset($_POST['register'])) {
+    
     $name=htmlspecialchars($_POST['user_name']);
     $email=htmlspecialchars($_POST['email']);
     $phone=htmlspecialchars($_POST['phone']);
@@ -19,12 +20,21 @@ if (isset($_POST['register'])) {
                $password = password_hash($password,PASSWORD_DEFAULT);
                $save_user = save_user($mysqli, $name, $email, $phone, $address, $password);
                 if($save_user){
-                   $success = "Registeration Success!";
+                    $_SESSION['status'] = "Register Success";
+                    $_SESSION['status_code'] = "success";
+                    header("Location: ./login.php");
+                    exit();
                 } else {
-                    $invalid = "Invalid Registeration!";
+                    $_SESSION['status'] = "Invalid Registertion";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: ./register.php");
+                    exit();
                 }
             } else {
-                 $pass_error = "Password not correct";
+                $_SESSION['status'] = "Password Not Correct";
+                $_SESSION['status_code'] = "warning";
+                header("Location: ./register.php");
+                exit();
             }
 
         } else {
@@ -37,18 +47,7 @@ if (isset($_POST['register'])) {
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-6">
-                    <?php if ($success) : ?>
-                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
-                    <?php if ($invalid) : ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong><?php echo $invalid ?>!</strong> 
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
+                    
             <form method="post">
                 <div class="card rounded">
                     <div class="card-header text-center text-info">
@@ -89,4 +88,5 @@ if (isset($_POST['register'])) {
         </div>
     </div>
 </div>
+
 <?php require_once("./layout/footer.php") ?>

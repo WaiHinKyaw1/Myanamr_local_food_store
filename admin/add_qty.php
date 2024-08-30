@@ -58,7 +58,7 @@ require_once("../admin/layout/sidebar.php");
             <div class="row justify-content-center ">
                 <div class="col-6 align-items-center">
                     <div class="card p-5">
-                        <h3 class="text-center mb-5">UPDATE QTY</h3>
+                        <h3 class="text-center mb-5">ADD QTY</h3>
                         <form action="" method="post">
                             <div class="col-sm-5">
                             <h4><input class="form-control" type="number" name="add" id="" placeholder="Add QTY"></h4>

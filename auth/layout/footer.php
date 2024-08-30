@@ -1,5 +1,4 @@
 </div>
-   
     <!-- jquery 3.3.1 -->
     <script src="../admin/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <!-- bootstap bundle js -->
@@ -21,6 +20,20 @@
     <script src="../admin/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="../admin/assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="../admin/assets/libs/js/dashboard-ecommerce.js"></script>
+    <script>
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
+                    
+                    swal({
+                    title: "<?= $_SESSION['status'] ?>",
+                    icon: "<?= $_SESSION['status_code'] ?>",
+                    button: "Done!",
+                    });
+                <?php 
+            unset($_SESSION['status']);
+            } ?>    
+        
+
+</script>
+    
 </body>
- 
 </html>

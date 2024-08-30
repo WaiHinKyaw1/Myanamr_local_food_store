@@ -83,7 +83,7 @@ function create_tables($mysqli)
         `total_amount` INT NOT NULL,
         `order_status` BOOLEAN DEFAULT(FALSE),
         `payment_status` BOOLEAN DEFAULT(FALSE),
-        FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE
+         FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE
     ) ";
         if ($mysqli->query($sql) === false) return false;
 
@@ -109,6 +109,21 @@ function create_tables($mysqli)
     FOREIGN KEY(`product_id`) REFERENCES `product`(`product_id`) ON DELETE CASCADE
 )";
     if ($mysqli->query($sql) === false) return false;
+
+    $sql = "CREATE TABLE IF NOT EXISTS `deliver`(
+        `deliver_id` int auto_increment primary key,
+        `order_id` int not null,
+        `user_id` int not null,
+        `customer_name` varchar(255) not null,
+        `email` varchar(50) unique not null,
+        `phone` int not null,
+        `city` varchar(255) not null,
+        `street` varchar(255) not null,
+        `order_note` varchar(255) null,
+         FOREIGN KEY(`order_id`) REFERENCES `order`(`order_id`) ON DELETE CASCADE,
+         FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE
+         )";
+        if ($mysqli->query($sql) === false) return false;
 }
 
 create_database($mysqli);

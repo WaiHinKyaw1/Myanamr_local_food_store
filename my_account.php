@@ -2,16 +2,18 @@
 require_once("./storage/database.php");
 require_once("./storage/auth_user.php");
 require_once("./storage/user_db.php");
+require_once("./user/layout/header.php");
+
 if (!$user) {
     header("Location: ./auth/login.php");
 }
-
 $name_error = $email_error = $phone_error = $address_error = $name = $email = $address = $phone = $current_pass_error = $new_pass_error = "";
 $success = $invalid = "";
 $validation = true;
 $user_id = $user['user_id'];
 
 if (isset($_POST['edit_account'])) {
+    
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -26,14 +28,18 @@ if (isset($_POST['edit_account'])) {
 
         $user_update = update_user($mysqli, $user_id, $name, $email, $phone, $address);
         if ($user_update) {
-            $success = "Update is Success";
-            header("Location: ./my_account.php?success=$success");
+            $_SESSION['status'] = "Update Success";
+            $_SESSION['status_code'] = "success";
+            header("Location: ./my_account.php");
+            exit();
         } else {
-            $invalid = "Update is invalid";
+            $_SESSION['status'] = "Update Fail";
+            $_SESSION['status_code'] = "error";
+            header("Location: ./my_account.php");
+            exit();
         }
     }
 }
-
 if (isset($_POST['change_password'])) {
     $current_pass = $_POST['current_password'];
     $new_password = $_POST['new_password'];
@@ -63,7 +69,6 @@ if (isset($_POST['change_password'])) {
     }
 }
 
-require_once("./user/layout/header.php");
 require_once("./user/layout/navbar.php");
 ?>
 

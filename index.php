@@ -8,11 +8,6 @@ require_once("./user/layout/header.php");
 require_once("./storage/order_db.php");
 require_once("./storage/auth_user.php");
 
-$successMessage = isset($_SESSION['payment_success']) ? $_SESSION['payment_success'] : null;
-$errorMessage = isset($_SESSION['payment_error']) ? $_SESSION['payment_error'] : null;
-unset($_SESSION['payment_success']);
-unset($_SESSION['payment_error']);
-
 $result_per_page = 8;
 if (isset($_GET["page"])) {
     $page  = $_GET["page"];
@@ -25,17 +20,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
 ?>
 
 <?php require_once("./user/layout/navbar.php") ?>
-<?php if ($successMessage): ?>
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <strong><?php echo $successMessage ?>!</strong> .
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
-<?php if ($errorMessage): ?>
-    <div class="alert alert-danger">
-        <?php echo htmlspecialchars($errorMessage); ?>
-    </div>
-<?php endif; ?>
+
 <section class="hero">
     <div class="container">
         <div class="row">
@@ -213,6 +198,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <?php
                         $best_sellers = get_product_best_seller($mysqli);
                         foreach ($best_sellers as $best_seller) :
+                            
                         ?>
                             <div class="latest-prdouct__slider__item">
                                 <?php
@@ -236,12 +222,13 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="latest-product__text">
-                    <h4>Lasted Products</h4>
+                    <h4>New Arrival Products</h4>
                     <div class="latest-product__slider owl-carousel">
-                        <?php
-                        $is_news = get_product_is_new($mysqli);
-                        foreach ($is_news as $is_new) :
-                        ?>
+                       
+                        
+                         
+
+
                             <div class="latest-prdouct__slider__item">
                                 <?php
                                 $is_news = get_product_is_new($mysqli);
@@ -258,7 +245,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                                     </a>
                                 <?php endforeach ?>
                             </div>
-                        <?php endforeach ?>
+                        <!-- <?php //endforeach ?> -->
                     </div>
                 </div>
             </div>
@@ -272,10 +259,10 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         ?>
                             <div class="latest-prdouct__slider__item">
                                 <?php
-                                $i = 0;
+                                
                                 $discounts = get_product_discount($mysqli);
                                 foreach ($discounts as $discount) :
-                                    if ($i < 5) {
+                                   
 
                                 ?>
                                         <a href="#" class="latest-product__item">
@@ -287,9 +274,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                                                 <span>$<?php echo $discount['price'] ?></span>
                                             </div>
                                         </a>
-                                <?php $i++;
-                                    }
-                                endforeach ?>
+                                <?php endforeach ?>
                             </div>
                         <?php endforeach ?>
                     </div>
@@ -300,66 +285,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
 </section>
 <!-- Latest Product Section End -->
 
-<!-- Blog Section Begin -->
-<!-- <section class="from-blog spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title from-blog__title">
-                    <h2>From The Blog</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6">
-                <div class="blog__item">
-                    <div class="blog__item__pic">
-                        <img src="./assets/img/blog/blog-1.jpg" alt="">
-                    </div>
-                    <div class="blog__item__text">
-                        <ul>
-                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                            <li><i class="fa fa-comment-o"></i> 5</li>
-                        </ul>
-                        <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6">
-                <div class="blog__item">
-                    <div class="blog__item__pic">
-                        <img src="./assets/blog/blog-2.jpg" alt="">
-                    </div>
-                    <div class="blog__item__text">
-                        <ul>
-                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                            <li><i class="fa fa-comment-o"></i> 5</li>
-                        </ul>
-                        <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6">
-                <div class="blog__item">
-                    <div class="blog__item__pic">
-                        <img src="./assets/blog/blog-3.jpg" alt="">
-                    </div>
-                    <div class="blog__item__text">
-                        <ul>
-                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                            <li><i class="fa fa-comment-o"></i> 5</li>
-                        </ul>
-                        <h5><a href="#">Visit the clean farm in the US</a></h5>
-                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-<!-- Blog Section End -->
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">

@@ -70,6 +70,13 @@ function get_product_by_brand_id($mysqli, $brand_id)
     return $result;
 }
 
+function get_product_limit_by_brand_id($mysqli,$start_from,$result_per_page,$brand_id)
+{
+    $sql = "SELECT * FROM `product` WHERE `brand_id`=$brand_id LIMIT $start_from, $result_per_page ";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
 function get_product_by_filter($mysqli, $product_name = null, $category_id = null ,$brand_id = null)
 {
     if ($product_name && $category_id && $brand_id) {

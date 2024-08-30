@@ -9,6 +9,7 @@
 <?php
 require_once("./storage/auth_user.php");
 $payment_method_error = "";
+
 ?>
 
 <!-- Breadcrumb Section Begin -->
@@ -113,52 +114,56 @@ $payment_method_error = "";
 
                             </div>
                         </div>
+
                         <div class="row">
-                            <?php 
-                            $last_order = get_last_order($mysqli);
-                            $last_order_id = $last_order['order_id'];
-                            $order =get_order_by_id($mysqli,$last_order_id);
-                            $user_id = $order['user_id'];
-                            $user = get_user_by_id($mysqli,$user_id);
+                            <form action="./payment.php" method="post" enctype="multipart/form-data">
                             
-                            ?>
                             <h6 class="text-muted text-center  m-0 p-2 mb-3">Delivery</h6>
                             <div class="checkout__input">
                                 <p>Name<span>*</span></p>
-                                <input type="text" value="<?php echo $user['name'] ?>">
+                                <input type="text" name="name" required="">
 
                             </div>
                             
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add" value="<?php echo $user['address'] ?>">
-                            </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone<span>*</span></p>
-                                        <input type="text" value="<?php echo $user['phone'] ?>">
+                                        <input type="text" name="phone" required="" value="<?php   ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input type="text" class="required" value="<?php echo $user['email'] ?>">
+                                        <input type="text" name="email" required="" class="required" value="<?php  ?>">
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>City<span>*</span></p>
+                                        <input type="text" name="city" required="" value="<?php   ?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Street<span>*</span></p>
+                                        <input type="text" name="street" required="" value="<?php  ?>">
+                                    </div>
+                                </div>
+                            </div>
+ 
                             <div class="checkout__input">
                                 <p>Order notes<span>*</span></p>
-                                <input type="text" placeholder="Notes about your order, e.g. special notes for delivery.">
+                                <input type="text" name="order_note" required="" placeholder="Notes about your order, e.g. special notes for delivery.">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-6">
                         <div class="checkout__order">
-                            <form action="./payment.php" method="post" enctype="multipart/form-data">
 
-                                <h4>Your Order</h4>
+                                <!-- <h4>Your Order</h4>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
                                 <?php
                                 $last_order = get_last_order($mysqli);
@@ -166,23 +171,51 @@ $payment_method_error = "";
                                 $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
                                 foreach ($order_item as $product) :
                                     $product_id = $product['product_id'];
-                                    $product = get_product_by_order_item_id($mysqli, $product_id);
+                                    $products = get_product_by_order_item_id($mysqli, $product_id);
+
+                                ?>
+                                    <ul>
+                                        <li class="d-flex justify-content-between">
+                                            <?php echo $products['product_name'] ?>
+                                             <span><?php if (isset($product['discount'])) { ?>
+                                                    $<?php echo  $price = $product['price'] - $product['discount']; ?>
+                                                <?php } else { ?>
+                                                    $<?php echo $product['price'] ?>
+                                                <?php } ?></span>
+                                                <span><?= $product['amount'] ?></span>
+                                        </li>
+
+                                    </ul>
+                                <?php endforeach ?>
+                                <div class="checkout__order__total"></div>
+                                <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div> -->
+
+                                <h4>Your Order</h4>
+                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                <?php
+                                $total_price=0;
+                                foreach ($product_list as $product) :
+                                    
 
                                 ?>
                                     <ul>
                                         <li class="d-flex justify-content-between">
                                             <?php echo $product['product_name'] ?>
-                                            <span><?php if (isset($product['discount'])) { ?>
+                                            <!-- <span><?php if (isset($product['discount'])) { ?>
                                                     $<?php echo  $price = $product['price'] - $product['discount']; ?>
                                                 <?php } else { ?>
                                                     $<?php echo $product['price'] ?>
-                                                <?php } ?></span>
+                                                <?php } ?></span> -->
+                                                <span><?= $product['amount'] ?></span>
                                         </li>
 
                                     </ul>
-                                <?php endforeach ?>
-                                <div class="checkout__order__subtotal">Subtotal <span>$<?php echo $last_order['total_amount'] ?></span></div>
-                                <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div>
+                                    <?php 
+                                    $total_price = $total_price + $product['amount'];
+                                
+                                endforeach ?>
+                                <div class="checkout__order__total"></div>
+                                <div class="checkout__order__total">Total <span>$<?= $total_price ?></span></div>
 
                                 <div class="d-flex">
                                     
@@ -217,7 +250,7 @@ $payment_method_error = "";
                                         <input type="file" name="screenshot" id="" required="">
                                     </div>
                                     <input type="hidden" name="order" value="<?php echo $last_order_id; ?>">
-                                    <button type="submit" class="site-btn">PAYMENT</button>
+                                    <button type="submit" name="payment" class="site-btn">PAYMENT</button>
                             </form>
                         </div>
                     </div>
