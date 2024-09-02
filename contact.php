@@ -27,7 +27,7 @@
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
                         <h4>Phone</h4>
-                        <p>09-679679692</p>
+                        <p>09-946386596</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
@@ -59,7 +59,7 @@
     <!-- Map Begin -->
     <div class="map">
     <div id="map"></div>
-    
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3819.073153167395!2d96.11740794219675!3d16.82272664276874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c194cd7267146b%3A0x91eaee607eaf334a!2sKyun%20Chan%207%20St%2C%20Yangon!5e0!3m2!1sen!2smm!4v1725119303512!5m2!1sen!2smm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <div class="map-inside">
             <i class="icon_pin"></i>
             <div class="inside-widget">

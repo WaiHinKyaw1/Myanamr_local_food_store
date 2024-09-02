@@ -21,8 +21,8 @@ if(isset($_POST['submit'])){
     if($validate){
 
         $user = get_user_by_email($mysqli,$email);
-        $password_check = password_verify($password,$user['password']);
-        if($user['email'] == $_POST['email']){
+        $password_check = password_verify($password,@$user['password']);
+        if(@$user['email'] == $_POST['email']){
             if($password_check){
                 $success = "Login Success";
                 setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');

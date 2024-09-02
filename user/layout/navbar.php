@@ -35,7 +35,7 @@ if (isset($_POST['logout'])) {
                             
                                 <?php if($user) :?>
                                     <form method="post">
-                                        <button name="logout" class="btn btn-none "><i class="fa-solid fa-power-off"></i> Logout</button>
+                                        <button name="logout" class="btn btn-none " style="line-height: 2;"><i class="fa-solid fa-power-off"></i> Logout</button>
                                     </form>
                                 <?php else :?>
                                     <a href="./auth/login.php"><i class="fa-solid fa-power-off"></i> Login</a>

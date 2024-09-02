@@ -20,6 +20,7 @@
     <script src="./user/assets/js/mixitup.min.js"></script>
     <script src="./user/assets/js/owl.carousel.min.js"></script>
     <script src="./user/assets/js/main.js"></script>
+    <script src="./user/assets/js/slider.js"></script>
     <script>
         <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
                     

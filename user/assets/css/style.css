@@ -1661,6 +1661,7 @@ ol {
 }
 
 .product__item__pic__hover li a i {
+	line-height: 2.5;
 	position: relative;
 	transform: rotate(0);
 	-webkit-transition: all, 0.3s;

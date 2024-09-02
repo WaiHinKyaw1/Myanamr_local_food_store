@@ -55,11 +55,11 @@ require_once("./user/layout/header.php");
                                                     $discount_price = $product['price'] - $product['discount'];
                                                 ?>
                                                     <div class="d-flex justify-content-center">
-                                                        <h6 class=" text-danger me-3">$<?php echo $discount_price ?> </h6>
-                                                        <h6 class="text-decoration-line-through text-muted">$<?php echo $product['price'] ?> </h6>
+                                                        <h6 class=" text-danger me-3"><?php echo $discount_price ?> Kyats</h6>
+                                                        <h6 class="text-decoration-line-through text-muted"><?php echo $product['price'] ?> Kyats</h6>
                                                     </div>
                                                 <?php } else { ?>
-                                                    <h6 class=" text-dark"> $<?php echo $product['price'] ?></h6>
+                                                    <h6 class=" text-dark"> <?php echo $product['price'] ?> Kyats</h6>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -125,11 +125,11 @@ require_once("./user/layout/header.php");
                                         $discount_price = $product['price'] - $product['discount'];
                                     ?>
                                         <div class="d-flex justify-content-center">
-                                            <h6 class=" text-danger me-3">$<?php echo $discount_price ?> </h6>
-                                            <h6 class="text-decoration-line-through text-muted">$<?php echo $product['price'] ?> </h6>
+                                            <h6 class=" text-danger me-3"><?php echo $discount_price ?> Kyats</h6>
+                                            <h6 class="text-decoration-line-through text-muted"><?php echo $product['price'] ?> Kyats</h6>
                                         </div>
                                     <?php } else { ?>
-                                        <h6 class=" text-dark"> $<?php echo $product['price'] ?></h6>
+                                        <h6 class=" text-dark"> <?php echo $product['price'] ?> Kyats</h6>
                                     <?php } ?>
                                 </h5>
                             </div>

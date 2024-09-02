@@ -54,7 +54,7 @@ $payment_method_error = "";
                                             </div>
                                             <div class="modal-body">
                                                 <div class="py-3 text-center">
-                                                    <img src="./image/kpay_qr.jpg" alt="">
+                                                    <img src="./user/image/kpay_qr.jpg" alt="">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -78,7 +78,7 @@ $payment_method_error = "";
                                             </div>
                                             <div class="modal-body">
                                                 <div class="py-3 text-center">
-                                                    <img src="./image/wave_qr.jpg" alt="">
+                                                    <img src="./user/image/wave_qr.jpg" alt="">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -102,7 +102,7 @@ $payment_method_error = "";
                                             </div>
                                             <div class="modal-body">
                                                 <div class="py-3 text-center">
-                                                    <img src="./image/mytel_qr.jpg" style="width: 80%;height:70%;" alt="">
+                                                    <img src="./user/image/mytel_qr.jpg" style="width: 80%;height:70%;" alt="">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -250,7 +250,7 @@ $payment_method_error = "";
                                         <input type="file" name="screenshot" id="" required="">
                                     </div>
                                     <input type="hidden" name="order" value="<?php echo $last_order_id; ?>">
-                                    <button type="submit" name="payment" class="site-btn">PAYMENT</button>
+                                    <button type="submit" name="payment" onclick="myFunction()" class="site-btn">PAYMENT</button>
                             </form>
                         </div>
                     </div>
@@ -259,5 +259,10 @@ $payment_method_error = "";
         </div>
     </div>
 </section>
+<script>
+function myFunction() {
+  alert("Payment Success!");
+}
+</script>        
 <!-- Checkout Section End -->
 <?php require_once("./user/layout/footer.php") ?>

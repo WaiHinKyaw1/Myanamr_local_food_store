@@ -44,6 +44,10 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                     <div class="hero__search__form">
                         <form action="./index.php" method="GET">
                             <input name="name" id="name-filter" type="text" placeholder="What do yo u need?">
+                            <?php if(isset($_GET['category_id']) || isset($_GET['brand_id'])) : ?>
+                            <input type="hidden" value="<?= $_GET['category_id'] ?>" name="category_id">
+                            <input type="hidden" value="<?= $_GET['brand_id'] ?>" name="brand_id">
+                            <?php endif ?>
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
                     </div>
@@ -185,106 +189,73 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
     </div>
 </section>
 <!-- Featured Section End -->
-
-
-<!-- Latest Product Section Begin -->
-<section class="latest-product spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Best Seller Products</h4>
-                    <div class="latest-product__slider owl-carousel ">
-                        <?php
-                        $best_sellers = get_product_best_seller($mysqli);
-                        foreach ($best_sellers as $best_seller) :
-                            
-                        ?>
-                            <div class="latest-prdouct__slider__item">
-                                <?php
-                                $best_sellers = get_product_best_seller($mysqli);
-                                foreach ($best_sellers as $best_seller) :
-                                ?>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="data:png/image;base64,<?php echo $best_seller['image'] ?>" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6><?php echo $best_seller['product_name'] ?></h6>
-                                            <span>$<?php echo $best_seller['price'] ?></span>
-                                        </div>
-                                    </a>
-                                <?php endforeach ?>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>New Arrival Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                       
-                        
-                         
-
-
-                            <div class="latest-prdouct__slider__item">
-                                <?php
-                                $is_news = get_product_is_new($mysqli);
-                                foreach ($is_news as $is_new) :
-                                ?>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="data:png/image;base64,<?php echo $is_new['image'] ?>" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6><?php echo $is_new['product_name'] ?></h6>
-                                            <span>$<?php echo $is_new['price'] ?></span>
-                                        </div>
-                                    </a>
-                                <?php endforeach ?>
-                            </div>
-                        <!-- <?php //endforeach ?> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Discount Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        <?php
-                        $discounts = get_product_discount($mysqli);
-                        foreach ($discounts as $discount) :
-                        ?>
-                            <div class="latest-prdouct__slider__item">
-                                <?php
-                                
-                                $discounts = get_product_discount($mysqli);
-                                foreach ($discounts as $discount) :
-                                   
-
-                                ?>
-                                        <a href="#" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="data:png/image;base64,<?php echo $discount['image'] ?>" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6><?php echo $discount['product_name'] ?></h6>
-                                                <span>$<?php echo $discount['price'] ?></span>
-                                            </div>
-                                        </a>
-                                <?php endforeach ?>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="latest-product__text">
+            <h4>Best Seller Products</h4>
+            <div class="categories__slider owl-carousel">
+                <?php
+                $best_sellers = get_product_best_seller($mysqli);
+                foreach ($best_sellers as $best_seller) :
+                ?>
+                    <a href="#" class="latest-product__item">
+                        <div class="latest-product__item__pic">
+                            <img src="data:png/image;base64,<?php echo $best_seller['image'] ?>" alt="">
+                        </div>
+                        <div class="latest-product__item__text">
+                            <h6><?php echo $best_seller['product_name'] ?></h6>
+                            <span><?php echo $best_seller['price'] ?>Kyats</span>
+                        </div>
+                    </a>
+                <?php endforeach ?>
             </div>
         </div>
     </div>
-</section>
-<!-- Latest Product Section End -->
+    <div class="row">
+        <div class="latest-product__text">
+            <h4>New Arrival Products</h4>
+            <div class="categories__slider owl-carousel">
+                <?php
+                $is_news = get_product_is_new($mysqli);
+                foreach ($is_news as $is_new) :
 
+                ?>
+                    <a href="#" class="latest-product__item">
+                        <div class="latest-product__item__pic">
+                            <img src="data:png/image;base64,<?php echo $is_new['image'] ?>" alt="">
+                        </div>
+                        <div class="latest-product__item__text">
+                            <h6><?php echo $is_new['product_name'] ?></h6>
+                            <span>$<?php echo $is_new['price'] ?></span>
+                        </div>
+                    </a>
+
+                <?php endforeach ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="latest-product__text">
+            <h4>Discount Products</h4>
+            <div class="categories__slider owl-carousel">
+                <?php
+                $discounts = get_product_discount($mysqli);
+                foreach ($discounts as $discount) :
+                ?>
+                    <a href="#" class="latest-product__item">
+                        <div class="latest-product__item__pic">
+                            <img src="data:png/image;base64,<?php echo $discount['image'] ?>" alt="">
+                        </div>
+                        <div class="latest-product__item__text">
+                            <h6><?php echo $discount['product_name'] ?></h6>
+                            <span><?php echo $discount['price'] ?> Kyats</span>
+                        </div>
+                    </a>
+                <?php endforeach ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">
@@ -310,8 +281,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <li><a href="#">Instock Our Product</a></li>
                         <li><a href="./contact.php">About Our Shop</a></li>
                         <li><a href="#">Delivery infomation</a></li>
-
-
                     </ul>
 
                 </div>
@@ -328,7 +297,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-instagram"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
                     </div>
                 </div>
             </div>

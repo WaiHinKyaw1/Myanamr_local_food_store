@@ -91,7 +91,7 @@ function create_tables($mysqli)
         `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
         `order_id` INT NOT NULL,
         `payment_date` DATE NOT NULL,
-        `payment_img` VARCHAR(255),
+        `payment_img` TEXT NOT NULL,
         `payment_method` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`) ON DELETE CASCADE
     )";

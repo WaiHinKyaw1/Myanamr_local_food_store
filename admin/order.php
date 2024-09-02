@@ -80,7 +80,7 @@ if (isset($_GET['delete_id'])) {
                                     <button class="btn btn-success btn-sm rounded">Delivered</button>
                                     <?php endif ?>
                                     </td> 
-                                    <td><a href="../admin/deliver.php?user_id=<?= $user['user_id'] ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-truck"></i></a>                                        
+                                    <td><a href="../admin/deliver.php?order_id=<?= $order['order_id'] ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-truck"></i></a>                                        
                                     </td> 
                                     <td>
                                     <a href="../admin/order_detail.php?order_id=<?php echo $order['order_id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
