@@ -70,7 +70,7 @@ function get_product_by_brand_id($mysqli, $brand_id)
     return $result;
 }
 
-function get_product_limit_by_brand_id($mysqli,$start_from,$result_per_page,$brand_id)
+function get_product_limit_by_brand_id($mysqli,$brand_id,$start_from,$result_per_page)
 {
     $sql = "SELECT * FROM `product` WHERE `brand_id`=$brand_id LIMIT $start_from, $result_per_page ";
     $result = $mysqli->query($sql);

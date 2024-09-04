@@ -149,7 +149,7 @@ if (isset($_POST['devivered'])) {
                                             if($payment == null) :
                                                 echo "Unpaid"; ?>
                                             <?php else : ?>
-                                                <img style="width: 120px;height: 80px;" class="rounded" src="data:image/png;base64,<?php echo $payment['payment_img'] ?>" alt="">
+                                                <img style="width: 120px;height: 120px;" class="rounded" src="data:image/png;base64,<?php echo $payment['payment_img'] ?>" alt="">
                                             
                                         <?php endif ?>
                                     </td>
@@ -166,7 +166,7 @@ if (isset($_POST['devivered'])) {
                                 <tr>
                                     <td>Order Status</td>
                                     <td class=""><?php if ($order['order_status'] == 0) : ?>
-                                            <span class="text-warning ms-5">Deliverying</span>
+                                            <span class="text-warning ms-5">Delivering</span>
                                         <?php else : ?>
                                             <span class="text-success ms-5">Delivered</span>
                                         <?php endif ?>

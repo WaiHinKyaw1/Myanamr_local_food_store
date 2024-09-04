@@ -9,9 +9,9 @@ if($myqli->query($sql)){
 }
 }
 
-function get_deliver_by_order_id($mysqli, $order_id)
+function get_deliver_by_order_id($mysqli, $order_id, $user_id)
 {
-    $sql = "SELECT * FROM `deliver` WHERE `order_id`=$order_id";
+    $sql = "SELECT * FROM `deliver` WHERE `order_id`=$order_id and `user_id`=$user_id ";
     $result = $mysqli->query($sql);
     return $result->fetch_assoc();
 }

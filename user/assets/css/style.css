@@ -1348,8 +1348,8 @@ ol {
 }
 
 .product__discount__item__pic {
-	height: 270px;
-	width: 250px;
+	height: 300px;
+	width: 230px;
 	position: relative;
 	overflow: hidden;
 }
@@ -1603,8 +1603,8 @@ ol {
 }
 
 .product__item__pic {
-	height: 270px;
-	width: 250px;
+	height: 300px;
+	width: 230px;
 	position: relative;
 	overflow: hidden;
 }

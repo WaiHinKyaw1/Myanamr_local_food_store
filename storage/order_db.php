@@ -7,15 +7,20 @@ function save_order($mysqli,$user_id, $order_date, $total_amount)
     }
     return false;
 }
+ function get_all_order($mysqli){
+    $sql = "select * from `order` ";
+    $result = $mysqli->query($sql);
+    return $result;
+ }
 
-function get_all_order($mysqli){
-    $sql = "select * from `order`";
+function get_all_limit_order($mysqli,$start_from, $count_per_page){
+    $sql = "select * from `order` LIMIT $start_from, $count_per_page";
     $result = $mysqli->query($sql);
     return $result;
 }
 
 function get_order_with_limit($mysqli){
-    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 3";
+    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 2";
     $result = $mysqli->query($sql);
     return $result;
 }

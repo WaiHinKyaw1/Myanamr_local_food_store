@@ -105,7 +105,7 @@ require_once("./user/layout/header.php");
                 $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_page);
                 if(isset($_GET['brand_id'])){
                     $brand_id = $_GET['brand_id'];
-                    $all_products = get_product_limit_by_brand_id($mysqli,$start_from,$result_per_page,$brand_id);
+                    $all_products = get_product_limit_by_brand_id($mysqli,$brand_id,$start_from,$result_per_page);
                 }
                 foreach ($all_products as $product) :
                 ?>

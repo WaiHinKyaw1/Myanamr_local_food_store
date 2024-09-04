@@ -29,7 +29,7 @@ require_once("../admin/layout/header.php");
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
-                            <?php $deliver = get_deliver_by_order_id($mysqli, $_GET['order_id']); ?>
+                            <?php $deliver = get_deliver_by_order_id($mysqli, $_GET['order_id'],$_GET['user_id']); ?>
                             <h3 class="text-center my-3"><i class="fa-solid fa-truck"></i> DELIVER INFO</h3>
                             <table class="table table-striped">
                                 

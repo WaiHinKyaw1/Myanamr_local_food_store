@@ -97,11 +97,11 @@ if (isset($_GET['update_id'])) {
                     <form method="post" class="form-control" enctype="multipart/form-data">
                         <div class="mb-4">
                             <label for="category" class="form-label mt-3">Categroy</label>
-                            <input type="text" class="form-control" required="" value="<?php echo $category_name ?>" name="category" placeholder="Write a Category">
+                            <input type="text" class="form-control" required="" value="<?= $category_name ?>" name="category" placeholder="Write a Category">
                         </div>
                         <div class="mb-4">
                             <label for="category" class="form-label mt-3">Image</label>
-                            <input type="file" name="image" class="form-control"  id="">
+                            <input type="file" name="image" class="form-control" ">
                         </div>
                         <?php if (isset($_GET['update_id'])) : ?>
                             <button type="submit" class="btn btn-primary mb-3" name="update">update</button>

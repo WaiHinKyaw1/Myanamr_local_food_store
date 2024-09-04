@@ -33,7 +33,7 @@
                             <div class="error-section-content">
                                 <h1 class="display-3">Page Not Found</h1>
                                 
-                                <a href="../index.php" class="btn btn-secondary btn-lg">Back to homepage</a>
+                                <a href="" class="btn btn-secondary btn-lg">Back to homepage</a>
                             </div>
                         </div>
                     </div>

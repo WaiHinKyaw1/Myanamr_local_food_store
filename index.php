@@ -152,10 +152,10 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                                 <h6 class=" text-dark"><?php echo $product['price'] ?>Kyats</h6>
                             <?php } ?>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             <?php endwhile ?>
-
+            <?php if(isset($_GET['brand_id']) === null || isset($_GET['category_id']) === null ) : ?>
             <div class="pagination">
                 <?php
                 $total_records = get_all_product($mysqli)->num_rows;
@@ -185,6 +185,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
 
                 ?>
             </div>
+            <?php endif ?>
         </div>
     </div>
 </section>
