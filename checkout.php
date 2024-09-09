@@ -161,51 +161,19 @@ $payment_method_error = "";
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-6">
-                        <div class="checkout__order">
-
-                                <!-- <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
-                                <?php
-                                $last_order = get_last_order($mysqli);
-                                $last_order_id = $last_order['order_id'];
-                                $order_item = get_all_order_item_by_order_id($mysqli, $last_order_id);
-                                foreach ($order_item as $product) :
-                                    $product_id = $product['product_id'];
-                                    $products = get_product_by_order_item_id($mysqli, $product_id);
-
-                                ?>
-                                    <ul>
-                                        <li class="d-flex justify-content-between">
-                                            <?php echo $products['product_name'] ?>
-                                             <span><?php if (isset($product['discount'])) { ?>
-                                                    $<?php echo  $price = $product['price'] - $product['discount']; ?>
-                                                <?php } else { ?>
-                                                    $<?php echo $product['price'] ?>
-                                                <?php } ?></span>
-                                                <span><?= $product['amount'] ?></span>
-                                        </li>
-
-                                    </ul>
-                                <?php endforeach ?>
-                                <div class="checkout__order__total"></div>
-                                <div class="checkout__order__total">Total <span>$<?php echo $last_order['total_amount'] ?></span></div> -->
+                        <div class="checkout__order">        
 
                                 <h4>Your Order</h4>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
                                 <?php
+                                 $last_order = get_last_order($mysqli);
+                                 $last_order_id = $last_order['order_id'];
                                 $total_price=0;
-                                foreach ($product_list as $product) :
-                                    
-
+                                foreach ($product_list as $product) :                
                                 ?>
                                     <ul>
                                         <li class="d-flex justify-content-between">
-                                            <?php echo $product['product_name'] ?>
-                                            <!-- <span><?php if (isset($product['discount'])) { ?>
-                                                    $<?php echo  $price = $product['price'] - $product['discount']; ?>
-                                                <?php } else { ?>
-                                                    $<?php echo $product['price'] ?>
-                                                <?php } ?></span> -->
+                                            <?= $product['product_name'] ?>
                                                 <span><?= $product['amount'] ?></span>
                                         </li>
 
@@ -215,10 +183,9 @@ $payment_method_error = "";
                                 
                                 endforeach ?>
                                 <div class="checkout__order__total"></div>
-                                <div class="checkout__order__total">Total <span>$<?= $total_price ?></span></div>
+                                <div class="checkout__order__total">Total <span><?= $total_price ?> Kyats</span></div>
 
-                                <div class="d-flex">
-                                    
+                                <div class="d-flex">                                    
                                         <div class="form-check ">
                                             <input class="form-check-input" type="radio" name="payment_method" value="Kbz Pay" id="flexRadioDefault1">
                                             <label class="form-check-label" for="flexRadioDefault1">
@@ -235,7 +202,7 @@ $payment_method_error = "";
                                             <small class="text-danger"><?php echo $payment_method_error ?></small>
                                         </div>
                                         
-                                        <div class="form-check ms-3">
+                                        <div class="form-check ms-3"> 
                                             <input class="form-check-input" type="radio" name="payment_method" value="Mytel Pay" id="flexRadioDefault1">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 Mytel Pay
@@ -244,7 +211,6 @@ $payment_method_error = "";
                                         </div>
                                     
                                 </div>
-
                                     <div class="checkout__input__radio mt-3">
                                         <label for=""><i class="fa-solid fa-image"></i>Upload Your Secreanshoot</label>
                                         <input type="file" name="screenshot" id="" required="">

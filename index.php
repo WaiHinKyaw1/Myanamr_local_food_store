@@ -1,9 +1,9 @@
 <?php
+require_once("./storage/order_item_db.php");
 require_once("./storage/database.php");
 require_once("./storage/product_db.php");
 require_once("./storage/category_db.php");
 require_once("./storage/brand_db.php");
-require_once("./storage/order_item_db.php");
 require_once("./user/layout/header.php");
 require_once("./storage/order_db.php");
 require_once("./storage/auth_user.php");
@@ -74,7 +74,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
     </div>
 </section>
 
-
 <!-- Categories Section Begin -->
 <section class="categories">
     <div class="container">
@@ -96,7 +95,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
 </section>
 <!-- Categories Section End -->
 
-<!-- Featured Section Begin -->
+<!-- Featured Product Begin -->
 <section class="featured spad">
     <div class="container" id="product">
         <div class="row">
@@ -128,7 +127,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                 $products = get_product_by_filter($mysqli, $name, $category_id, $brand_id);
             }
 
-
             while ($product = $products->fetch_assoc()) : ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix  fresh-meat">
                     <div class="featured__item">
@@ -139,13 +137,12 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#"><?php echo $product['product_name'] ?></a></h6>
+                            <h6><a href="#"><?php echo $product['product_name'] ?></a></h6>                            
                             <?php
                             if ($product['discount']) {
-                                $discount_price = $product['price'] - $product['discount'];
                             ?>
                                 <div class="d-flex justify-content-center">
-                                    <h6 class=" text-danger me-3"><?php echo $discount_price ?>Kyats </h6>
+                                    <h6 class=" text-danger me-3"><?php echo $product['discount'] ?>Kyats </h6>
                                     <h6 class="text-decoration-line-through text-muted"><?php echo $product['price'] ?>Kyats </h6>
                                 </div>
                             <?php } else { ?>
@@ -155,7 +152,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                     </div> 
                 </div>
             <?php endwhile ?>
-            <?php if(isset($_GET['brand_id']) === null || isset($_GET['category_id']) === null ) : ?>
+            <?php if(isset($_GET['brand_id']) == null || isset($_GET['category_id']) == null ) : ?>
             <div class="pagination">
                 <?php
                 $total_records = get_all_product($mysqli)->num_rows;
@@ -189,7 +186,7 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
         </div>
     </div>
 </section>
-<!-- Featured Section End -->
+<!-- Featured Product End -->
 <div class="container">
     <div class="row">
         <div class="latest-product__text">
@@ -231,27 +228,6 @@ $all_products = get_all_product_with_limit($mysqli, $start_from, $result_per_pag
                         </div>
                     </a>
 
-                <?php endforeach ?>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="latest-product__text">
-            <h4>Discount Products</h4>
-            <div class="categories__slider owl-carousel">
-                <?php
-                $discounts = get_product_discount($mysqli);
-                foreach ($discounts as $discount) :
-                ?>
-                    <a href="#" class="latest-product__item">
-                        <div class="latest-product__item__pic">
-                            <img src="data:png/image;base64,<?php echo $discount['image'] ?>" alt="">
-                        </div>
-                        <div class="latest-product__item__text">
-                            <h6><?php echo $discount['product_name'] ?></h6>
-                            <span><?php echo $discount['price'] ?> Kyats</span>
-                        </div>
-                    </a>
                 <?php endforeach ?>
             </div>
         </div>

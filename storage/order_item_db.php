@@ -20,7 +20,7 @@ function get_all_order_item($mysqli){
 }
 
 function get_all_order_item_by_order_id($mysqli,$order_id){
-    $sql = "select * from `order_item` where `order_id` = $order_id" ;
+    $sql = "select * from `order_item` where `order_id` = $order_id LIMIT 2";
    
     $result = $mysqli->query($sql);
     return $result;

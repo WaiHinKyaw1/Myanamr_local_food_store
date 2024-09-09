@@ -56,10 +56,10 @@ require_once("./storage/user_db.php");
                             <span><?php if($user) echo count($user) .'view' ?></span>
                         </div>
                         <div class="product__details__price">
-                            <?php if(isset($product['discount'])){ ?>
-                            <?php  echo  $price = $product['price'] - $product['discount']; ?>Kyats
+                            <?php if($product['discount']){ ?>
+                            <?= $product['discount'] ?>Kyats
                             <?php } else { ?>
-                            <?php echo $product['price'] ?>Kyats
+                            <?= $product['price'] ?>Kyats
                             <?php } ?>   
                         </div>
                         <a href="./shoping-cart.php?product_id=<?= $product['product_id'] ?>" class="primary-btn">ADD TO CARD</a>
@@ -67,7 +67,7 @@ require_once("./storage/user_db.php");
                         <ul>
                             <li><b>Availability</b> <span><?php echo $product['qty'] ?></span></li>
                             <li><b>Exp Date</b> <span><?php echo $product['ex_date'] ?></span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                            <li><b>Shipping</b> <span><samp>Free Pickup For Deliver</samp></span></li>
                             
                             <li><b>Share on</b>
                                 <div class="share">

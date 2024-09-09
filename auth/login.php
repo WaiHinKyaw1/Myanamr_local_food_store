@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php require_once("../storage/database.php") ?>
 <?php require_once("../storage/user_db.php")  ?>
 <?php require_once("./layout/header.php") ?>
@@ -6,6 +7,7 @@
 $email = $password = $email_error = $password_error = "";
 $success = $invalid = false;
 $validate = true;
+
 if(isset($_POST['submit'])){
     $email=htmlspecialchars($_POST['email']);
     $password = htmlspecialchars($_POST['password']);
@@ -27,9 +29,11 @@ if(isset($_POST['submit'])){
                 $success = "Login Success";
                 setcookie("user",json_encode($user),time() + 3600 * 24 * 7, '/');
                 if($user['is_admin']){
+                    $_SESSION['message'] = "Login Success";                    
                     header("Location: ../admin/index.php");
                     exit();
                 } else {
+                    $_SESSION['message'] = "Login Success";                    
                     header("Location: ../index.php");
                     exit();
                 }
@@ -37,7 +41,7 @@ if(isset($_POST['submit'])){
                 $invalid = "Invalid Password!. Please Check Your Password";
             }
         }else{
-            $invalid = "Your Email Don't Found";
+            $invalid = "Your Email Doesn't Exist";
         }
         
     }
@@ -50,12 +54,6 @@ if(isset($_POST['submit'])){
         <div class="card ">
             <div class="card-header text-center"><img class="logo-img rounded" src="../image/zen_mark.jpg" style="width:85%;height:50px;"  alt="logo"><span class="splash-description mt-3">Please enter your user information.</span></div>
             <div class="card-body">
-                    <?php if ($success) : ?>
-                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            <strong><?php echo $success ?>!</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif ?>
                     <?php if ($invalid) : ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong><?php echo $invalid ?>!</strong> 

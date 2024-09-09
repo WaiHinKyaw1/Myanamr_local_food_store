@@ -20,7 +20,9 @@
     <script src="../admin/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="../admin/assets/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="../admin/assets/libs/js/dashboard-ecommerce.js"></script>
-    <script>
+    <script src="../admin/assets/libs/js/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
     <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
                     
                     swal({
@@ -30,10 +32,9 @@
                     });
                 <?php 
             unset($_SESSION['status']);
-            } ?>    
-        
-
+            unset($_SESSION['status_code']);
+            } ?>            
 </script>
-    
+ 
 </body>
 </html>

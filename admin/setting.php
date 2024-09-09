@@ -92,7 +92,7 @@ require_once("./layout/sidebar.php");
 								<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
 
 							</div>
-							<ul class="list-group list-group-flush">
+							<ul class="list-group list-group-flush"> 
 								<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
 									<h6 class="mb-0">Name</h6>
 									<span class="text-secondary"><?php echo $user['name'] ?></span>
@@ -176,7 +176,7 @@ require_once("./layout/sidebar.php");
 				<div class="col-lg-8 col-sm-8">
 					<form action="./setting.php" method="post">
 						<div class="card ms-3">
-							<div class="card-header">Change Password</div>
+							<div class="card-header"><i class="fa-solid fa-gear"></i>  Change Password</div>
 							<div class="card-body d-flex justify-content-between">
 								<div>
 									<label for="">Current Password</label>

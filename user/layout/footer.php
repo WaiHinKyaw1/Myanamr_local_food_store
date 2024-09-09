@@ -21,8 +21,9 @@
     <script src="./user/assets/js/owl.carousel.min.js"></script>
     <script src="./user/assets/js/main.js"></script>
     <script src="./user/assets/js/slider.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['status_code'])) {  ?>                    
                     
             swal({
             title: "<?= $_SESSION['status'] ?>",
@@ -30,7 +31,7 @@
             button: "Done!",
             });
         <?php 
-    unset($_SESSION['status']);
+    
     } ?>
     </script>
 </body>

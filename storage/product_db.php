@@ -36,9 +36,22 @@ function get_product_best_seller($mysqli)
     return $result;
 }
 
-function get_product_discount($mysqli)
+function get_all_discount_product($mysqli){
+    $sql = "SELECT * FROM product where `ex_date`!= 'null' ";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function get_product_discount($mysqli){
+    $sql = "SELECT * FROM product where `discount` != 'null' ";
+    $result= $mysqli->query($sql);
+    return $result;
+}
+
+
+function update_discount_product($mysqli,$discounted_product,$product_id)
 {
-    $sql = "SELECT * FROM product where `discount` != 'null'";
+    $sql = "UPDATE product SET `discount` = $discounted_product WHERE `product_id`= $product_id";
     $result = $mysqli->query($sql);
     return $result;
 }

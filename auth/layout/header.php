@@ -17,10 +17,11 @@
     <link rel="stylesheet" href="../admin/assets/vendor/charts/c3charts/c3.css">
     <link rel="stylesheet" href="../admin/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
     <title>Myanmar_Local_Food_Store</title>
+    
 </head>
 
 <body style="background-image: url('../image/myanmar-tours.jpg'); ">
-    <?php session_start(); ?>
+    
     <div class="dashboard-main-wrapper">
         
       

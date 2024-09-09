@@ -1,9 +1,9 @@
 <?php
+require_once("./storage/order_item_db.php");
 require_once("./storage/database.php");
 require_once("./storage/order_db.php");
 require_once("./storage/payment_db.php");
 require_once("./storage/auth_user.php");
-require_once("./storage/order_item_db.php");
 require_once("./storage/product_db.php");
 require_once("./storage/deliver_db.php");
 
@@ -12,7 +12,6 @@ $name_error = $email_error = $phone_error = $city_error = $street_error = "";
 $product_image_error = $payment_method_eror = "";
 $validate = true;
 if (isset($_POST['payment'])) {
-    
     $last_order = get_last_order($mysqli);
     $last_order_id = $last_order['order_id'];
     $user_id = $user['user_id'];
@@ -72,16 +71,22 @@ if (isset($_POST['payment'])) {
     $payment = save_payment($mysqli,$order_id,$payment_date,$payment_photo,$payment_method);
     session_destroy();
     if ($payment) {
-        $_SESSION['status'] = "Payment Success";
-        $_SESSION['status_code'] = "success";
+        $_SESSION['message'] = "Payment Success";
         header('Location: ./index.php');
         exit();
     } else {
-        $_SESSION['status'] = "Payment Fail!";
-        $_SESSION['status_code'] = "error";
+        $_SESSION['message'] = "Payment Fail!";
         header('Location: ./index.php');
         exit();
     }
     
 }
 ?>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+<script>
+ <?php if(isset($_SESSION['message'])) :?>                   
+        alertify.set('notifier','position', 'top-right');
+        alertify.success('Hello World');
+        unset();
+    <?php endif ?>    
+</script>

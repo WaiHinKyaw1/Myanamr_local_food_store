@@ -123,14 +123,14 @@ if (isset($_GET['update_id'])) {
                         </div>
                         </div>
                         <div class="row">
-                        <div class="col-6 mb-3">
+                        <div class="col-12 mb-3">
                             <label for="brand" class="form-label mt-3">Exp Date</label>
                             <input type="date" class="form-control" required="" name="exp_date" value="<?php if(isset($_GET['update_id'])) echo $exp_date ?>">
                         </div>
-                        <div class="col-6 mb-3">
+                        <!-- <div class="col-6 mb-3">
                             <label for="brand" class="form-label mt-3">Discount</label>
-                            <input type="int" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>" placeholder="Write a Discount">
-                        </div>
+                            <input type="text" class="form-control" name="discount" value="<?php if(isset($_GET['update_id'])) echo  $discount ?>" placeholder="Write a Discount">
+                        </div> -->
                         </div>
                        <?php if(isset($_GET['update_id']) == null) : ?>
                         <div class="mb-3">

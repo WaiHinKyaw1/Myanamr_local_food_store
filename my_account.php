@@ -28,13 +28,11 @@ if (isset($_POST['edit_account'])) {
 
         $user_update = update_user($mysqli, $user_id, $name, $email, $phone, $address);
         if ($user_update) {
-            $_SESSION['status'] = "Update Success";
-            $_SESSION['status_code'] = "success";
+            $success = "Update Success";
             header("Location: ./my_account.php");
             exit();
         } else {
-            $_SESSION['status'] = "Update Fail";
-            $_SESSION['status_code'] = "error";
+            $invalid = "Update Fail";
             header("Location: ./my_account.php");
             exit();
         }
@@ -61,10 +59,12 @@ if (isset($_POST['change_password'])) {
             if ($update_pass) {
                 $success = "Password Update Success";
                 header("Location: ./my_account.php?success=$success");
+                exit();
             }
         } else {
             $invalid = "Password not same";
             header("Location: ./my_account.php?invalid=$invalid");
+            exit();
         }
     }
 }
@@ -89,10 +89,25 @@ require_once("./user/layout/navbar.php");
 </section>
 <div class="container">
     <div class="row">
+                
         <div class="col-lg-8">
             <?php $user = get_user_by_id($mysqli, $user_id); ?>
             <div class="card p-3 my-4 justify-content-center">
                 <form action="" method="post">
+                    <?php if ($success) : ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong><?php echo $success ?>!</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                            <?php endif ?>
+                            <?php if ($invalid) : ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong><?php echo $invalid ?>!</strong> .
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            <?php endif ?>
 
                     <h3 class="text-black text-center  m-0 p-2 mb-3"><i class="fa-duotone fa-solid fa-user"></i> Account Details</h3>
                     <div class="checkout__input">
@@ -131,18 +146,6 @@ require_once("./user/layout/navbar.php");
         <div class="col-lg-4  mb-4">
 
             <div class="card mt-4">
-                <?php if ($success) : ?>
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong><?php echo $success ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif ?>
-                <?php if ($invalid) : ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><?php echo $invalid ?>!</strong> .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif ?>
                 <h3 class="text-black text-center  m-0 p-2 mb-3 mt-3"> <i class="fa-solid fa-gear"></i> Change Password</h3>
                 <form action="" method="post">
 

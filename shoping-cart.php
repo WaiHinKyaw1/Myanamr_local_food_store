@@ -76,6 +76,7 @@ if (isset($_POST['order'])) {
 
 <?php
 if (isset($_GET['product_id'])) {
+
     $is_new = true;
     $product = get_product_by_id($mysqli, $_GET['product_id']);
     for ($i = 0; $i < count($product_list); $i++) {
@@ -88,14 +89,13 @@ if (isset($_GET['product_id'])) {
         }
     }
     if ($is_new) {
-        if ($product['discount'] != null) {
-            $price = $product['price'] - $product['discount'];
-        } else {
+        if($product['discount'] == 0){
             $price = $product['price'];
+        }else{
+            $price = $product['discount'];
         }
         array_push($product_list, [
-            'product_id' => $product['product_id'],
-            
+            'product_id' => $product['product_id'],    
             'price' => $price,
             'product_name' => $product['product_name'],
             'qty' => 1,
@@ -145,6 +145,7 @@ if (isset($_GET['product_id'])) {
                         </thead>
                         <tbody>
                             <?php
+                            
                             for ($i = 0; $i < count($product_list); $i++) :
                             ?>
                                 <tr>
@@ -153,7 +154,7 @@ if (isset($_GET['product_id'])) {
                                         <h5><?php echo $product_list[$i]['product_name'] ?></h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                         <?php echo $product_list[$i]['price'] ?>Kyats
+                                         <?php echo $product_list[$i]['price'] ?>
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity ">
@@ -166,7 +167,7 @@ if (isset($_GET['product_id'])) {
                                         </div>
                                     </td>
                                     <td class="shoping__cart__total">
-                                        <?php echo $product_list[$i]['amount'] ?>Kyats
+                                        <?php echo $product_list[$i]['amount'] ?> Kyats
                                     </td>
                                     <td class="shoping__cart__item__close">
                                         <a href="?del_id=<?php echo $i ?>"><button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button></a>
@@ -197,17 +198,6 @@ if (isset($_GET['product_id'])) {
                     
                 </div>
             </div>
-            <!-- <div class="col-lg-6">
-                <div class="shoping__continue">
-                    <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
             <div class="col-lg-6">
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
@@ -218,10 +208,10 @@ if (isset($_GET['product_id'])) {
                             $total_amount = $total_amount + $product['amount'];
                         ?>
 
-                        <li>Total <span>$<?php echo $total_amount ?></span></li>
+                        <li>Total <span><?php echo $total_amount ?> Kyats</span></li>
                     </ul>
 
-                    <form action="" method="post">
+                    <form action="./shoping-cart.php" method="post">
                         <input type="hidden" name="amount" value="<?php echo $total_amount ?>" id="">
                         <a href="./checkout.php"><button type="submit" class="primary-btn w-100" name="order">PROCEED TO CHECKOUT</button></a>
                     </form>

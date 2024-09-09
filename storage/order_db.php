@@ -20,7 +20,7 @@ function get_all_limit_order($mysqli,$start_from, $count_per_page){
 }
 
 function get_order_with_limit($mysqli){
-    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 2";
+    $sql = "SELECT * FROM `order` ORDER BY order_id DESC LIMIT 3";
     $result = $mysqli->query($sql);
     return $result;
 }
@@ -29,6 +29,23 @@ function get_order_by_id($mysqli,$order_id){
     $sql = "select * from `order` where `order_id` = $order_id";
     $result = $mysqli->query($sql);
     return $result->fetch_assoc();
+}
+
+
+function get_total_price_order_per_day($mysqli){
+    $sql = "SELECT DATE(`order_date`), SUM(total_amount) 
+        FROM `order` 
+        GROUP BY DAY(`order_date`)";
+    $result = $mysqli->query($sql);
+    return $result;
+}
+
+function get_total_price_order_per_month($mysqli){
+    $sql = "SELECT MONTHNAME(`order_date`), SUM(total_amount) 
+        FROM `order` 
+        GROUP BY MONTH(`order_date`)";
+    $result = $mysqli->query($sql);
+    return $result;
 }
 
 function get_last_order($mysqli)

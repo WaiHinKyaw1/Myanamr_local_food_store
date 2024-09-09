@@ -1,5 +1,19 @@
-<?php require_once("./user/layout/header.php") ?>
-<?php require_once("./user/layout/navbar.php") ?>
+<?php 
+require_once("./user/layout/header.php"); 
+require_once("./user/layout/navbar.php");
+require_once("./storage/database.php");
+require_once("./storage/feedback_db.php");
+ ?>
+
+<?php 
+if(isset($_POST['feedback'])){
+    
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    $feed_back = save_feedback($mysqli,$name,$email,$message);
+}
+?>
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="./image/breadcrumb.jpg">
@@ -83,17 +97,17 @@
                     </div>
                 </div>
             </div>
-            <form action="#">
+            <form action="./contact.php" method="post">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your name">
+                        <input type="text" name="name" required="" placeholder="Your name">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your Email">
+                        <input type="text" name="email" required="" placeholder="Your Email">
                     </div>
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message"></textarea>
-                        <button type="submit" class="site-btn">SEND MESSAGE</button>
+                        <textarea name="message" required="" placeholder="Your message"></textarea>
+                        <button type="submit" name="feedback" class="site-btn">SEND MESSAGE</button>
                     </div>
                 </div>
             </form>

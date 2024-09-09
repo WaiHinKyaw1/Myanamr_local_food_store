@@ -34,7 +34,10 @@
                         <a class="nav-link" href="./category.php"><i class="fa-solid fa-layer-group"></i>Category</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart"><i class="fa-solid fa-cart-shopping"></i></i>Order</a>
+                        <a class="nav-link" href="./order.php"><i class="fa-solid fa-cart-shopping"></i>Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./user_feedback.php"><i class="fa-solid fa-message"></i>User FeedBack</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./setting.php"><i class="fa-solid fa-gear"></i>Setting</a>

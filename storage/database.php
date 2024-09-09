@@ -124,6 +124,15 @@ function create_tables($mysqli)
          FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ON DELETE CASCADE
          )";
         if ($mysqli->query($sql) === false) return false;
+
+    $sql = "CREATE TABLE IF NOT EXISTS `feedback`(
+    `feedback_id` int auto_increment primary key,
+    `name` varchar(50) not null,
+    `email` varchar(50) not null,
+    `message`text not null,
+    `submitted_at` datetime default CURRENT_TIMESTAMP
+    )";
+    if ($mysqli->query($sql) === false) return false;
 }
 
 create_database($mysqli);
